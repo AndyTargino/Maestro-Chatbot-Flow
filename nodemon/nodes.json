@@ -1,0 +1,236 @@
+[
+    {
+        "id": "conditional_12",
+        "title": "Direcionamento 1",
+        "message": "Você sera redirecionado para um atendente.",
+        "position": {
+            "x": 961.5946794867656,
+            "y": 660.8500128391341
+        },
+        "style": {
+            "background": "#4d193a",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_11",
+        "title": "Acesso ao treinamento do sistema.",
+        "message": "Você sera redirecionado para um atendente.",
+        "position": {
+            "x": 615.8717706555157,
+            "y": 482.5855921171187
+        },
+        "style": {
+            "background": "#d279b2",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_10",
+        "title": "Link para download de aplicação. ",
+        "message": "Você sera redirecionado para um atendente.",
+        "position": {
+            "x": 1015.997263468887,
+            "y": 482.5012550373025
+        },
+        "style": {
+            "background": "#bf4091",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_9",
+        "title": "Acesso ao sistema e login.",
+        "message": "Você sera redirecionado para um atendente.",
+        "position": {
+            "x": 816.9157374850763,
+            "y": 481.7053590447888
+        },
+        "style": {
+            "background": "#aa79d2",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_8",
+        "title": "Outras opções:",
+        "message": "Escolha um assunto:",
+        "position": {
+            "x": 748.1063751509071,
+            "y": 288.31070734903864
+        },
+        "style": {
+            "background": "#aa79d2",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_7",
+        "title": "Problemas com aplicação",
+        "message": "Você sera redirecionado para um atendente.",
+        "position": {
+            "x": 487.80182989996456,
+            "y": 303.2790109763647
+        },
+        "style": {
+            "background": "#79d2c1",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_6",
+        "title": "Dados cadastrados",
+        "message": "Você sera direcionado para um atendente.",
+        "position": {
+            "x": 33.12465529897514,
+            "y": 302.158319719728
+        },
+        "style": {
+            "background": "#a6bf40",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_5",
+        "title": "Segunda via de boleto",
+        "message": "Você sera direcionado para um atendente.",
+        "position": {
+            "x": -165.97980791374016,
+            "y": 302.7054218652553
+        },
+        "style": {
+            "background": "#6fbf40",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_3",
+        "title": "Suporte",
+        "message": "Escolha uma opção em suporte:",
+        "position": {
+            "x": 512,
+            "y": 157
+        },
+        "style": {
+            "background": "#5240bf",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "conditional_2",
+        "title": "Financeiro",
+        "message": "Escolha um assunto:",
+        "position": {
+            "x": -65.63415978821502,
+            "y": 155.09812022080968
+        },
+        "style": {
+            "background": "#9ad279",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "start",
+        "title": "Inicio do fluxo",
+        "message": "Selecione uma fila para continuar:",
+        "position": {
+            "x": 250,
+            "y": 0
+        },
+        "style": {
+            "background": "#24b322",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "start"
+    },
+    {
+        "id": "conditional",
+        "title": "Falar com atendente",
+        "message": "Mensagem",
+        "position": {
+            "x": 248,
+            "y": 153
+        },
+        "style": {
+            "background": "#a840bf",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "conditional"
+    },
+    {
+        "id": "end",
+        "title": "Fim do fluxo",
+        "message": "Fim do fluxo",
+        "position": {
+            "x": 247.72240859813655,
+            "y": 857.2528972155111
+        },
+        "style": {
+            "background": "#ff2020",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "end"
+    }
+]

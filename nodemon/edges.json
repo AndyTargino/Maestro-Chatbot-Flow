@@ -1,0 +1,182 @@
+[
+    {
+        "animated": true,
+        "id": "reactflow__edge-start-conditional_2",
+        "source": "start",
+        "sourceHandle": null,
+        "target": "conditional_2",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-start-conditional",
+        "source": "start",
+        "sourceHandle": null,
+        "target": "conditional",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-start-conditional_3",
+        "source": "start",
+        "sourceHandle": null,
+        "target": "conditional_3",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_2-conditional_6",
+        "source": "conditional_2",
+        "sourceHandle": null,
+        "target": "conditional_6",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_2-conditional_5",
+        "source": "conditional_2",
+        "sourceHandle": null,
+        "target": "conditional_5",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_5-end",
+        "source": "conditional_5",
+        "sourceHandle": null,
+        "target": "end",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_6-end",
+        "source": "conditional_6",
+        "sourceHandle": null,
+        "target": "end",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional-end",
+        "source": "conditional",
+        "sourceHandle": null,
+        "target": "end",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_7-end",
+        "source": "conditional_7",
+        "sourceHandle": null,
+        "target": "end",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_8-conditional_9",
+        "source": "conditional_8",
+        "sourceHandle": null,
+        "target": "conditional_9",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_8-conditional_10",
+        "source": "conditional_8",
+        "sourceHandle": null,
+        "target": "conditional_10",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_8-conditional_11",
+        "source": "conditional_8",
+        "sourceHandle": null,
+        "target": "conditional_11",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_3-conditional_8",
+        "source": "conditional_3",
+        "sourceHandle": null,
+        "target": "conditional_8",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_3-conditional_7",
+        "source": "conditional_3",
+        "sourceHandle": null,
+        "target": "conditional_7",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_9-conditional_12",
+        "source": "conditional_9",
+        "sourceHandle": null,
+        "target": "conditional_12",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_10-conditional_12",
+        "source": "conditional_10",
+        "sourceHandle": null,
+        "target": "conditional_12",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_11-conditional_13",
+        "source": "conditional_11",
+        "sourceHandle": null,
+        "target": "conditional_13",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_12-end",
+        "source": "conditional_12",
+        "sourceHandle": null,
+        "target": "end",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_13-end",
+        "source": "conditional_13",
+        "sourceHandle": null,
+        "target": "end",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_11-end",
+        "source": "conditional_11",
+        "sourceHandle": null,
+        "target": "end",
+        "targetHandle": null,
+        "type": "buttonedge"
+    }
+]

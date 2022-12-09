@@ -1,0 +1,22 @@
+{
+  "name": "nodemon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.29.3",
+    "inquirer": "^9.1.4",
+    "nodemailer": "^6.8.0",
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20",
+    "puppeteer": "^18.2.1",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.18.4"
+  }
+}
