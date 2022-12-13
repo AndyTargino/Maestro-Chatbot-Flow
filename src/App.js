@@ -3,7 +3,7 @@ import * as React from 'react';
 import {
   useState,
   useCallback,
-  //useEffect
+  useEffect
 } from "react";
 
 import ReactFlow, {
@@ -30,16 +30,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-
+import ModeCommentIcon from '@mui/icons-material/ModeComment';
+import SendIcon from '@mui/icons-material/Send';
 import EditFlowModal from './EditFlowModal';
-
-
 import "reactflow/dist/style.css";
 
 const foreignObjectSize = 40;
-
 let nodeId = 1;
-
 
 const nodeColor = (node) => {
   switch (node.type) {
@@ -280,8 +277,6 @@ function Flow() {
 
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
-
-  console.warn(edges)
 
   // ------------------------------------------------ //
 
@@ -685,7 +680,7 @@ function Flow() {
               }}>
                 <p
                   className="bodyObject"
-                  style={{ margin: '5px', lineBreak: 'anywhere', display: 'none' }}>{`Fim do fluxo`}</p>
+                  style={{ margin: '5px', lineBreak: 'anywhere', display: 'none' }}></p>
                 <p
                   className="bodyObject"
                   style={{ margin: '5px', lineBreak: 'anywhere', }}>{`Fim do fluxo`}</p>
@@ -743,6 +738,46 @@ function Flow() {
 
   }
 
+
+  const [anchorEl1, setAnchorEl1] = React.useState(null);
+  const openModalChatBot = Boolean(anchorEl1);
+  const handleClick = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl1(null);
+  };
+
+  var defaultMsg = [
+    {
+      'fromMe': false,
+      'message': 'Teste mensagem'
+    }, {
+      'fromMe': true,
+      'message': 'Teste mensagem local'
+    }
+  ]
+
+  const [messagesBot, setMessagesBot] = useState(defaultMsg);
+  const [inputValue, setInputValue] = useState('');
+
+  useEffect(() => { if (!openModalChatBot) { setMessagesBot(defaultMsg) } }, [openModalChatBot]);
+
+
+  const defineNewMessage = (fromMe, message) => {
+    const body = document.getElementById('body_Bot');
+    setMessagesBot(pre => [...pre, { 'fromMe': fromMe, 'message': message }]);
+    setInputValue('');
+    setTimeout(() => { body.scrollTop = body.scrollHeight + 500; }, 150);
+  }
+
+
+  const onClickSend = e => {
+    if (e !== 'Enter' || String(inputValue).length < 1) return;
+    defineNewMessage(true, inputValue);
+  }
+
+
   return (
     <div id='Teste' style={{
       display: 'flex',
@@ -757,7 +792,7 @@ function Flow() {
         onClose={setConfirmModalOpen}
         onConfirm={(title, message, color) => editObjectProps(elementOnEdit, title, message, color)}
       />
-      <div style={{ height: "70%", width: "70%" }}>
+      <div style={{ height: "90%", width: "90%" }}>
         <>
           <ReactFlow
             nodes={nodes}
@@ -766,6 +801,7 @@ function Flow() {
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             edgeTypes={{ buttonedge: EdgeButton }}
+            style={{ backgroundColor: '#d9d9d9' }}
           >
             <Panel position="top-left">
               <div>
@@ -802,6 +838,117 @@ function Flow() {
             </Panel>
             <Panel position="top-right">
               <Button onClick={e => viewData(e)} variant="outlined">Ver Dados</Button>
+            </Panel>
+            <Panel position="bottom-right">
+              <Button style={{ marginBottom: '240%' }} onClick={e => { viewData(e); handleClick(e); }} variant="text">
+                <ModeCommentIcon />
+              </Button>
+              <Menu
+                anchorEl={anchorEl1}
+                open={openModalChatBot}
+                onClose={handleClose}
+              >
+                <div style={{ backgroundColor: '#dddddd', width: '300px', height: '400px', margin: '-8px 0px -8px 0px' }}>
+                  <div style={{
+                    display: 'flex',
+                    width: '100%',
+                    height: '5%',
+                    padding: '10px 0px 0px 0px',
+                    alignContent: 'center',
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                  }}><p>Teste de fluxo do BOT</p></div>
+                  <div
+                    id="body_Bot"
+                    style={{
+                      maxHeight: '80%',
+                      overflow: 'auto',
+                      display: 'flex',
+                      width: '94%',
+                      margin: '10px 10px 0px 9px',
+                      height: '80%',
+                      backgroundColor: '#ffffff',
+                      flexDirection: 'column',
+                    }}>
+                    <>{openModalChatBot && messagesBot.map((msg) => (
+                      <>
+                        {msg.message !== '' && <>
+                          {msg.fromMe === true ?
+                            <>
+                              <div style={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                width: '100%'
+                              }}>
+                                <div style={{
+                                  textAlign: 'end',
+                                  border: 'solid 1px #888888',
+                                  color: 'white',
+                                  borderRadius: '10px 0px 10px 10px',
+                                  backgroundColor: '#888888',
+                                  margin: '5px 5px 5px 0px',
+                                  padding: '0px 5px 0PX 5PX',
+                                  fontSize: '14px',
+                                  wordBreak: 'break-all',
+                                  maxWidth: '200px'
+                                }}>
+                                  <p style={{ margin: '5px 0px 5px 0px' }}>{msg.message}</p>
+                                </div>
+                              </div>
+                            </> : <>
+                              <div style={{
+                                display: 'flex',
+                                width: '100%'
+                              }}>
+                                <div style={{
+                                  border: 'solid 1px #dad0d0',
+                                  borderRadius: '0px 10px 10px 10px',
+                                  backgroundColor: '#c3c3c300',
+                                  margin: '5px 0px 5px 5px',
+                                  padding: '0px 5px 0PX 5PX',
+                                  fontSize: '14px',
+                                  wordBreak: 'break-all',
+                                  maxWidth: '200px'
+                                }}>
+                                  <p style={{ margin: '5px 0px 5px 0px' }}>{msg.message}</p>
+                                </div>
+                              </div>
+                            </>}
+                        </>
+                        }</>
+                    ))}
+                    </>
+                  </div>
+                  <div style={{
+                    display: 'flex',
+                    width: '100%',
+                    height: '10%',
+                    justifyContent: 'center'
+                  }}>
+                    <input
+                      value={inputValue}
+                      onChange={e => setInputValue(e.target.value)}
+                      onKeyPress={e => onClickSend(e.key)}
+                      style={{
+                        width: '80%',
+                        height: '30px',
+                        borderRadius: '0px 0px 0px 5px',
+                        border: 'solid 1px #bbbbbb'
+                      }} type="text" />
+                    <button
+                      onClick={e => onClickSend('Enter')}
+                      style={{
+                        width: '12%',
+                        height: '34px',
+                        borderRadius: '0px 0px 5px',
+                        border: 'solid 1px #bbbbbb',
+                        backgroundColor: 'white'
+                      }}>
+                      <SendIcon style={{ width: '17px' }} />
+                    </button>
+                  </div>
+                </div>
+              </Menu>
             </Panel>
             <Background variant={'lines'} />
             <Controls />

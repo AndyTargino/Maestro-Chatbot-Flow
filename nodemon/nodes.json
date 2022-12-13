@@ -1,14 +1,14 @@
 [
     {
-        "id": "conditional_12",
-        "title": "Direcionamento 1",
-        "message": "Você sera redirecionado para um atendente.",
+        "id": "conditional_22",
+        "title": "Ajuda com ativação de chave.",
+        "message": "Escolha uma das duas opções para prosseguir",
         "position": {
-            "x": 961.5946794867656,
-            "y": 660.8500128391341
+            "x": 748.5077247456874,
+            "y": 179.02392640421095
         },
         "style": {
-            "background": "#4d193a",
+            "background": "#34194d",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
@@ -18,15 +18,87 @@
         "type": "conditional"
     },
     {
-        "id": "conditional_11",
-        "title": "Acesso ao treinamento do sistema.",
-        "message": "Você sera redirecionado para um atendente.",
+        "id": "end_20",
+        "title": "Chave invalida",
+        "message": "Suporte de produto",
         "position": {
-            "x": 615.8717706555157,
-            "y": 482.5855921171187
+            "x": 857.4387267996646,
+            "y": 436.22500879283734
         },
         "style": {
-            "background": "#d279b2",
+            "background": "#40bf58",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "end"
+    },
+    {
+        "id": "end_18",
+        "title": "Treinamento de uso da ferramenta",
+        "message": "Em breve você sera atendido por um especialista.",
+        "position": {
+            "x": 513.5890434691589,
+            "y": 114.32465706700935
+        },
+        "style": {
+            "background": "#ba40bf",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "end"
+    },
+    {
+        "id": "end_17",
+        "title": "2 Via de boleto",
+        "message": "Você sera atendido em instantes, aguarde um momento.",
+        "position": {
+            "x": 181.43264228640152,
+            "y": 277.12540771584986
+        },
+        "style": {
+            "background": "#bf4040",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "end"
+    },
+    {
+        "id": "end_16",
+        "title": "Suporte com pagamento",
+        "message": "Bem vindo a fila de suporte com pagamento, aguarde que em breve você sera atendido.",
+        "position": {
+            "x": -181.59580769675242,
+            "y": 272.9205907376432
+        },
+        "style": {
+            "background": "#bf4040",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "end"
+    },
+    {
+        "id": "conditional_15",
+        "title": "Gerar segunda via de boleto",
+        "message": "Gerar segunda via de boleto",
+        "position": {
+            "x": 181.5291754995803,
+            "y": 139.05607080447749
+        },
+        "style": {
+            "background": "#191a4d",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
@@ -36,15 +108,15 @@
         "type": "conditional"
     },
     {
-        "id": "conditional_10",
-        "title": "Link para download de aplicação. ",
-        "message": "Você sera redirecionado para um atendente.",
+        "id": "conditional_14",
+        "title": "Ajuda com pagamento",
+        "message": "Ajuda com pagamento",
         "position": {
-            "x": 1015.997263468887,
-            "y": 482.5012550373025
+            "x": -180.03929313942302,
+            "y": 139.94624781567128
         },
         "style": {
-            "background": "#bf4091",
+            "background": "#191a4d",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
@@ -54,87 +126,105 @@
         "type": "conditional"
     },
     {
-        "id": "conditional_9",
-        "title": "Acesso ao sistema e login.",
-        "message": "Você sera redirecionado para um atendente.",
+        "id": "end_13",
+        "title": "Pelé apresenta melhora, mas não tem previsão de alta, diz novo boletim médico",
+        "message": "https://www.correiobraziliense.com.br/esportes/2022/12/5058474-pele-apresenta-melhora-mas-nao-tem-previsao-de-alta-diz-novo-boletim-medico.html",
         "position": {
-            "x": 816.9157374850763,
-            "y": 481.7053590447888
+            "x": 1639.992291947436,
+            "y": 159.21965007199688
         },
         "style": {
-            "background": "#aa79d2",
+            "background": "#1e194d",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
             "padding": "3px",
             "border": "1px"
         },
-        "type": "conditional"
+        "type": "end"
     },
     {
-        "id": "conditional_8",
-        "title": "Outras opções:",
-        "message": "Escolha um assunto:",
+        "id": "end_12",
+        "title": "Argentina e Croácia fazem semifinal de cinema nesta terça; confira detalhes",
+        "message": "https://www.correiobraziliense.com.br/esportes/2022/12/5058642-argentina-e-croacia-fazem-semifinal-de-cinema-nesta-terca-confira-detalhes.html",
         "position": {
-            "x": 748.1063751509071,
-            "y": 288.31070734903864
+            "x": 1459.042033464212,
+            "y": 314.6522784302485
         },
         "style": {
-            "background": "#aa79d2",
+            "background": "#191e4d",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
             "padding": "3px",
             "border": "1px"
         },
-        "type": "conditional"
+        "type": "end"
     },
     {
-        "id": "conditional_7",
-        "title": "Problemas com aplicação",
-        "message": "Você sera redirecionado para um atendente.",
+        "id": "end_11",
+        "title": "Neymar é absolvido de acusações de fraude em julgamento na Espanha",
+        "message": "https://www.correiobraziliense.com.br/esportes/2022/12/5058675-neymar-e-absolvido-de-acusacoes-de-fraude-em-julgamento-na-espanha.html",
         "position": {
-            "x": 487.80182989996456,
-            "y": 303.2790109763647
+            "x": 1318.9895302214395,
+            "y": 517.4368300601897
         },
         "style": {
-            "background": "#79d2c1",
+            "background": "#191c4d",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
             "padding": "3px",
             "border": "1px"
         },
-        "type": "conditional"
+        "type": "end"
     },
     {
-        "id": "conditional_6",
-        "title": "Dados cadastrados",
-        "message": "Você sera direcionado para um atendente.",
+        "id": "end_10",
+        "title": "Lula diz que diplomacia coroa fim do desgaste das instituições e da democracia",
+        "message": "https://www.correiobraziliense.com.br/politica/2022/12/5058653-lula-diz-que-diplomacia-coroa-fim-do-desgaste-das-instituicoes-e-da-democracia.html",
         "position": {
-            "x": 33.12465529897514,
-            "y": 302.158319719728
+            "x": 1180.481671949568,
+            "y": 314.50659862421503
         },
         "style": {
-            "background": "#a6bf40",
+            "background": "#19244d",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
             "padding": "3px",
             "border": "1px"
         },
-        "type": "conditional"
+        "type": "end"
+    },
+    {
+        "id": "end_9",
+        "title": "Os 10 eletrônicos mais desejados pelas crianças",
+        "message": "https://www.correiobraziliense.com.br/vitrine/2022/12/5056793-os-10-eletronicos-mais-desejados-pelas-criancas.html",
+        "position": {
+            "x": 998.8058712597306,
+            "y": 160.5280753883453
+        },
+        "style": {
+            "background": "#1c194d",
+            "color": "#ffffff",
+            "width": 180,
+            "fontStyle": "oblique",
+            "padding": "3px",
+            "border": "1px"
+        },
+        "type": "end"
     },
     {
         "id": "conditional_5",
-        "title": "Segunda via de boleto",
-        "message": "Você sera direcionado para um atendente.",
+        "title": "Financeiro",
+        "message": "Em financeiro, qual assunto deseja prosseguir?",
         "position": {
-            "x": -165.97980791374016,
-            "y": 302.7054218652553
+            "x": 1.1399650507402725,
+            "y": -10.721964597761257
         },
         "style": {
-            "background": "#6fbf40",
+            "background": "#bf4040",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
@@ -146,31 +236,13 @@
     {
         "id": "conditional_3",
         "title": "Suporte",
-        "message": "Escolha uma opção em suporte:",
+        "message": "Qual assunto em suporte você deseja prosseguir?",
         "position": {
-            "x": 512,
-            "y": 157
+            "x": 689.9289715012093,
+            "y": -88.3739733666355
         },
         "style": {
-            "background": "#5240bf",
-            "color": "#ffffff",
-            "width": 180,
-            "fontStyle": "oblique",
-            "padding": "3px",
-            "border": "1px"
-        },
-        "type": "conditional"
-    },
-    {
-        "id": "conditional_2",
-        "title": "Financeiro",
-        "message": "Escolha um assunto:",
-        "position": {
-            "x": -65.63415978821502,
-            "y": 155.09812022080968
-        },
-        "style": {
-            "background": "#9ad279",
+            "background": "#2d8673",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
@@ -182,13 +254,13 @@
     {
         "id": "start",
         "title": "Inicio do fluxo",
-        "message": "Selecione uma fila para continuar:",
+        "message": "Inicio do fluxo",
         "position": {
-            "x": 250,
-            "y": 0
+            "x": 689.8006154085801,
+            "y": -290.1619926774162
         },
         "style": {
-            "background": "#24b322",
+            "background": "#42bf40",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
@@ -199,14 +271,14 @@
     },
     {
         "id": "conditional",
-        "title": "Falar com atendente",
-        "message": "Mensagem",
+        "title": "Sobre produtos",
+        "message": "Sobre quais produtos você deseja receber informações?",
         "position": {
-            "x": 248,
-            "y": 153
+            "x": 1319.7677066945623,
+            "y": -24.163464447296178
         },
         "style": {
-            "background": "#a840bf",
+            "background": "#797bd2",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
@@ -217,14 +289,14 @@
     },
     {
         "id": "end",
-        "title": "Fim do fluxo",
-        "message": "Fim do fluxo",
+        "title": "não recebi minha chave",
+        "message": "Suporte de produto",
         "position": {
-            "x": 247.72240859813655,
-            "y": 857.2528972155111
+            "x": 638.8538338336402,
+            "y": 436.11837433508333
         },
         "style": {
-            "background": "#ff2020",
+            "background": "#2d6886",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
