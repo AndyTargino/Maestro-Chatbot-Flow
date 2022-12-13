@@ -1,18 +1,27 @@
 import * as React from 'react';
-import { useState, useCallback, useEffect } from "react";
+
+import {
+  useState,
+  useCallback,
+  //useEffect
+} from "react";
+
 import ReactFlow, {
   Controls,
   Background,
   applyNodeChanges,
   applyEdgeChanges,
   addEdge,
-  Edge,
-  EdgeTypes,
+  //Edge,
+  //EdgeTypes,
+  Panel,
   getBezierPath,
   MiniMap,
   ReactFlowProvider,
   useReactFlow
 } from "reactflow";
+
+//import { ToastContainer, toast } from 'react-toastify';
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -21,6 +30,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
+
 import EditFlowModal from './EditFlowModal';
 
 
@@ -29,6 +39,18 @@ import "reactflow/dist/style.css";
 const foreignObjectSize = 40;
 
 let nodeId = 1;
+
+
+const nodeColor = (node) => {
+  switch (node.type) {
+    case 'input':
+      return '#6ede87';
+    case 'output':
+      return '#ff0072';
+    default:
+      return '#6865A5';
+  }
+};
 
 function Flow() {
 
@@ -91,10 +113,10 @@ function Flow() {
           </div>
         )
       },
-      position: { x: 250, y: 0 },
+      position: { x: (document.body.offsetWidth / 3), y: 200 },
       type: "input",
       style: {
-        background: '#24b322',
+        background: '#42bf40',
         color: '#ffffff',
         width: 180,
         fontStyle: 'oblique',
@@ -154,7 +176,7 @@ function Flow() {
             </div>
           </div>)
       },
-      position: { x: 235, y: 150 },
+      position: { x: (document.body.offsetWidth / 3) + 80, y: 400 },
       style: {
         background: '#191a4d',
         color: '#ffffff',
@@ -210,15 +232,15 @@ function Flow() {
             }}>
               <p
                 className="bodyObject"
-                style={{
-                  margin: '5px',
-                  lineBreak: 'anywhere'
-                }}>Fim do fluxo</p>
+                style={{ margin: '5px', lineBreak: 'anywhere', display: 'none' }}>{`Fim do fluxo`}</p>
+              <p
+                className="bodyObject"
+                style={{ margin: '5px', lineBreak: 'anywhere', }}>{`Fim do fluxo`}</p>
             </div>
           </div>
         )
       },
-      position: { x: 250, y: 300 },
+      position: { x: (document.body.offsetWidth / 3) + 160, y: 600 },
       type: "output",
       style: {
         background: "#bf4040",
@@ -230,7 +252,27 @@ function Flow() {
       }
     }
   ];
-  var initialEdges = [];
+
+  var initialEdges = [
+    {
+      "source": "start",
+      "sourceHandle": null,
+      "target": "conditional",
+      "animated": true,
+      "targetHandle": null,
+      "type": "buttonedge",
+      "id": "reactflow__edge-start-conditional"
+    },
+    {
+      "source": "conditional",
+      "sourceHandle": null,
+      "target": "end",
+      "animated": true,
+      "targetHandle": null,
+      "type": "buttonedge",
+      "id": "reactflow__edge-conditional-end"
+    }
+  ];
 
   // ------------------------------------------------ //
 
@@ -239,6 +281,7 @@ function Flow() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
+  console.warn(edges)
 
   // ------------------------------------------------ //
 
@@ -518,10 +561,10 @@ function Flow() {
             </div>
           )
         },
-        position: { x: 10 * nodes.length, y: 10 * nodes.length },
+        position: { x: 10 * nodeId, y: 10 * nodeId },
         type: "input",
         style: {
-          background: '#24b322',
+          background: '#42bf40',
           color: '#ffffff',
           width: 180,
           fontStyle: 'oblique',
@@ -584,7 +627,7 @@ function Flow() {
               </div>
             </div>)
         },
-        position: { x: 50 * nodes.length, y: 50 * nodes.length },
+        position: { x: 10 * nodeId, y: 10 * nodeId },
         style: {
           background: '#191a4d',
           color: '#ffffff',
@@ -642,15 +685,16 @@ function Flow() {
               }}>
                 <p
                   className="bodyObject"
-                  style={{
-                    margin: '5px',
-                    lineBreak: 'anywhere'
-                  }}>Fim do fluxo</p>
+                  style={{ margin: '5px', lineBreak: 'anywhere', display: 'none' }}>{`Fim do fluxo`}</p>
+                <p
+                  className="bodyObject"
+                  style={{ margin: '5px', lineBreak: 'anywhere', }}>{`Fim do fluxo`}</p>
+
               </div>
             </div>
           )
         },
-        position: { x: 10 * nodes.length, y: 10 * nodes.length },
+        position: { x: 10 * nodeId, y: 10 * nodeId },
         type: "output",
         style: {
           background: "#bf4040",
@@ -703,7 +747,6 @@ function Flow() {
     <div id='Teste' style={{
       display: 'flex',
       height: '100%',
-      width: '100%',
       alignItems: 'center',
       justifyContent: 'center'
     }}>
@@ -714,38 +757,6 @@ function Flow() {
         onClose={setConfirmModalOpen}
         onConfirm={(title, message, color) => editObjectProps(elementOnEdit, title, message, color)}
       />
-      <button onClick={e => viewData(e)}>Ver Dados</button>
-      <div>
-        <Button
-          id="demo-positioned-button"
-          aria-controls={openMenu ? 'demo-positioned-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={openMenu ? 'true' : undefined}
-          onClick={handleClickOpenMenu}
-        >
-          Novo Elemento
-        </Button>
-        <Menu
-          id="demo-positioned-menu"
-          aria-labelledby="demo-positioned-button"
-          anchorEl={anchorEl}
-          open={openMenu}
-          onClose={handleClickCloseMenu}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-        >
-          <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewElement('start') }}>Inicio</MenuItem>
-          <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewElement('cond') }}>Condicional</MenuItem>
-          <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewElement('end') }}>Fim</MenuItem>
-        </Menu>
-      </div>
-
       <div style={{ height: "70%", width: "70%" }}>
         <>
           <ReactFlow
@@ -756,9 +767,45 @@ function Flow() {
             onConnect={onConnect}
             edgeTypes={{ buttonedge: EdgeButton }}
           >
+            <Panel position="top-left">
+              <div>
+                <Button
+                  id="demo-positioned-button"
+                  variant="outlined"
+                  aria-controls={openMenu ? 'demo-positioned-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={openMenu ? 'true' : undefined}
+                  onClick={handleClickOpenMenu}
+                >
+                  Novo Elemento
+                </Button>
+                <Menu
+                  id="demo-positioned-menu"
+                  aria-labelledby="demo-positioned-button"
+                  anchorEl={anchorEl}
+                  open={openMenu}
+                  onClose={handleClickCloseMenu}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                  }}
+                >
+                  <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewElement('start') }}>Inicio</MenuItem>
+                  <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewElement('cond') }}>Condicional</MenuItem>
+                  <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewElement('end') }}>Fim</MenuItem>
+                </Menu>
+              </div>
+            </Panel>
+            <Panel position="top-right">
+              <Button onClick={e => viewData(e)} variant="outlined">Ver Dados</Button>
+            </Panel>
             <Background variant={'lines'} />
             <Controls />
-            <MiniMap />
+            <MiniMap nodeColor={nodeColor} nodeStrokeWidth={3} zoomable pannable />
           </ReactFlow>
         </>
       </div>

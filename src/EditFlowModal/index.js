@@ -5,10 +5,29 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from '@mui/material/TextField';
-import { AlphaPicker, BlockPicker, ChromePicker, CirclePicker, CompactPicker, GithubPicker, HuePicker, MaterialPicker, PhotoshopPicker, SketchPicker, SliderPicker, SwatchesPicker, TwitterPicker } from 'react-color';
+import {
+    // AlphaPicker,
+    // BlockPicker,
+    // ChromePicker,
+    // CirclePicker,
+    // CompactPicker,
+    // GithubPicker,
+    // HuePicker,
+    // MaterialPicker,
+    // PhotoshopPicker,
+    // SketchPicker,
+    SliderPicker,
+    //  SwatchesPicker,
+    //  TwitterPicker
+} from 'react-color';
 
 
-const EditFlowModal = ({ title, propsObject, open, onClose, onConfirm }) => {
+const EditFlowModal = ({
+    //title,
+    propsObject,
+    open,
+    onClose,
+    onConfirm }) => {
 
     const [titleMessage, setTitle] = useState('');
     const [message, setMessage] = useState('');
