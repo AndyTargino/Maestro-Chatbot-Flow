@@ -1,6 +1,11 @@
 import chatbot from './chatbot.js';
 
-const passo = ['start', 3, 2, '#'];
+import { createRequire } from 'node:module';
+const require = createRequire(import.meta.url);
+
+
+
+var passo = ['start', 3, '#', 3, 1];
 
 
 
@@ -21,7 +26,7 @@ function step_by_step(array) {
     });
 }
 
-step_by_step(passo)
+step_by_step(passo);
 
 
 
@@ -29,6 +34,7 @@ step_by_step(passo)
 
 /*
 require('dotenv').config()
+
 const fs = require("fs");
 const qrcode = require("qrcode-terminal");
 const { Client, Location, Buttons, List, LocalAuth } = require("whatsapp-web.js");
@@ -72,11 +78,11 @@ client.on("message", message => {
     console.log(message.body);
 
     if (message.body === "start") {
-        client.sendMessage(message.from, question(message.body))
+        client.sendMessage(message.from, chatbot(message.body))
     }
 
     if (message.body !== "start") {
-        client.sendMessage(message.from, question(message.body))
+        client.sendMessage(message.from, chatbot(message.body))
     }
 });
 */
