@@ -4,31 +4,14 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 
 
+var passo = ['start', 3, '#'];
 
-var passo = ['start', 3, '#', 3, 1];
+var lastMessage = '';
+passo.forEach(el => {
+    lastMessage = chatbot(el)
+});
 
-
-
-function step_by_step(array) {
-    var interval = 1000;
-    var promise = Promise.resolve();
-    array.forEach(function (el) {
-        promise = promise.then(function () {
-            console.log(chatbot(el));
-            return new Promise(function (resolve) {
-                setTimeout(resolve, interval);
-            });
-        });
-    });
-
-    promise.then(function () {
-        console.log('Loop finished.');
-    });
-}
-
-step_by_step(passo);
-
-
+console.log(lastMessage)
 
 // =========================================================== //
 
@@ -39,16 +22,13 @@ const fs = require("fs");
 const qrcode = require("qrcode-terminal");
 const { Client, Location, Buttons, List, LocalAuth } = require("whatsapp-web.js");
 
-
 const country_code = process.env.COUNTRY_CODE;
 const number = process.env.NUMBER;
 const msg = process.env.MSG;
 
-
 const client = new Client({
     authStrategy: new LocalAuth()
 });
-
 
 client.initialize();
 
@@ -59,7 +39,6 @@ client.on("qr", (qr) => {
 client.on("auth_failure", msg => {
     console.error('AUTHENTICATION FAILURE', msg);
 })
-
 
 client.on("ready", () => {
     console.log("Client is ready!");
@@ -72,7 +51,6 @@ client.on("ready", () => {
         })
     }, 5000);
 });
-
 
 client.on("message", message => {
     console.log(message.body);

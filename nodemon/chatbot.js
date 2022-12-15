@@ -4,7 +4,6 @@ const require = createRequire(import.meta.url);
 const nodes = require('./nodes.json');
 const edges = require('./edges.json');
 
-
 //   FILTRO DE OBJETO   //
 
 const formatNodes = (_nodes) => {
@@ -64,7 +63,7 @@ function mountResponse(option, title, steps) {
 
 
 // SALVAR OBJECT ANTERIOR E MONTAR MENSAGEM DE RETORNO
-console.clear();
+
 
 var oldOption = []
 
