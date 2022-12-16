@@ -12,16 +12,12 @@ import ReactFlow, {
   applyNodeChanges,
   applyEdgeChanges,
   addEdge,
-  //Edge,
-  //EdgeTypes,
   Panel,
   getBezierPath,
   MiniMap,
   ReactFlowProvider,
   useReactFlow
 } from "reactflow";
-
-//import { ToastContainer, toast } from 'react-toastify';
 
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
@@ -34,6 +30,7 @@ import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import SendIcon from '@mui/icons-material/Send';
 import EditFlowModal from './EditFlowModal';
 import ChatBotTestModal from './ChatBotTestModal';
+
 import "reactflow/dist/style.css";
 
 const foreignObjectSize = 40;
@@ -42,7 +39,7 @@ let nodeId = 1;
 const nodeColor = (node) => {
   switch (node.type) {
     case 'input':
-      return '#6ede87';
+      return '#42bf40';
     case 'output':
       return '#ff0072';
     default:
@@ -50,46 +47,70 @@ const nodeColor = (node) => {
   }
 };
 
+
+
+var queues = [{
+  "id": 1,
+  "name": "Financeiro"
+},
+{
+  "id": 2,
+  "name": "Suporte"
+},
+{
+  "id": 3,
+  "name": "Dúvidas"
+}];
+
+
+
 function Flow() {
 
 
-  const [modalChatbotOpen, setModalChatbotOpen] = useState(false);
-
   const reactFlowInstance = useReactFlow();
 
-  // --------------- Valores iniciais --------------- //
+  // ==== Renderizar objetos anteriores na tela ==== //
 
-  var initialNodes = [
-    {
-      id: `start`,
+  const RenderObject = (obj) => {
+
+    var type = obj.type;
+    console.error(type)
+    var objeto = {};
+
+    objeto = {
+      id: `${obj.id}`,
       data: {
         label: (
           <div className="showOptions">
             <Tooltip title="Editar" placement="top">
               <IconButton className="configButton" style={{
-                position: `absolute`,
+                position: 'absolute',
                 margin: '-26% 0px 0px',
                 left: '0px'
               }}
-                onClick={() => editElement(`start`)}
+                onClick={() => EditNodeElement(`${obj.id}`)}
               >
                 <BorderColorIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="Deletar" placement="top">
               <IconButton className="configButton" style={{
-                position: `absolute`,
+                position: 'absolute',
                 margin: '-25% -5px 0px 0px',
                 right: '0px'
               }}
-                onClick={() => deleteNodeCard(`start`)}
+                onClick={() => deleteNodeCard(`${obj.id}`)}
               >
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
             <p
               className="headerObject"
-              style={{ margin: '5px', lineBreak: 'anywhere', fontSize: '15px' }}>{`Inicio do fluxo`}</p>
+              style={{
+                margin: '5px',
+                lineBreak: 'anywhere',
+                fontSize: '15px'
+              }}>{obj.title}</p>
 
             <div style={{
               display: 'flex', alignItems: 'center',
@@ -109,299 +130,149 @@ function Flow() {
                 style={{
                   margin: '5px',
                   lineBreak: 'anywhere'
-                }}>Inicio do fluxo</p>
+                }}>{obj.message}</p>
             </div>
           </div>
         )
       },
-      position: { x: (document.body.offsetWidth / 3), y: 200 },
-      type: "input",
-      style: {
-        background: '#42bf40',
-        color: '#ffffff',
-        width: 180,
-        fontStyle: 'oblique',
-        padding: '3px',
-        border: '1px'
-      }
-    },
-    {
-      id: 'conditional_example',
-      data: {
-        label:
-          (<div className="showOptions" id="conditional_example">
-            <Tooltip title="Editar" placement="top">
-              <IconButton className="configButton" style={{
-                position: `absolute`,
-                margin: '-26% 0px 0px',
-                left: '0px'
-              }}
-                onClick={() => editElement('conditional_example')}
-              >
-                <BorderColorIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Deletar" placement="top">
-              <IconButton className="configButton" style={{
-                position: `absolute`,
-                margin: '-25% -5px 0px 0px',
-                right: '0px'
-              }}
-                onClick={() => deleteNodeCard('conditional_example')}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-            <p
-              className="headerObject"
-              style={{ margin: '5px', lineBreak: 'anywhere', fontSize: '15px' }}>Titulo</p>
-            <div style={{
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-            </div>
-            <div style={{
-              background: 'white',
-              color: 'black',
-              marginTop: '-1px',
-              padding: '10px',
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <p
-                className="bodyObject"
-                style={{
-                  margin: '5px',
-                  lineBreak: 'anywhere'
-                }}>Mensagem</p>
-            </div>
-          </div>)
-      },
-      position: { x: (document.body.offsetWidth / 3) - 100, y: 400 },
-      style: {
-        background: '#191a4d',
-        color: '#ffffff',
-        width: 180,
-        fontStyle: 'oblique',
-        padding: '3px',
-        border: '1px'
-      },
-    },
-    {
-      id: 'conditional_example_1',
-      data: {
-        label:
-          (<div className="showOptions" id="conditional_example_1">
-            <Tooltip title="Editar" placement="top">
-              <IconButton className="configButton" style={{
-                position: `absolute`,
-                margin: '-26% 0px 0px',
-                left: '0px'
-              }}
-                onClick={() => editElement('conditional_example_1')}
-              >
-                <BorderColorIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Deletar" placement="top">
-              <IconButton className="configButton" style={{
-                position: `absolute`,
-                margin: '-25% -5px 0px 0px',
-                right: '0px'
-              }}
-                onClick={() => deleteNodeCard('conditional_example_1')}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-            <p
-              className="headerObject"
-              style={{ margin: '5px', lineBreak: 'anywhere', fontSize: '15px' }}>Titulo</p>
-            <div style={{
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-            </div>
-            <div style={{
-              background: 'white',
-              color: 'black',
-              marginTop: '-1px',
-              padding: '10px',
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <p
-                className="bodyObject"
-                style={{
-                  margin: '5px',
-                  lineBreak: 'anywhere'
-                }}>Mensagem</p>
-            </div>
-          </div>)
-      },
-      position: { x: (document.body.offsetWidth / 3) + 400, y: 400 },
-      style: {
-        background: '#191a4d',
-        color: '#ffffff',
-        width: 180,
-        fontStyle: 'oblique',
-        padding: '3px',
-        border: '1px'
-      },
-    },
-    {
-      id: "end",
-      data: {
-        label: (
-          <div className="showOptions">
-            <Tooltip title="Editar" placement="top">
-              <IconButton className="configButton" style={{
-                position: `absolute`,
-                margin: '-26% 0px 0px',
-                left: '0px'
-              }}
-                onClick={() => editElement(`end`)}
-              >
-                <BorderColorIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Deletar" placement="top">
-              <IconButton className="configButton" style={{
-                position: `absolute`,
-                margin: '-25% -5px 0px 0px',
-                right: '0px'
-              }}
-                onClick={() => deleteNodeCard(`end`)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-            <p
-              className="headerObject"
-              style={{ margin: '5px', lineBreak: 'anywhere', fontSize: '15px' }}>{`Fim do fluxo`}</p>
-
-            <div style={{
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-            </div>
-            <div style={{
-              background: 'white',
-              color: 'black',
-              marginTop: '-1px',
-              padding: '10px',
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <p
-                className="bodyObject"
-                style={{ margin: '5px', lineBreak: 'anywhere', display: 'none' }}>{`Fim do fluxo`}</p>
-              <p
-                className="bodyObject"
-                style={{ margin: '5px', lineBreak: 'anywhere', }}>{`Fim do fluxo`}</p>
-            </div>
-          </div>
-        )
-      },
-      position: { x: (document.body.offsetWidth / 3) + 160, y: 600 },
-      type: "output",
-      style: {
-        background: "#bf4040",
-        color: '#ffffff',
-        width: 180,
-        fontStyle: 'oblique',
-        padding: '3px',
-        border: '1px'
-      }
+      position: obj.position,
+      type: type === 'end' ? 'output' : type,
+      style: obj.style
     }
+
+    return objeto;
+
+  }
+
+  function renderNodes(_nodes) {
+    var array = [];
+    _nodes.forEach(obj => array.push(RenderObject(obj)));
+    return array;
+  }
+
+  // ================================================ //
+
+
+  // =============== Valores iniciais =============== //
+
+  const initialNodes = [
+    { "id": "end_9", "title": "Pacote de produtos em promoção", "message": "Link para compra de pacote no site.", "position": { "x": 1296.3758675395663, "y": 418.7505804580599 }, "style": { "background": "#bf4054", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_8", "title": "Chave de software", "message": "Enviar cupom de desconto", "position": { "x": 1152.078655725802, "y": 524.9244030693274 }, "style": { "background": "#862d79", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_7", "title": "Software de drivers", "message": "Chave de desconto", "position": { "x": 946.1588508043224, "y": 566.0228497384687 }, "style": { "background": "#bd40bf", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "conditional_6", "title": "Promoções em produtos", "message": "Temos promoções disponíveis para 3 produtos:", "position": { "x": 978.4980906225047, "y": 304.42087154277533 }, "style": { "background": "#4d1944", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "conditional" }, { "id": "end_5", "title": "Problemas com aplicativo", "message": "Descreva uma breve descrição do problema enquanto te direcionamos para um de nossos atendentes.", "position": { "x": 940.1600763417966, "y": 761.9782270000976 }, "style": { "background": "#79b8d2", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_4", "title": "Treinamento", "message": "Um especialista irá atende-lo em breve, aguarde um instante.", "position": { "x": 729.335132819154, "y": 781.3994079613797 }, "style": { "background": "#4092bf", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_3", "title": "Software", "message": "Enviar apostila com dados para cliente sobre o software para cliente.", "position": { "x": 517.1494508062156, "y": 762.371364025877 }, "style": { "background": "#79a9d2", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_2", "title": "Problemas com pagamento.", "message": "Aguarde que em breve você será atendido.", "position": { "x": 259.61505656695005, "y": 460.86890654200926 }, "style": { "background": "#40bf4b", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "start", "title": "Inicio", "message": "Seja bem vindo!\nEscolha uma das opções para prosseguir:", "position": { "x": 728.5659344885909, "y": 67.996788457279 }, "style": { "background": "#42bf40", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "start" }, { "id": "conditional_example", "title": "Financeiro", "message": "Qual assunto em financeiro você deseja prosseguir?", "position": { "x": 449.34958677255895, "y": 306.95111115371697 }, "style": { "background": "#2d867c", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "conditional" }, { "id": "conditional_example_1", "title": "Suporte", "message": "Com qual assunto você precisa de ajuda?", "position": { "x": 728.7256487893693, "y": 586.6084674464471 }, "style": { "background": "#4042bf", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "conditional" }, { "id": "end", "title": "Gerar segunda via de boleto", "message": "Aguarde que você será atendido em breve. Enquanto aguarda, descreva uma pequena descrição de qual boleto deseja gerar segunda via.", "position": { "x": 450.2734628025855, "y": 460.90964242268404 }, "style": { "background": "#40bf46", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }
   ];
 
-  var initialEdges = [
+  const initialEdges = [
     {
-      "source": "start",
-      "sourceHandle": null,
-      "target": "conditional",
       "animated": true,
-      "targetHandle": null,
-      "type": "buttonedge",
-      "id": "reactflow__edge-start-conditional"
-    },
-    {
-      "source": "conditional",
-      "sourceHandle": null,
-      "target": "end",
-      "animated": true,
-      "targetHandle": null,
-      "type": "buttonedge",
-      "id": "reactflow__edge-conditional-end"
-    }
+      "id": "reactflow__edge-start-conditional", "source": "start", "sourceHandle": null, "target": "conditional", "targetHandle": null, "type": "buttonedge"
+    }, { "animated": true, "id": "reactflow__edge-conditional-end", "source": "conditional", "sourceHandle": null, "target": "end", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-start-conditional_example", "source": "start", "sourceHandle": null, "target": "conditional_example", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-conditional_example-end_2", "source": "conditional_example", "sourceHandle": null, "target": "end_2", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-conditional_example-end", "source": "conditional_example", "sourceHandle": null, "target": "end", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-start-conditional_6", "source": "start", "sourceHandle": null, "target": "conditional_6", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-conditional_6-end_9", "source": "conditional_6", "sourceHandle": null, "target": "end_9", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-conditional_6-end_7", "source": "conditional_6", "sourceHandle": null, "target": "end_7", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-conditional_6-end_8", "source": "conditional_6", "sourceHandle": null, "target": "end_8", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-conditional_example_1-end_4", "source": "conditional_example_1", "sourceHandle": null, "target": "end_4", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-conditional_example_1-end_3", "source": "conditional_example_1", "sourceHandle": null, "target": "end_3", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-conditional_example_1-end_5", "source": "conditional_example_1", "sourceHandle": null, "target": "end_5", "targetHandle": null, "type": "buttonedge" }, { "animated": true, "id": "reactflow__edge-start-conditional_example_1", "source": "start", "sourceHandle": null, "target": "conditional_example_1", "targetHandle": null, "type": "buttonedge" }
   ];
 
-  // ------------------------------------------------ //
+  // ================================================ //
 
-  // ------ Config de elementos do fluxograma ------- //
 
-  const [nodes, setNodes] = useState(initialNodes);
+  // ================= REACT props ================== //
+
+  const [modalChatbotOpen, setModalChatbotOpen] = useState(false);
+  const [nodes, setNodes] = useState(renderNodes(initialNodes));
   const [edges, setEdges] = useState(initialEdges);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleClickOpenMenu = e => setAnchorEl(e.currentTarget);
+  const handleClickCloseMenu = () => setAnchorEl(null);
 
-  // ------------------------------------------------ //
+  const [elementOnEdit, setElementOnEdit] = useState('');
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
 
+  const [chatBotFlow, setChatBotFlow] = useState({});
 
+  const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
+  const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge(renderNewConnectStyle(params), eds)), []);
 
-  // -------------- funcoes do sistema --------------- //
+  const openMenu = Boolean(anchorEl);
 
-  function EdgeButton({
-    id,
-    sourceX,
-    sourceY,
-    targetX,
-    targetY,
-    sourcePosition,
-    targetPosition,
-    style = {},
-    markerEnd,
-  }) {
-    const [edgePath, labelX, labelY] = getBezierPath({
-      sourceX,
-      sourceY,
-      sourcePosition,
-      targetX,
-      targetY,
-      targetPosition,
-    });
+  // ================================================ //
+
+  // ============ BOTÃO DE EXCLUIR ALVO ============= //
+
+  function EdgeButton({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, style = {}, markerEnd }) {
+    const [edgePath, labelX, labelY] = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
 
     return (
       <>
-        <path
-          id={id}
-          style={style}
-          className="react-flow__edge-path"
-          d={edgePath}
-          markerEnd={markerEnd}
-        />
-        <foreignObject
-          width={foreignObjectSize}
-          height={foreignObjectSize}
-          x={labelX - foreignObjectSize / 2}
-          y={labelY - foreignObjectSize / 2}
-          className="edgebutton-foreignobject"
-          requiredExtensions="http://www.w3.org/1999/xhtml"
-        >
+        <path id={id} style={style} className="react-flow__edge-path" d={edgePath} markerEnd={markerEnd} />
+        <foreignObject width={foreignObjectSize} height={foreignObjectSize} x={labelX - foreignObjectSize / 2} y={labelY - foreignObjectSize / 2} className="edgebutton-foreignobject" requiredExtensions="http://www.w3.org/1999/xhtml">
           <div>
-            <button className="edgebutton" onClick={(event) => onEdgeClick(event, id)}> × </button>
+            <button className="edgebutton" onClick={(event) => DeleteTargetEdgeLile(event, id)}> × </button>
           </div>
         </foreignObject>
       </>
     );
   }
 
-  const editElement = (id) => {
+  // =============== Modal de edições ============== //
+
+  const EditNodeElement = (id) => {
     setElementOnEdit(id)
     setConfirmModalOpen(true)
   }
 
-  const getLastProps = (id) => {
+  // ================ FILTRO DE DADOS =============== //
 
+  const FilterNodeData = (id) => {
+    var title = '';
+    var message = '';
+    const position_object = nodes.map(i => i.id).indexOf(id);
+    if (position_object === -1) return;
+    nodes[position_object].data.label.props.children.forEach((obj) => {
+      if (obj.props?.className === 'headerObject') { title = obj.props.children }
+      if (obj.props.children?.props) { if (obj.props.children.props.className === 'bodyObject') { message = obj.props.children.props.children } }
+    });
+
+    const getPosition = (id_name) => {
+      if (id_name.includes('end')) {
+        return 'end'
+      }
+      if (id_name.includes('conditional')) {
+        return 'conditional'
+      }
+      if (id_name.includes('start')) {
+        return 'start'
+      }
+    }
+
+    return { id, title, message, position: nodes[position_object].position, style: nodes[position_object].style, type: getPosition(id) }
+  }
+
+  const FilterEdgeData = (edge) => {
+    return {
+      "animated": edge.animated,
+      "id": edge.id,
+      "source": edge.source,
+      "sourceHandle": edge.sourceHandle,
+      "target": edge.target,
+      "targetHandle": edge.targetHandle,
+      "type": edge.type,
+    }
+  }
+
+  // ================================================ //
+
+  // ============== Funções de deletar ============== //
+
+  const DeleteTargetEdgeLile = (evt, id) => {
+    evt.stopPropagation();
+    deleteEdgeLine(id)
+  };
+
+  const deleteNodeCard = (id) => setNodes(nds => nds.filter(node => node.id !== id));
+
+  const deleteEdgeLine = (id) => setEdges(eds => eds.filter(edge => edge.id !== id));
+
+  // ================================================ //
+
+
+  // ========== Pegar propriedades do NODE ========== //
+
+  const getNodeProps = (id) => {
 
     var lastTitle = '';
     var lastMessage = '';
@@ -428,36 +299,12 @@ function Flow() {
 
   }
 
+  // ================================================ //
 
-  const getPropsToSave = (id) => {
-    var title = '';
-    var message = '';
-    const position_object = nodes.map(i => i.id).indexOf(id);
-    if (position_object === -1) return;
-    nodes[position_object].data.label.props.children.forEach((obj) => {
-      if (obj.props?.className === 'headerObject') { title = obj.props.children }
-      if (obj.props.children?.props) { if (obj.props.children.props.className === 'bodyObject') { message = obj.props.children.props.children } }
-    });
+  // ================= Editar Node ================== //
 
-    const getPosition = (id_name) => {
-      if (id_name.includes('end')) {
-        return 'end'
-      }
-      if (id_name.includes('conditional')) {
-        return 'conditional'
-      }
-      if (id_name.includes('start')) {
-        return 'start'
-      }
-    }
-
-    return { id, title, message, position: nodes[position_object].position, style: nodes[position_object].style, type: getPosition(id) }
-  }
-
-  const editObjectProps = (id, title, message, color) => {
-
-    var oldProps = getLastProps(id);
-
+  const EditNodeObjectProps = (id, title, message, color) => {
+    var oldProps = getNodeProps(id);
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === id) {
@@ -470,7 +317,7 @@ function Flow() {
                   margin: '-26% 0px 0px',
                   left: '0px'
                 }}
-                  onClick={() => editElement(id)}
+                  onClick={() => EditNodeElement(id)}
                 >
                   <BorderColorIcon />
                 </IconButton>
@@ -522,24 +369,10 @@ function Flow() {
     );
   }
 
-  const deleteNodeCard = (id) => setNodes(nds => nds.filter(node => node.id !== id));
+  // ================================================ //
 
-  const deleteEdgeLine = (id) => setEdges(eds => eds.filter(edge => edge.id !== id));
+  // = DESCONSTRUINDO OBJETO PARA NOVOS PARAMETROS = //
 
-  // ------------------------------------------------ //
-
-
-
-  // --------- Config do menu de fluxograma --------- //
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const openMenu = Boolean(anchorEl);
-  const handleClickOpenMenu = e => setAnchorEl(e.currentTarget);
-  const handleClickCloseMenu = () => setAnchorEl(null);
-
-  // ------------------------------------------------ //
-
-  // - DESCONSTRUINDO OBJETO PARA NOVOS PARAMETROS - //
   const renderNewConnectStyle = (props) => {
     var object = {
       "source": props.source,
@@ -551,20 +384,12 @@ function Flow() {
     }
     return object;
   }
-  // ------------------------------------------------ //
 
-  // ----- Config de modificacao do fluxograma ------ //
-  const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
-  const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(renderNewConnectStyle(params), eds)), []);
-  // ------------------------------------------------ //
+  // ================================================ //
 
+  // ============= Criar novo elemento ============== //
 
-  const [elementOnEdit, setElementOnEdit] = useState('');
-  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
-
-
-  const createNewElement = useCallback((element) => {
+  const createNewNode = useCallback((element) => {
     var object = {};
     const id = `${++nodeId}`;
     if (element === 'start') {
@@ -579,7 +404,7 @@ function Flow() {
                   margin: '-26% 0px 0px',
                   left: '0px'
                 }}
-                  onClick={() => editElement(`start_${id}`)}
+                  onClick={() => EditNodeElement(`start_${id}`)}
                 >
                   <BorderColorIcon />
                 </IconButton>
@@ -646,7 +471,7 @@ function Flow() {
                   margin: '-26% 0px 0px',
                   left: '0px'
                 }}
-                  onClick={() => editElement(`conditional_${id}`)}
+                  onClick={() => EditNodeElement(`conditional_${id}`)}
                 >
                   <BorderColorIcon />
                 </IconButton>
@@ -711,7 +536,7 @@ function Flow() {
                   margin: '-26% 0px 0px',
                   left: '0px'
                 }}
-                  onClick={() => editElement(`end_${id}`)}
+                  onClick={() => EditNodeElement(`end_${id}`)}
                 >
                   <BorderColorIcon />
                 </IconButton>
@@ -772,54 +597,37 @@ function Flow() {
     reactFlowInstance.addNodes(object);
   }, []);
 
+  // ================================================ //
 
-  const onEdgeClick = (evt, id) => {
-    evt.stopPropagation();
-    deleteEdgeLine(id)
-  };
+  // =============== modal de chatbot =============== //
 
+  const openChatbotModal = () => {
 
+    // Nessesário formatar os dados enviados para conseguir executar no fluxo de chatbot
+    var edgesObjects = [];
+    var nodesObjects = [];
 
-  const formatEdgeToSend = (edge) => {
-    return {
-      "animated": edge.animated,
-      "id": edge.id,
-      "source": edge.source,
-      "sourceHandle": edge.sourceHandle,
-      "target": edge.target,
-      "targetHandle": edge.targetHandle,
-      "type": edge.type,
-    }
+    edges.forEach(edge => edgesObjects.push(FilterEdgeData(edge)));
+    nodes.forEach(node => nodesObjects.push(FilterNodeData(node.id)));
+
+    setChatBotFlow({ 'nodes': nodesObjects, 'edges': edgesObjects });
+    setModalChatbotOpen(true);
+
   }
+
+  // ================================================ //
 
   const viewData = (e) => {
 
     var edgesObjects = [];
-    edges.forEach(edge => edgesObjects.push(formatEdgeToSend(edge)));
-    console.warn(JSON.stringify(edgesObjects));
+    edges.forEach(edge => edgesObjects.push(FilterEdgeData(edge)));
+    console.info(JSON.stringify(edgesObjects));
 
     var nodesObjects = [];
-    nodes.forEach(node => nodesObjects.push(getPropsToSave(node.id)));
-    console.warn(JSON.stringify(nodesObjects));
-
+    nodes.forEach(node => nodesObjects.push(FilterNodeData(node.id)));
+    console.info(JSON.stringify(nodesObjects));
   }
 
-
-  const [chatBotFlow, setChatBotFlow] = useState({});
-
-  const openChatbotModal = () => {
-
-    var edgesObjects = [];
-    edges.forEach(edge => edgesObjects.push(formatEdgeToSend(edge)));
-
-    var nodesObjects = [];
-    nodes.forEach(node => nodesObjects.push(getPropsToSave(node.id)));
-
-    setChatBotFlow({ 'nodes': nodesObjects, 'edges': edgesObjects });
-
-    setModalChatbotOpen(true);
-
-  }
 
   return (
     <div id='Teste' style={{
@@ -828,13 +636,15 @@ function Flow() {
       alignItems: 'center',
       justifyContent: 'center'
     }}>
+
       <EditFlowModal
-        title={`Titulo`}
-        propsObject={getLastProps(elementOnEdit)}
+        propsObject={getNodeProps(elementOnEdit)}
         open={confirmModalOpen}
         onClose={setConfirmModalOpen}
-        onConfirm={(title, message, color) => editObjectProps(elementOnEdit, title, message, color)}
+        queues={queues}
+        onConfirm={(title, message, color) => EditNodeObjectProps(elementOnEdit, title, message, color)}
       />
+
       <div style={{ height: "100%", width: "100%" }}>
         <>
           <ReactFlow
@@ -873,9 +683,9 @@ function Flow() {
                     horizontal: 'left',
                   }}
                 >
-                  <MenuItem disabled onClick={(e) => { handleClickCloseMenu(e); createNewElement('start') }}>Inicio</MenuItem>
-                  <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewElement('cond') }}>Pergunta</MenuItem>
-                  <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewElement('end') }}>Finalizar / Transferir</MenuItem>
+                  <MenuItem disabled onClick={(e) => { handleClickCloseMenu(e); createNewNode('start') }}>Inicio</MenuItem>
+                  <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('cond') }}>Pergunta</MenuItem>
+                  <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('end') }}>Finalizar / Transferir</MenuItem>
                 </Menu>
               </div>
             </Panel>

@@ -4,7 +4,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import TextField from '@mui/material/TextField';
+import { TextField, MenuItem } from '@mui/material';
 import {
     // AlphaPicker,
     // BlockPicker,
@@ -21,9 +21,10 @@ import {
     //  TwitterPicker
 } from 'react-color';
 
+var defaultQueues = [{ 'id': 'finish', 'name': 'FInalizar atendimento' }];
 
 const EditFlowModal = ({
-    //title,
+    queues,
     propsObject,
     open,
     onClose,
@@ -31,13 +32,23 @@ const EditFlowModal = ({
 
     const [titleMessage, setTitle] = useState('');
     const [message, setMessage] = useState('');
+    const [filas, setFilas] = useState(defaultQueues);
     const [color, setColor] = useState({ background: '#414141' });
 
-    const handleChangeComplete = (color) => {
-        setColor({ background: color.hex });
-    };
+    const handleChangeComplete = (color) => setColor({ background: color.hex });
 
     useEffect(() => { if (propsObject) { setMessage(propsObject.lastMessage); setTitle(propsObject.lastTitle); setColor({ background: propsObject.background }) } }, [propsObject, open]);
+
+    console.warn(filas);
+
+    useEffect(() => {
+        setFilas(pre => [...pre, queues[0]])
+    }, [queues]);
+
+    const renderOption = e => {
+        console.warn(e.target)
+    }
+
 
     return (
         <Dialog
@@ -63,7 +74,25 @@ const EditFlowModal = ({
                         onChange={e => setMessage(e.target.value)}
                         label="Mensagem"
                         variant="outlined" />
-
+                    {propsObject?.position === 'end' && <>
+                        <TextField
+                            style={{ margin: '5px 0px 35px 0px' }}
+                            multiline
+                            fullWidth
+                            select
+                            onChange={e => renderOption(e)}
+                            label="Mensagem"
+                            variant="outlined">
+                            {queues.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.name}
+                                </MenuItem>
+                            ))}
+                            <MenuItem key={'finish'} value='finish'>
+                                Finalizar atendimento
+                            </MenuItem>
+                        </TextField>
+                    </>}
                     <SliderPicker
                         color={color.background}
                         onChangeComplete={handleChangeComplete}
