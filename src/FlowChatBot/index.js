@@ -1,6 +1,16 @@
 
 const ChatBot = (chatbot, arrayStep) => {
 
+
+    if (arrayStep) {
+        if (arrayStep[arrayStep.length - 1] === '#') {
+            console.info('voltar')
+        }
+
+        // numeros.pop();
+        console.info(arrayStep[arrayStep.length - 1]);
+
+    }
     //   FILTRO DE OBJETO   //
 
     const nodes = chatbot.nodes;

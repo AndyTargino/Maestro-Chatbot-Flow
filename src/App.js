@@ -155,8 +155,175 @@ function Flow() {
 
   // =============== Valores iniciais =============== //
 
-  const initialNodes = [
-    { "id": "end_9", "title": "Pacote de produtos em promoção", "message": "Link para compra de pacote no site.", "position": { "x": 1296.3758675395663, "y": 418.7505804580599 }, "style": { "background": "#bf4054", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_8", "title": "Chave de software", "message": "Enviar cupom de desconto", "position": { "x": 1152.078655725802, "y": 524.9244030693274 }, "style": { "background": "#862d79", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_7", "title": "Software de drivers", "message": "Chave de desconto", "position": { "x": 946.1588508043224, "y": 566.0228497384687 }, "style": { "background": "#bd40bf", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "conditional_6", "title": "Promoções em produtos", "message": "Temos promoções disponíveis para 3 produtos:", "position": { "x": 978.4980906225047, "y": 304.42087154277533 }, "style": { "background": "#4d1944", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "conditional" }, { "id": "end_5", "title": "Problemas com aplicativo", "message": "Descreva uma breve descrição do problema enquanto te direcionamos para um de nossos atendentes.", "position": { "x": 940.1600763417966, "y": 761.9782270000976 }, "style": { "background": "#79b8d2", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_4", "title": "Treinamento", "message": "Um especialista irá atende-lo em breve, aguarde um instante.", "position": { "x": 729.335132819154, "y": 781.3994079613797 }, "style": { "background": "#4092bf", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_3", "title": "Software", "message": "Enviar apostila com dados para cliente sobre o software para cliente.", "position": { "x": 517.1494508062156, "y": 762.371364025877 }, "style": { "background": "#79a9d2", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "end_2", "title": "Problemas com pagamento.", "message": "Aguarde que em breve você será atendido.", "position": { "x": 259.61505656695005, "y": 460.86890654200926 }, "style": { "background": "#40bf4b", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }, { "id": "start", "title": "Inicio", "message": "Seja bem vindo!\nEscolha uma das opções para prosseguir:", "position": { "x": 728.5659344885909, "y": 67.996788457279 }, "style": { "background": "#42bf40", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "start" }, { "id": "conditional_example", "title": "Financeiro", "message": "Qual assunto em financeiro você deseja prosseguir?", "position": { "x": 449.34958677255895, "y": 306.95111115371697 }, "style": { "background": "#2d867c", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "conditional" }, { "id": "conditional_example_1", "title": "Suporte", "message": "Com qual assunto você precisa de ajuda?", "position": { "x": 728.7256487893693, "y": 586.6084674464471 }, "style": { "background": "#4042bf", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "conditional" }, { "id": "end", "title": "Gerar segunda via de boleto", "message": "Aguarde que você será atendido em breve. Enquanto aguarda, descreva uma pequena descrição de qual boleto deseja gerar segunda via.", "position": { "x": 450.2734628025855, "y": 460.90964242268404 }, "style": { "background": "#40bf46", "color": "#ffffff", "width": 180, "fontStyle": "oblique", "padding": "3px", "border": "1px" }, "type": "end" }
+  const initialNodes = [{
+    "id": "end_9",
+    "title": "Pacote de produtos em promoção",
+    "message": "Link para compra de pacote no site.",
+    "position": { "x": 1296.3758675395663, "y": 418.7505804580599 },
+    "style": {
+      "background": "#bf4054",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "end"
+  },
+  {
+    "id": "end_8",
+    "title": "Chave de software",
+    "message": "Enviar cupom de desconto",
+    "position": { "x": 1152.078655725802, "y": 524.9244030693274 },
+    "style": {
+      "background": "#862d79",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "end"
+  }, {
+    "id": "end_7",
+    "title": "Software de drivers",
+    "message": "Chave de desconto",
+    "position": { "x": 946.1588508043224, "y": 566.0228497384687 },
+    "style": {
+      "background": "#bd40bf",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "end"
+  }, {
+    "id": "conditional_6",
+    "title": "Promoções em produtos",
+    "message": "Temos promoções disponíveis para 3 produtos:",
+    "position": { "x": 978.4980906225047, "y": 304.42087154277533 },
+    "style": {
+      "background": "#4d1944",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "conditional"
+  }, {
+    "id": "end_5",
+    "title": "Problemas com aplicativo",
+    "message": "Descreva uma breve descrição do problema enquanto te direcionamos para um de nossos atendentes.",
+    "position": { "x": 940.1600763417966, "y": 761.9782270000976 },
+    "style": {
+      "background": "#79b8d2",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "end"
+  }, {
+    "id": "end_4",
+    "title": "Treinamento",
+    "message": "Um especialista irá atende-lo em breve, aguarde um instante.",
+    "position": { "x": 729.335132819154, "y": 781.3994079613797 },
+    "style": {
+      "background": "#4092bf",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "end"
+  }, {
+    "id": "end_3",
+    "title": "Software",
+    "message": "Enviar apostila com dados para cliente sobre o software para cliente.",
+    "position": { "x": 517.1494508062156, "y": 762.371364025877 },
+    "style": {
+      "background": "#79a9d2",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "end"
+  }, {
+    "id": "end_2",
+    "title": "Problemas com pagamento.",
+    "message": "Aguarde que em breve você será atendido.",
+    "position": { "x": 259.61505656695005, "y": 460.86890654200926 },
+    "style": {
+      "background": "#40bf4b",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "end"
+  }, {
+    "id": "start",
+    "title": "Inicio",
+    "message": "Seja bem vindo!\nEscolha uma das opções para prosseguir:",
+    "position": { "x": 728.5659344885909, "y": 67.996788457279 },
+    "style": {
+      "background": "#42bf40",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "start"
+  }, {
+    "id": "conditional_example",
+    "title": "Financeiro",
+    "message": "Qual assunto em financeiro você deseja prosseguir?",
+    "position": { "x": 449.34958677255895, "y": 306.95111115371697 },
+    "style": {
+      "background": "#2d867c",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "conditional"
+  }, {
+    "id": "conditional_example_1",
+    "title": "Suporte",
+    "message": "Com qual assunto você precisa de ajuda?",
+    "position": { "x": 728.7256487893693, "y": 586.6084674464471 },
+    "style": {
+      "background": "#4042bf",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    }, "type": "conditional"
+  }, {
+    "id": "end",
+    "title": "Gerar segunda via de boleto",
+    "message": "Aguarde que você será atendido em breve. Enquanto aguarda, descreva uma pequena descrição de qual boleto deseja gerar segunda via.",
+    "position": { "x": 450.2734628025855, "y": 460.90964242268404 },
+    "style": {
+      "background": "#40bf46",
+      "color": "#ffffff",
+      "width": 180,
+      "fontStyle": "oblique",
+      "padding": "3px",
+      "border": "1px"
+    },
+    "type": "end"
+  }
   ];
 
   const initialEdges = [
@@ -303,7 +470,8 @@ function Flow() {
 
   // ================= Editar Node ================== //
 
-  const EditNodeObjectProps = (id, title, message, color) => {
+  const EditNodeObjectProps = (id, title, message, color, endOption, type) => {
+
     var oldProps = getNodeProps(id);
     setNodes((nds) =>
       nds.map((node) => {
@@ -355,6 +523,7 @@ function Flow() {
                     margin: '5px',
                     lineBreak: 'anywhere'
                   }}>{message ? message : 'Mensagem'}</p>
+                <p className="endOption" style={{ display: 'none' }}>{endOption}</p>
               </div>
             </div>),
           };
@@ -362,8 +531,10 @@ function Flow() {
             ...node.style,
             background: color ? color : oldProps.background
           };
+          node.type = type === 'end' ? 'output' : type
         }
 
+        console.warn(node)
         return node;
       })
     );
@@ -642,7 +813,7 @@ function Flow() {
         open={confirmModalOpen}
         onClose={setConfirmModalOpen}
         queues={queues}
-        onConfirm={(title, message, color) => EditNodeObjectProps(elementOnEdit, title, message, color)}
+        onConfirm={(title, message, color, endOption, position) => EditNodeObjectProps(elementOnEdit, title, message, color, endOption, position)}
       />
 
       <div style={{ height: "100%", width: "100%" }}>
