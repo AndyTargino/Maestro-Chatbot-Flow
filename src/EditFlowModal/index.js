@@ -10,6 +10,10 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import MoveUpIcon from '@mui/icons-material/MoveUp';
+
 import {
     // AlphaPicker,
     // BlockPicker,
@@ -25,6 +29,19 @@ import {
     //  SwatchesPicker,
     //  TwitterPicker
 } from 'react-color';
+import { makeStyles } from '@mui/styles';
+
+const useStyles = makeStyles({
+    input: {
+        margin: '10px 0px 10px 0px !important'
+    },
+    radioGroup: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    }
+});
+
+
 
 const EditFlowModal = ({
     queues,
@@ -33,6 +50,7 @@ const EditFlowModal = ({
     onClose,
     onConfirm }) => {
 
+    const classes = useStyles();
 
     const [titleMessage, setTitle] = useState('');
     const [message, setMessage] = useState('');
@@ -41,12 +59,15 @@ const EditFlowModal = ({
     const [color, setColor] = useState({ background: '#414141' });
     const handleChangeComplete = (color) => setColor({ background: color.hex });
 
-    console.info(propsObject);
 
-    useEffect(() => { if (propsObject && open) { setType(propsObject.position); setMessage(propsObject.lastMessage); setTitle(propsObject.lastTitle); setColor({ background: propsObject.background }) } }, [propsObject, open]);
+    useEffect(() => { if (propsObject && open) { setQueueSelected(propsObject.endFlowOption); setType(propsObject.position); setMessage(propsObject.lastMessage); setTitle(propsObject.lastTitle); setColor({ background: propsObject.background }) } }, [propsObject, open]);
 
     const saveData = () => { onClose(false); onConfirm(titleMessage, message, color.background, queueSelected, type); setQueueSelected(0); }
 
+    const selectedQueue = (queue) => {
+        console.warn(queue)
+        setQueueSelected(queue);
+    }
     return (
         <Dialog
             open={open}
@@ -60,14 +81,14 @@ const EditFlowModal = ({
             <DialogContent dividers>
                 <div style={{ maxWidth: '275px' }}>
                     <TextField
-                        style={{ margin: '5px 0px 35px 0px' }}
+                        className={classes.input}
                         value={titleMessage}
                         onChange={e => setTitle(e.target.value)}
                         label="Titulo"
                         variant="outlined"
                         fullWidth />
                     <TextField
-                        style={{ margin: '5px 0px 35px 0px' }}
+                        className={classes.input}
                         multiline
                         fullWidth
                         value={message}
@@ -76,33 +97,30 @@ const EditFlowModal = ({
                         variant="outlined" />
                     {propsObject?.position === 'end' && <>
                         <TextField
-                            style={{ margin: '5px 0px 35px 0px' }}
+                            className={classes.input}
                             multiline
                             fullWidth
                             value={queueSelected}
                             select
-                            onChange={e => setQueueSelected(e.target.value)}
+                            onChange={e => selectedQueue(e.target.value)}
                             label="Finalizar fluxo"
                             variant="outlined">
                             {queues.map((option) => (
                                 <MenuItem key={option.id} value={option.id}>
-                                    Transferir para {option.name}
+                                    <div style={{ display: 'flex' }}>  Transferir para {option.name} <MoveUpIcon style={{ marginLeft: 5 }} /></div>
                                 </MenuItem>
                             ))}
                             <MenuItem key={0} value={0}>
-                                Finalizar atendimento
+                                <div style={{ display: 'flex' }}> Finalizar atendimento <DoneAllIcon style={{ marginLeft: 5 }} /></div>
                             </MenuItem>
                         </TextField>
                     </>}
                     {type != 'start' &&
-                        <>
+                        <div style={{ display: 'none' }}>
                             <label>Tipo</label>
                             <RadioGroup
                                 hidden={propsObject?.position !== 'start' ? false : true}
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between'
-                                }}
+                                className={classes.radioGroup}
                                 row
                                 onChange={e => setType(e.target.value)}
                                 value={type}
@@ -112,7 +130,7 @@ const EditFlowModal = ({
                                 <FormControlLabel value="end" control={<Radio />} label="Finalização" />
                                 <FormControlLabel value="conditional" control={<Radio />} label="Condicional" />
                             </RadioGroup>
-                        </>
+                        </div>
                     }
 
                     <SliderPicker

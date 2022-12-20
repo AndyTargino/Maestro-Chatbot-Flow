@@ -1,7 +1,21 @@
+function finishFlow(queueId, message) {
+    if (queueId === 0) {
+        console.info('finalizando fluxo de bot')
+    } else {
+        console.info(`Aqui este atendimento será tranferido para a fila ${queueId}`)
+    }
+
+    var input = document.querySelector("#inputChatBot");
+
+    setTimeout(() => { input.disabled = true; input.value = 'Finalizou o fluxo do BOT'; }, 500);
+
+    return message
+}
 
 const ChatBot = (chatbot, arrayStep) => {
 
 
+    // Desenvolver regra de voltar uma resposta apenas
     if (arrayStep) {
         if (arrayStep[arrayStep.length - 1] === '#') {
             console.info('voltar')
@@ -18,7 +32,7 @@ const ChatBot = (chatbot, arrayStep) => {
 
     const formatNodes = (_nodes) => {
         var nodesFormated = [];
-        _nodes.forEach(node => nodesFormated.push({ 'id': node.id, 'title': node.title, 'message': node.message, 'type': node.type }));
+        _nodes.forEach(node => nodesFormated.push({ 'id': node.id, 'title': node.title, 'message': node.message, 'type': node.type, 'finish': node.endFlowOption }));
         return nodesFormated;
     }
 
@@ -48,8 +62,8 @@ const ChatBot = (chatbot, arrayStep) => {
 
 
     getAllNodes.forEach(node => {
-        if (node.type === 'end') return
-        node.steps = findChildremElement(node.id)
+        if (node.type === 'end') return;
+        node.steps = findChildremElement(node.id);
     });
 
     // --------------------- //
@@ -111,7 +125,10 @@ const ChatBot = (chatbot, arrayStep) => {
                 if (selectedOption === undefined) return 'Escolha uma opção válida';
 
                 if ((selectedOption.type === 'end')) {
-                    return (selectedOption.message)
+
+                    // Finalizar o fluxo do chat
+                    var finish = finishFlow(selectedOption.finish, selectedOption.message);
+                    return finish
                 }
 
 
@@ -134,10 +151,7 @@ const ChatBot = (chatbot, arrayStep) => {
     // A execução do passo a passo é retornada aqui.
 
     var lastMessage = '';
-    arrayStep.forEach(el => {
-        console.warn({ el })
-        lastMessage = stepByStep(el)
-    });
+    arrayStep.forEach(el => lastMessage = stepByStep(el));
 
     console.warn(lastMessage);
 
