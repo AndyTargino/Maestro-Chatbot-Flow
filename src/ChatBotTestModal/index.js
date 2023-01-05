@@ -11,6 +11,8 @@ import {
     DialogActions
 } from '@mui/material';
 
+import Box from '@mui/material/Box';
+
 import FlowChatBot from "../FlowChatBot"
 
 import { makeStyles } from '@mui/styles';
@@ -154,33 +156,33 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
     }
 
     return (
-        <div id="chatbot">
+        <Box component='div'  id="chatbot">
             <Dialog
                 classes={{ paper: classes.paper }}
                 open={open}
                 onClose={() => closeModalChat()}
                 aria-labelledby="confirm-dialog"
             >
-                <div className={classes.chatCard}>
-                    <div className={classes.chat}><p>Teste de fluxo do BOT</p></div>
-                    <div
+                <Box component='div'  className={classes.chatCard}>
+                    <Box component='div'  className={classes.chat}><p>Teste de fluxo do BOT</p></Box>
+                    <Box component='div'
                         className={classes.bodyBot}
                         id="body_Bot">
                         <>{open && messagesBot.map((msg) => (
                             <>
                                 {msg.message !== '' && <> {msg.fromMe === true ?
                                     <>
-                                        <div className={classes.rightChat} >
-                                            <div className={classes.rightChatContent} >
+                                        <Box component='div'  className={classes.rightChat} >
+                                            <Box component='div'  className={classes.rightChatContent} >
                                                 <p className={classes.content}>{msg.message}</p>
-                                            </div>
-                                        </div>
+                                            </Box>
+                                        </Box>
                                     </> : <>
-                                        <div className={classes.leftChat} >
-                                            <div className={classes.leftChatContent} >
+                                        <Box component='div'  className={classes.leftChat} >
+                                            <Box component='div'  className={classes.leftChatContent} >
                                                 <p className={classes.content}>{msg.message}</p>
-                                            </div>
-                                        </div>
+                                            </Box>
+                                        </Box>
                                     </>
                                 }
                                 </>
@@ -188,8 +190,8 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
                             </>
                         ))}
                         </>
-                    </div>
-                    <div className={classes.inputContent} >
+                    </Box>
+                    <Box component='div'  className={classes.inputContent} >
                         <input
                             autoComplete="off"
                             id="inputChatBot"
@@ -203,10 +205,10 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
                         >
                             <SendIcon style={{ width: '17px' }} />
                         </button>
-                    </div>
-                </div>
+                    </Box>
+                </Box>
             </Dialog >
-        </div >
+        </Box>
 
     );
 };

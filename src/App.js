@@ -26,6 +26,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
+import Box from '@mui/material/Box';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import SendIcon from '@mui/icons-material/Send';
 import EditFlowModal from './EditFlowModal';
@@ -34,7 +35,7 @@ import ChatBotTestModal from './ChatBotTestModal';
 import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
 import FlagIcon from '@mui/icons-material/Flag';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import GroupIcon from '@mui/icons-material/Group';
+import MoveUpIcon from '@mui/icons-material/MoveUp';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 
 import "reactflow/dist/style.css";
@@ -104,7 +105,7 @@ function Flow() {
       if (endOption === 0) {
         return <Tooltip title="Finaliza o fluxo encerrando o atendimento"><DoneAllIcon /></Tooltip>;
       } else {
-        return <Tooltip title="Finaliza o fluxo movendo para fila"><GroupIcon /></Tooltip>;
+        return <Tooltip title="Finaliza o fluxo movendo para fila"><MoveUpIcon /></Tooltip>;
       }
     }
   }
@@ -120,7 +121,7 @@ function Flow() {
       id: `${obj.id}`,
       data: {
         label: (
-          <div className="showOptions">
+          <Box component="div" className="showOptions">
             <Tooltip title="Editar" placement="top">
               <IconButton className="configButton" style={{
                 position: 'absolute',
@@ -143,20 +144,20 @@ function Flow() {
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-            <p
+            <Box component='p'
               className="headerObject"
               style={{
                 margin: '5px',
                 wordBreak: 'break-word',
                 fontSize: '15px'
-              }}>{obj.title}</p>
+              }}>{obj.title}</Box>
 
-            <div style={{
+            <Box component='div' style={{
               display: 'flex', alignItems: 'center',
               justifyContent: 'center'
             }}>
-            </div>
-            <div style={{
+            </Box>
+            <Box component='div' style={{
               background: 'white',
               color: 'black',
               marginTop: '-1px',
@@ -164,27 +165,27 @@ function Flow() {
               display: 'flex', alignItems: 'center',
               justifyContent: 'center'
             }}>
-              <p
+              <Box component='p'
                 className="bodyObject"
                 style={{
                   margin: '5px',
                   wordBreak: 'break-word'
-                }}>{obj.message}</p>
-              <p
+                }}>{obj.message}</Box>
+              <Box component='p'
                 className="endOption"
-                style={{ display: 'none' }}>{typeEndFlow}</p>
-            </div>
-            <div
+                style={{ display: 'none' }}>{typeEndFlow}</Box>
+            </Box>
+            <Box component='div'
               style={{
                 margin: '5px 3px 0px 0px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-              <div> {renderIcon(type, typeEndFlow)}</div>
-              <div>{type !== 'start' && getQueue(type, typeEndFlow)} </div>
-            </div>
-          </div>
+              <Box component='div'> {renderIcon(type, typeEndFlow)}</Box>
+              <Box component='div'>{type !== 'start' && getQueue(type, typeEndFlow)}</Box>
+            </Box>
+          </Box>
         )
       },
       position: obj.position,
@@ -250,9 +251,9 @@ function Flow() {
       <>
         <path id={id} style={style} className="react-flow__edge-path" d={edgePath} markerEnd={markerEnd} />
         <foreignObject width={foreignObjectSize} height={foreignObjectSize} x={labelX - foreignObjectSize / 2} y={labelY - foreignObjectSize / 2} className="edgebutton-foreignobject" requiredExtensions="http://www.w3.org/1999/xhtml">
-          <div>
+          <Box component='div'>  
             <button className="edgebutton" onClick={(event) => DeleteTargetEdgeLile(event, id)}> × </button>
-          </div>
+          </Box>
         </foreignObject>
       </>
     );
@@ -389,7 +390,7 @@ function Flow() {
         if (node.id === id) {
           node.data = {
             ...node.data,
-            label: (<div className="showOptions" id={id}>
+            label: (<Box component='div'  className="showOptions" id={id}>
               <Tooltip title="Editar" placement="top">
                 <IconButton className="configButton" style={{
                   position: `absolute`,
@@ -415,12 +416,12 @@ function Flow() {
               <p
                 className="headerObject"
                 style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{title ? title : 'Titulo'}</p>
-              <div style={{
+              <Box component='div'  style={{
                 display: 'flex', alignItems: 'center',
                 justifyContent: 'center'
               }}>
-              </div>
-              <div style={{
+              </Box>
+              <Box component='div'  style={{
                 background: 'white',
                 color: 'black',
                 marginTop: '-1px',
@@ -438,18 +439,18 @@ function Flow() {
                   className="endOption"
                   style={{ display: 'none' }}>{endOptionProps}
                 </p>
-              </div>
-              <div
+              </Box>
+              <Box component='div'
                 style={{
                   margin: '5px 3px 0px 0px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                <div>{renderIcon(type, endOptionProps)}</div>
-                <div>{type !== 'start' && getQueue(type, endOptionProps)}</div>
-              </div>
-            </div>),
+                <Box component='div'>  {renderIcon(type, endOptionProps)}</Box>
+                <Box component='div'>  {type !== 'start' && getQueue(type, endOptionProps)}</Box>
+              </Box>
+            </Box>),
           };
           node.style = {
             ...node.style,
@@ -490,7 +491,7 @@ function Flow() {
         id: `start_${id}`,
         data: {
           label: (
-            <div className="showOptions">
+            <Box component='div'  className="showOptions">
               <Tooltip title="Editar" placement="top">
                 <IconButton className="configButton" style={{
                   position: `absolute`,
@@ -517,12 +518,12 @@ function Flow() {
                 className="headerObject"
                 style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{`Inicio do fluxo ${id}`}</p>
 
-              <div style={{
+              <Box component='div'  style={{
                 display: 'flex', alignItems: 'center',
                 justifyContent: 'center'
               }}>
-              </div>
-              <div style={{
+              </Box>
+              <Box component='div'  style={{
                 background: 'white',
                 color: 'black',
                 marginTop: '-1px',
@@ -540,17 +541,17 @@ function Flow() {
                   className="endOption"
                   style={{ display: 'none' }}>{0}
                 </p>
-              </div>
-              <div
+              </Box>
+              <Box component='div'
                 style={{
                   margin: '5px 3px 0px 0px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                <div>{renderIcon('start', 0)}</div>
-              </div>
-            </div>
+                <Box component='div'>  {renderIcon('start', 0)}</Box>
+              </Box>
+            </Box>
           )
         },
         position: { x: 10 * nodeId, y: 10 * nodeId },
@@ -570,7 +571,7 @@ function Flow() {
         id: `conditional_${id}`,
         data: {
           label:
-            (<div className="showOptions" id={`conditional_${id}`}>
+            (<Box component='div'  className="showOptions" id={`conditional_${id}`}>
               <Tooltip title="Editar" placement="top">
                 <IconButton className="configButton" style={{
                   position: `absolute`,
@@ -596,12 +597,12 @@ function Flow() {
               <p
                 className="headerObject"
                 style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{`Titulo ${id}`}</p>
-              <div style={{
+              <Box component='div'  style={{
                 display: 'flex', alignItems: 'center',
                 justifyContent: 'center'
               }}>
-              </div>
-              <div style={{
+              </Box>
+              <Box component='div'  style={{
                 background: 'white',
                 color: 'black',
                 marginTop: '-1px',
@@ -619,18 +620,18 @@ function Flow() {
                   className="endOption"
                   style={{ display: 'none' }}>{0}
                 </p>
-              </div>
-              <div
+              </Box>
+              <Box component='div'
                 style={{
                   margin: '5px 3px 0px 0px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                <div>{renderIcon('conditional', 0)}</div>
-                <div>{getQueue('conditional', 0)}</div>
-              </div>
-            </div>)
+                <Box component='div'>  {renderIcon('conditional', 0)}</Box>
+                <Box component='div'>  {getQueue('conditional', 0)}</Box>
+              </Box>
+            </Box>)
         },
         position: { x: 10 * nodeId, y: 10 * nodeId },
         style: {
@@ -648,7 +649,7 @@ function Flow() {
         id: `end_flow_${id}`,
         data: {
           label:
-            (<div className="showOptions" id={`end_flow_${id}`}>
+            (<Box component='div'  className="showOptions" id={`end_flow_${id}`}>
               <Tooltip title="Editar" placement="top">
                 <IconButton className="configButton" style={{
                   position: `absolute`,
@@ -675,12 +676,12 @@ function Flow() {
                 className="headerObject"
                 style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{`Titulo ${id}`}</p>
 
-              <div style={{
+              <Box component='div'  style={{
                 display: 'flex', alignItems: 'center',
                 justifyContent: 'center'
               }}>
-              </div>
-              <div style={{
+              </Box>
+              <Box component='div'  style={{
                 background: 'white',
                 color: 'black',
                 marginTop: '-1px',
@@ -697,18 +698,18 @@ function Flow() {
                 <p
                   className="endOption"
                   style={{ display: 'none' }}>{0}</p>
-              </div>
-              <div
+              </Box>
+              <Box component='div'
                 style={{
                   margin: '5px 3px 0px 0px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center'
                 }}>
-                <div>{renderIcon('end', 0)}</div>
-                <div>{getQueue('end', 0)}</div>
-              </div>
-            </div>)
+                <Box component='div'>  {renderIcon('end', 0)}</Box>
+                <Box component='div'>  {getQueue('end', 0)}</Box>
+              </Box>
+            </Box>)
         },
         position: { x: 10 * nodeId, y: 10 * nodeId },
         type: "output",
@@ -759,7 +760,7 @@ function Flow() {
 
 
   return (
-    <div id='Teste' style={{
+    <Box component='div'  id='Teste' style={{
       display: 'flex',
       height: '100%',
       alignItems: 'center',
@@ -774,7 +775,7 @@ function Flow() {
         onConfirm={(title, message, color, endOption, position) => EditNodeObjectProps(elementOnEdit, title, message, color, endOption, position)}
       />
 
-      <div style={{ height: "100%", width: "100%" }}>
+      <Box component='div'  style={{ height: "100%", width: "100%" }}>
         <>
           <ReactFlow
             nodes={nodes}
@@ -786,7 +787,7 @@ function Flow() {
             style={{ backgroundColor: '#d9d9d9' }}
           >
             <Panel position="top-left">
-              <div>
+              <Box component='div'>  
                 <Button
                   id="demo-positioned-button"
                   variant="outlined"
@@ -816,7 +817,7 @@ function Flow() {
                   <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('cond') }}>Pergunta</MenuItem>
                   <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('end') }}>Finalizar / Transferir</MenuItem>
                 </Menu>
-              </div>
+              </Box>
             </Panel>
             <Panel position="top-right">
               <Button onClick={e => viewData(e)} variant="outlined">Ver Dados</Button>
@@ -836,8 +837,8 @@ function Flow() {
             <MiniMap nodeColor={nodeColor} nodeStrokeWidth={3} zoomable pannable />
           </ReactFlow>
         </>
-      </div>
-    </div >
+      </Box>
+    </Box>
   );
 };
 

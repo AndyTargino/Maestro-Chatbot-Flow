@@ -10,7 +10,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-
+import Box from '@mui/material/Box';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import MoveUpIcon from '@mui/icons-material/MoveUp';
 
@@ -79,7 +79,7 @@ const EditFlowModal = ({
                 id="confirm-dialog"
             >{`Editando objeto ${propsObject?.lastTitle}`}</DialogTitle>
             <DialogContent dividers>
-                <div style={{ maxWidth: '275px' }}>
+                <Box component='div'  style={{ maxWidth: '275px' }}>
                     <TextField
                         className={classes.input}
                         value={titleMessage}
@@ -107,16 +107,16 @@ const EditFlowModal = ({
                             variant="outlined">
                             {queues.map((option) => (
                                 <MenuItem key={option.id} value={option.id}>
-                                    <div style={{ display: 'flex' }}>  Transferir para {option.name} <MoveUpIcon style={{ marginLeft: 5 }} /></div>
+                                    <Box component='div'  style={{ display: 'flex' }}>  Transferir para {option.name} <MoveUpIcon style={{ marginLeft: 5 }} /></Box>
                                 </MenuItem>
                             ))}
                             <MenuItem key={0} value={0}>
-                                <div style={{ display: 'flex' }}> Finalizar atendimento <DoneAllIcon style={{ marginLeft: 5 }} /></div>
+                                <Box component='div'  style={{ display: 'flex' }}> Finalizar atendimento <DoneAllIcon style={{ marginLeft: 5 }} /></Box>
                             </MenuItem>
                         </TextField>
                     </>}
                     {type != 'start' &&
-                        <div style={{ display: 'none' }}>
+                        <Box component='div'  style={{ display: 'none' }}>
                             <label>Tipo</label>
                             <RadioGroup
                                 hidden={propsObject?.position !== 'start' ? false : true}
@@ -130,14 +130,14 @@ const EditFlowModal = ({
                                 <FormControlLabel value="end" control={<Radio />} label="Finalização" />
                                 <FormControlLabel value="conditional" control={<Radio />} label="Condicional" />
                             </RadioGroup>
-                        </div>
+                        </Box>
                     }
 
                     <SliderPicker
                         color={color.background}
                         onChangeComplete={handleChangeComplete}
                     />
-                </div>
+                </Box>
             </DialogContent>
             <DialogActions>
 

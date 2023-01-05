@@ -27,7 +27,7 @@ const ChatBotTestModal = ({ open, onClose, chatProps }) => {
     const classes = useStyles()
 
     return (
-        <div id="chatbot">
+        <Box component='div'  id="chatbot">
             <Dialog
                 classes={{ paper: classes.paper }}
                 open={open}
@@ -39,7 +39,7 @@ const ChatBotTestModal = ({ open, onClose, chatProps }) => {
                     <Typography>{'ok'}</Typography>
                 </DialogContent>
             </Dialog>
-        </div>
+        </Box>
 
     );
 };
