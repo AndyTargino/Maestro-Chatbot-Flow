@@ -56,7 +56,7 @@ const nodeColor = (node) => {
 
 
 
-var queues = [{
+let queues = [{
   "id": 1,
   "name": "Financeiro"
 },
@@ -79,7 +79,7 @@ function getQueue(tipo, id) {
     }
   }
 
-  var fila = queues.filter(q => q.id === id)
+  let fila = queues.filter(q => q.id === id)
   if (fila.length) {
     if (fila[0].name) {
       return `- ${fila[0].name}`;
@@ -112,10 +112,10 @@ function Flow() {
 
   const RenderObject = (obj) => {
 
-    var type = obj.type;
-    var typeEndFlow = obj.endFlowOption
+    let type = obj.type;
+    let typeEndFlow = obj.endFlowOption
 
-    var objeto = {};
+    let objeto = {};
 
     objeto = {
       id: `${obj.id}`,
@@ -198,7 +198,7 @@ function Flow() {
   }
 
   function renderNodes(_nodes) {
-    var array = [];
+    let array = [];
     _nodes.forEach(obj => array.push(RenderObject(obj)));
     return array;
   }
@@ -269,9 +269,9 @@ function Flow() {
   // ================ FILTRO DE DADOS =============== //
 
   const FilterNodeData = (id) => {
-    var title = '';
-    var message = '';
-    var endFlowOption = '';
+    let title = '';
+    let message = '';
+    let endFlowOption = '';
 
     const position_object = nodes.map(i => i.id).indexOf(id);
     if (position_object === -1) return;
@@ -279,7 +279,7 @@ function Flow() {
 
       if (obj?.props?.children) {
         if ((obj.props.children).length === 2) {
-          var objetoArray = obj.props.children;
+          let objetoArray = obj.props.children;
           objetoArray.forEach(obj => {
             if (obj.props.className === 'bodyObject') { message = obj.props.children }
             if (obj.props.className === 'endOption') { endFlowOption = obj.props.children }
@@ -337,9 +337,9 @@ function Flow() {
 
   const getNodeProps = (id) => {
 
-    var lastTitle = '';
-    var lastMessage = '';
-    var endFlowOption = '';
+    let lastTitle = '';
+    let lastMessage = '';
+    let endFlowOption = '';
 
     const position = nodes.map(i => i.id).indexOf(id);
     if (position === -1) return;
@@ -347,7 +347,7 @@ function Flow() {
 
       if (obj?.props?.children) {
         if ((obj.props.children).length === 2) {
-          var objetoArray = obj.props.children;
+          let objetoArray = obj.props.children;
           objetoArray.forEach(obj => {
             if (obj.props.className === 'bodyObject') { lastMessage = obj.props.children }
             if (obj.props.className === 'endOption') { endFlowOption = obj.props.children }
@@ -381,9 +381,9 @@ function Flow() {
 
   const EditNodeObjectProps = (id, title, message, color, endOption, type) => {
 
-    var oldProps = getNodeProps(id);
+    let oldProps = getNodeProps(id);
 
-    var endOptionProps = endOption || endOption === 0 ? endOption : oldProps.endFlowOption;
+    let endOptionProps = endOption || endOption === 0 ? endOption : oldProps.endFlowOption;
 
     setNodes((nds) =>
       nds.map((node) => {
@@ -468,7 +468,7 @@ function Flow() {
   // = DESCONSTRUINDO OBJETO PARA NOVOS PARAMETROS = //
 
   const renderNewConnectStyle = (props) => {
-    var object = {
+    let object = {
       "source": props.source,
       "sourceHandle": props.sourceHandle,
       "target": props.target,
@@ -484,7 +484,7 @@ function Flow() {
   // ============= Criar novo elemento ============== //
 
   const createNewNode = useCallback((element) => {
-    var object = {};
+    let object = {};
     const id = `${++nodeId}`;
     if (element === 'start') {
       object = {
@@ -734,8 +734,8 @@ function Flow() {
   const openChatbotModal = () => {
 
     // Nessesário formatar os dados enviados para conseguir executar no fluxo de chatbot
-    var edgesObjects = [];
-    var nodesObjects = [];
+    let edgesObjects = [];
+    let nodesObjects = [];
 
     edges.forEach(edge => edgesObjects.push(FilterEdgeData(edge)));
     nodes.forEach(node => nodesObjects.push(FilterNodeData(node.id)));
@@ -749,13 +749,15 @@ function Flow() {
 
   const viewData = (e) => {
 
-    var edgesObjects = [];
+    let edgesObjects = [];
     edges.forEach(edge => edgesObjects.push(FilterEdgeData(edge)));
-    console.info(JSON.stringify(edgesObjects));
+    let edgesFormated = JSON.stringify(edgesObjects);
+    console.info({edgesFormated});
 
-    var nodesObjects = [];
+    let nodesObjects = [];
     nodes.forEach(node => nodesObjects.push(FilterNodeData(node.id)));
-    console.info(JSON.stringify(nodesObjects));
+    let nodesFormated = JSON.stringify(nodesObjects);
+    console.info({nodesFormated});
   }
 
 

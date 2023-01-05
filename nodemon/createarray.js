@@ -8,13 +8,13 @@ const edges = require('./edges.json');
 //   FILTRO DE OBJETO   //
 
 const formatNodes = (_nodes) => {
-    var nodesFormated = [];
+    let nodesFormated = [];
     _nodes.forEach(node => nodesFormated.push({ 'id': node.id, 'title': node.title, 'message': node.message, 'type': node.type }));
     return nodesFormated;
 }
 
 const formatEdges = (_edges) => {
-    var nodesFormated = [];
+    let nodesFormated = [];
     _edges.forEach(edge => nodesFormated.push({ 'id': edge.id, 'source': edge.source, 'target': edge.target }));
     return nodesFormated;
 }
@@ -25,11 +25,11 @@ const getAllEdges = formatEdges(edges);
 
 const findChildremElement = (id) => {
 
-    var array = [];
-    var edgeFilter = getAllEdges.filter(edge => edge.source === id);
+    let array = [];
+    let edgeFilter = getAllEdges.filter(edge => edge.source === id);
 
     edgeFilter.forEach(edge => {
-        var filter = getAllNodes.filter(node => node.id === edge.target);
+        let filter = getAllNodes.filter(node => node.id === edge.target);
         if (filter.length < 1) return;
         array.push(filter[0])
     });
@@ -63,25 +63,25 @@ function mountResponse(option, title, steps) {
 };
 
 
-// SALVAR OBJECT ANTERIOR E MONTAR MENSAGEM DE RETORNO
+// SALlet OBJECT ANTERIOR E MONTAR MENSAGEM DE RETORNO
 console.clear();
 
-var oldOption = []
+let oldOption = []
 
 function stepByStep(op) {
 
-    var step = ''
+    let step = ''
 
     if (op === 'start') { step = 'start' } else if (op === '#') { step = '#' } else { step = Number(op) - 1 }
 
-    var savestep = [];
+    let savestep = [];
 
     if (oldOption.length === 0) {
 
         savestep = getAllNodes.filter(node => node.id === step);
         oldOption.pop()
         oldOption.push(savestep[0]);
-        var context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
+        let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
         return context;
 
     } else {
@@ -91,13 +91,13 @@ function stepByStep(op) {
             savestep = getAllNodes.filter(node => node.id === 'start');
             oldOption.pop()
             oldOption.push(savestep[0]);
-            var context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
+            let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
             return context;
 
 
         } else {
 
-            var selectedOption = oldOption[0].steps[step];
+            let selectedOption = oldOption[0].steps[step];
 
 
             if ((selectedOption.type === 'end')) {
@@ -113,7 +113,7 @@ function stepByStep(op) {
             oldOption.pop()
             oldOption.push(selectedOption);
 
-            var context = mountResponse(selectedOption.type, selectedOption.message, selectedOption.steps);
+            let context = mountResponse(selectedOption.type, selectedOption.message, selectedOption.steps);
             return context;
 
         }
@@ -121,7 +121,7 @@ function stepByStep(op) {
 }
 
 
-var steps = ['start', 3, '#', 3, 1];
+let steps = ['start', 3, '#', 3, 1];
 
 steps.forEach(step => {
 

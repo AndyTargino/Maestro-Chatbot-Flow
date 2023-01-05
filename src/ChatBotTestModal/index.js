@@ -115,7 +115,7 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
 
         if (open) {
 
-            var message = FlowChatBot(chatBotFlow, stepUser)
+            let message = FlowChatBot(chatBotFlow, stepUser)
             if (message === '') { message = 'Escolha uma opção valida'; }
 
             setTimeout(() => { defineNewMessage(false, message); }, 500);
@@ -130,7 +130,7 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
 
     useEffect(() => {
         if (!open) {
-            var input = document.querySelector("#inputChatBot")
+            let input = document.querySelector("#inputChatBot")
             if (input) { input.disabled = false; }
             setMessagesBot([]);
         }

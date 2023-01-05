@@ -5,7 +5,7 @@ function finishFlow(queueId, message) {
         console.info(`Aqui este atendimento será tranferido para a fila ${queueId}`)
     }
 
-    var input = document.querySelector("#inputChatBot");
+    let input = document.querySelector("#inputChatBot");
 
     setTimeout(() => { input.disabled = true; input.value = 'Finalizou o fluxo do BOT'; }, 500);
 
@@ -31,13 +31,13 @@ const ChatBot = (chatbot, arrayStep) => {
     const edges = chatbot.edges;
 
     const formatNodes = (_nodes) => {
-        var nodesFormated = [];
+        let nodesFormated = [];
         _nodes.forEach(node => nodesFormated.push({ 'id': node.id, 'title': node.title, 'message': node.message, 'type': node.type, 'finish': node.endFlowOption }));
         return nodesFormated;
     }
 
     const formatEdges = (_edges) => {
-        var nodesFormated = [];
+        let nodesFormated = [];
         _edges.forEach(edge => nodesFormated.push({ 'id': edge.id, 'source': edge.source, 'target': edge.target }));
         return nodesFormated;
     }
@@ -48,11 +48,11 @@ const ChatBot = (chatbot, arrayStep) => {
 
     const findChildremElement = (id) => {
 
-        var array = [];
-        var edgeFilter = getAllEdges.filter(edge => edge.source === id);
+        let array = [];
+        let edgeFilter = getAllEdges.filter(edge => edge.source === id);
 
         edgeFilter.forEach(edge => {
-            var filter = getAllNodes.filter(node => node.id === edge.target);
+            let filter = getAllNodes.filter(node => node.id === edge.target);
             if (filter.length < 1) return;
             array.push(filter[0])
         });
@@ -86,25 +86,25 @@ const ChatBot = (chatbot, arrayStep) => {
     };
 
 
-    // SALVAR OBJECT ANTERIOR E MONTAR MENSAGEM DE RETORNO
+    // SALlet OBJECT ANTERIOR E MONTAR MENSAGEM DE RETORNO
 
 
-    var oldOption = []
+    let oldOption = []
 
     function stepByStep(op) {
 
-        var step = ''
+        let step = ''
 
         if (op === 'start') { step = 'start' } else if (op === '#') { step = '#' } else { step = Number(op) - 1 }
 
-        var savestep = [];
+        let savestep = [];
 
         if (oldOption.length === 0) {
 
             savestep = getAllNodes.filter(node => node.id === step);
             oldOption.pop()
             oldOption.push(savestep[0]);
-            var context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
+            let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
             return context;
 
         } else {
@@ -114,20 +114,20 @@ const ChatBot = (chatbot, arrayStep) => {
                 savestep = getAllNodes.filter(node => node.id === 'start');
                 oldOption.pop()
                 oldOption.push(savestep[0]);
-                var context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
+                let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
                 return context;
 
 
             } else {
 
-                var selectedOption = oldOption[0].steps[step];
+                let selectedOption = oldOption[0].steps[step];
 
                 if (selectedOption === undefined) return 'Escolha uma opção válida';
 
                 if ((selectedOption.type === 'end')) {
 
                     // Finalizar o fluxo do chat
-                    var finish = finishFlow(selectedOption.finish, selectedOption.message);
+                    let finish = finishFlow(selectedOption.finish, selectedOption.message);
                     return finish
                 }
 
@@ -140,7 +140,7 @@ const ChatBot = (chatbot, arrayStep) => {
                 oldOption.pop()
                 oldOption.push(selectedOption);
 
-                var context = mountResponse(selectedOption.type, selectedOption.message, selectedOption.steps);
+                let context = mountResponse(selectedOption.type, selectedOption.message, selectedOption.steps);
                 return context;
 
             }
@@ -150,7 +150,7 @@ const ChatBot = (chatbot, arrayStep) => {
 
     // A execução do passo a passo é retornada aqui.
 
-    var lastMessage = '';
+    let lastMessage = '';
     arrayStep.forEach(el => lastMessage = stepByStep(el));
 
     console.warn(lastMessage);

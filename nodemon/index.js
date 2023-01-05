@@ -4,9 +4,9 @@ import { createRequire } from 'node:module';
 const require = createRequire(import.meta.url);
 
 
-var passo = ['start', 3, '#'];
+let passo = ['start', 3, '#'];
 
-var lastMessage = '';
+let lastMessage = '';
 passo.forEach(el => {
     lastMessage = chatbot(el)
 });
