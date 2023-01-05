@@ -12,19 +12,18 @@ function finishFlow(queueId, message) {
     return message
 }
 
-const ChatBot = (chatbot, arrayStep) => {
+const ChatBot = (chatbot, step) => {
 
-
+    let arrayStep;
     // Desenvolver regra de voltar uma resposta apenas
-    if (arrayStep) {
-        if (arrayStep[arrayStep.length - 1] === '#') {
-            console.info('voltar')
+    if (step) {
+        if (step[step.length - 1] === '#') {
+            arrayStep = step.splice(-2, 2);
         }
-
-        // numeros.pop();
-        console.info(arrayStep[arrayStep.length - 1]);
-
+        arrayStep = step;
     }
+
+    console.info(arrayStep);
     //   FILTRO DE OBJETO   //
 
     const nodes = chatbot.nodes;
@@ -43,7 +42,6 @@ const ChatBot = (chatbot, arrayStep) => {
     }
 
     const getAllNodes = formatNodes(nodes);
-
     const getAllEdges = formatEdges(edges);
 
     const findChildremElement = (id) => {

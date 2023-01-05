@@ -60,6 +60,7 @@ const EditFlowModal = ({
     const handleChangeComplete = (color) => setColor({ background: color.hex });
 
 
+
     useEffect(() => { if (propsObject && open) { setQueueSelected(propsObject.endFlowOption); setType(propsObject.position); setMessage(propsObject.lastMessage); setTitle(propsObject.lastTitle); setColor({ background: propsObject.background }) } }, [propsObject, open]);
 
     const saveData = () => { onClose(false); onConfirm(titleMessage, message, color.background, queueSelected, type); setQueueSelected(0); }
@@ -79,7 +80,7 @@ const EditFlowModal = ({
                 id="confirm-dialog"
             >{`Editando objeto ${propsObject?.lastTitle}`}</DialogTitle>
             <DialogContent dividers>
-                <Box component='div'  style={{ maxWidth: '275px' }}>
+                <Box component='div' style={{ maxWidth: '275px' }}>
                     <TextField
                         className={classes.input}
                         value={titleMessage}
@@ -107,16 +108,16 @@ const EditFlowModal = ({
                             variant="outlined">
                             {queues.map((option) => (
                                 <MenuItem key={option.id} value={option.id}>
-                                    <Box component='div'  style={{ display: 'flex' }}>  Transferir para {option.name} <MoveUpIcon style={{ marginLeft: 5 }} /></Box>
+                                    <Box component='div' style={{ display: 'flex' }}>  Transferir para {option.name} <MoveUpIcon style={{ marginLeft: 5 }} /></Box>
                                 </MenuItem>
                             ))}
                             <MenuItem key={0} value={0}>
-                                <Box component='div'  style={{ display: 'flex' }}> Finalizar atendimento <DoneAllIcon style={{ marginLeft: 5 }} /></Box>
+                                <Box component='div' style={{ display: 'flex' }}> Finalizar atendimento <DoneAllIcon style={{ marginLeft: 5 }} /></Box>
                             </MenuItem>
                         </TextField>
                     </>}
                     {type != 'start' &&
-                        <Box component='div'  style={{ display: 'none' }}>
+                        <Box component='div' style={{ display: 'none' }}>
                             <label>Tipo</label>
                             <RadioGroup
                                 hidden={propsObject?.position !== 'start' ? false : true}
