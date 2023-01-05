@@ -147,7 +147,7 @@ function Flow() {
               className="headerObject"
               style={{
                 margin: '5px',
-                lineBreak: 'anywhere',
+                wordBreak: 'break-word',
                 fontSize: '15px'
               }}>{obj.title}</p>
 
@@ -168,7 +168,7 @@ function Flow() {
                 className="bodyObject"
                 style={{
                   margin: '5px',
-                  lineBreak: 'anywhere'
+                  wordBreak: 'break-word'
                 }}>{obj.message}</p>
               <p
                 className="endOption"
@@ -380,12 +380,9 @@ function Flow() {
 
   const EditNodeObjectProps = (id, title, message, color, endOption, type) => {
 
-
-
     var oldProps = getNodeProps(id);
 
     var endOptionProps = endOption || endOption === 0 ? endOption : oldProps.endFlowOption;
-    console.info(endOptionProps);
 
     setNodes((nds) =>
       nds.map((node) => {
@@ -417,7 +414,7 @@ function Flow() {
               </Tooltip>
               <p
                 className="headerObject"
-                style={{ margin: '5px', lineBreak: 'anywhere', fontSize: '15px' }}>{title ? title : 'Titulo'}</p>
+                style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{title ? title : 'Titulo'}</p>
               <div style={{
                 display: 'flex', alignItems: 'center',
                 justifyContent: 'center'
@@ -435,7 +432,7 @@ function Flow() {
                   className="bodyObject"
                   style={{
                     margin: '5px',
-                    lineBreak: 'anywhere'
+                    wordBreak: 'break-word'
                   }}>{message ? message : 'Mensagem'}</p>
                 <p
                   className="endOption"
@@ -518,7 +515,7 @@ function Flow() {
               </Tooltip>
               <p
                 className="headerObject"
-                style={{ margin: '5px', lineBreak: 'anywhere', fontSize: '15px' }}>{`Inicio do fluxo ${id}`}</p>
+                style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{`Inicio do fluxo ${id}`}</p>
 
               <div style={{
                 display: 'flex', alignItems: 'center',
@@ -537,7 +534,7 @@ function Flow() {
                   className="bodyObject"
                   style={{
                     margin: '5px',
-                    lineBreak: 'anywhere'
+                    wordBreak: 'break-word'
                   }}>Inicio do fluxo</p>
                 <p
                   className="endOption"
@@ -598,7 +595,7 @@ function Flow() {
               </Tooltip>
               <p
                 className="headerObject"
-                style={{ margin: '5px', lineBreak: 'anywhere', fontSize: '15px' }}>{`Titulo ${id}`}</p>
+                style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{`Titulo ${id}`}</p>
               <div style={{
                 display: 'flex', alignItems: 'center',
                 justifyContent: 'center'
@@ -616,7 +613,7 @@ function Flow() {
                   className="bodyObject"
                   style={{
                     margin: '5px',
-                    lineBreak: 'anywhere'
+                    wordBreak: 'break-word'
                   }}>Mensagem</p>
                 <p
                   className="endOption"
@@ -676,7 +673,7 @@ function Flow() {
               </Tooltip>
               <p
                 className="headerObject"
-                style={{ margin: '5px', lineBreak: 'anywhere', fontSize: '15px' }}>{`Titulo ${id}`}</p>
+                style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{`Titulo ${id}`}</p>
 
               <div style={{
                 display: 'flex', alignItems: 'center',
@@ -695,7 +692,7 @@ function Flow() {
                   className="bodyObject"
                   style={{
                     margin: '5px',
-                    lineBreak: 'anywhere'
+                    wordBreak: 'break-word'
                   }}>{'Mensagem'}</p>
                 <p
                   className="endOption"
