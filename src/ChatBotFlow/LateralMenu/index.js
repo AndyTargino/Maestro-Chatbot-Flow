@@ -25,6 +25,7 @@ import { makeStyles } from '@mui/styles';
 
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 import MoveUpIcon from '@mui/icons-material/MoveUp';
 
 import { SliderPicker } from 'react-color';
@@ -51,6 +52,7 @@ const LateralMenu = ({
 
     const [titleMessage, setTitle] = useState('');
     const [message, setMessage] = useState('');
+    const [afterMessage, setAfterMessage] = useState('');
     const [type, setType] = useState(propsObject?.position);
     const [queueSelected, setQueueSelected] = useState(0);
     const [color, setColor] = useState({ background: '#414141' });
@@ -62,7 +64,7 @@ const LateralMenu = ({
 
     useEffect(() => { if (propsObject && open) { setQueueSelected(propsObject.endFlowOption); setType(propsObject.position); setMessage(propsObject.lastMessage); setTitle(propsObject.lastTitle); setColor({ background: propsObject.background }) } }, [propsObject, open]);
 
-    const saveData = () => { onClose(true); onConfirm(titleMessage, message, color.background, queueSelected, type); setQueueSelected(0); }
+    const saveData = () => { onClose(true); onConfirm(titleMessage, message, afterMessage, color.background, queueSelected, type); setQueueSelected(0); }
 
     const selectedQueue = (queue) => setQueueSelected(queue);
 
@@ -118,11 +120,29 @@ const LateralMenu = ({
                                         <Box component='div' style={{ display: 'flex' }}>  Transferir para {option.name} <MoveUpIcon style={{ marginLeft: 5 }} /></Box>
                                     </MenuItem>
                                 ))}
+                                <MenuItem key={'capture'} value={'capture'}>
+                                    <Box component='div' style={{ display: 'flex' }}> Salvar resposta <MarkEmailReadIcon style={{ marginLeft: 5 }} /></Box>
+                                </MenuItem>
                                 <MenuItem key={0} value={0}>
                                     <Box component='div' style={{ display: 'flex' }}> Finalizar atendimento <DoneAllIcon style={{ marginLeft: 5 }} /></Box>
                                 </MenuItem>
                             </TextField>
-                        </>}
+                            <>
+                                {
+                                    queueSelected === 'capture' && <>
+                                        <TextField
+                                            className={classes.input}
+                                            multiline
+                                            fullWidth
+                                            value={afterMessage}
+                                            onChange={e => setAfterMessage(e.target.value)}
+                                            label="Resposta após captura"
+                                            variant="outlined" />
+                                    </>
+                                }
+                            </>
+                        </>
+                        }
                         {type != 'start' &&
                             <Box component='div' style={{ display: 'none' }}>
                                 <label>Tipo</label>

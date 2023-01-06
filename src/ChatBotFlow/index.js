@@ -13,6 +13,7 @@ import ReactFlow, {
     applyEdgeChanges,
     addEdge,
     Panel,
+    useStoreApi,
     getBezierPath,
     MiniMap,
     ReactFlowProvider,
@@ -24,7 +25,7 @@ import Menu from '@mui/material/Menu';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-import MenuItem from '@mui/material/MenuItem';
+import { MenuItem, Divider, Chip } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
@@ -32,12 +33,22 @@ import SendIcon from '@mui/icons-material/Send';
 import EditFlowModal from './EditFlowModal';
 import ChatBotTestModal from './ChatBotTestModal';
 
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 import MobileFriendlyIcon from '@mui/icons-material/MobileFriendly';
 
 import FlagIcon from '@mui/icons-material/Flag';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import MoveUpIcon from '@mui/icons-material/MoveUp';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
+import CloseIcon from '@mui/icons-material/Close';
+
+import KeyboardHideIcon from '@mui/icons-material/KeyboardHide';
 
 import "reactflow/dist/style.css";
 
@@ -78,12 +89,12 @@ let queues = [{
 
 
 function getQueue(tipo, id) {
-    if (Number(id) === 0) {
-        if (tipo === 'end') {
+    if (Number(id) === 0 || id === 'capture') {
+        if (tipo === 'end' && Number(id) === 0) {
             return '- Finalizar';
-        } else {
-            return;
-        }
+        } else if (id === 'capture') {
+            return '- Salvar resposta';
+        } else { return; }
     }
 
     let fila = queues.filter(q => q.id === id)
@@ -110,6 +121,8 @@ function ChatBotFlow() {
         if (type === 'end') {
             if (endOption === 0) {
                 return <Tooltip title="Finaliza o fluxo encerrando o atendimento"><DoneAllIcon /></Tooltip>;
+            } else if (endOption === 'capture') {
+                return <Tooltip title="Salvar resposta"><MarkEmailReadIcon /></Tooltip>;
             } else {
                 return <Tooltip title="Finaliza o fluxo movendo para fila"><MoveUpIcon /></Tooltip>;
             }
@@ -119,8 +132,8 @@ function ChatBotFlow() {
     const RenderObject = (obj) => {
 
         let type = obj.type;
-        let typeEndFlow = obj.endFlowOption
-
+        let typeEndFlow = obj.endFlowOption;
+        let afterMessage = obj.afterMessage;
         let objeto = {};
 
         objeto = {
@@ -168,7 +181,7 @@ function ChatBotFlow() {
                             color: 'black',
                             marginTop: '-1px',
                             padding: '10px',
-                            display: 'flex', alignItems: 'center',
+                            alignItems: 'center',
                             justifyContent: 'center'
                         }}>
                             <Box component='p'
@@ -177,6 +190,33 @@ function ChatBotFlow() {
                                     margin: '5px',
                                     wordBreak: 'break-word'
                                 }}>{obj.message}</Box>
+                            <div class="teste">
+                                {afterMessage && <>
+                                    <Divider />
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<ExpandMoreIcon />}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography>Accordion 1</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <Typography>
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                                                malesuada lacus ex, sit amet blandit leo lobortis eget.
+                                            </Typography>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                    <p style={{
+                                        padding: '5px',
+                                        width: '165px',
+                                        margin: '0px 0px -13px -13px',
+                                    }} className="afterMessage">
+                                        {afterMessage}
+                                    </p>
+                                </>}
+                            </div>
                             <Box component='p'
                                 className="endOption"
                                 style={{ display: 'none' }}>{typeEndFlow}</Box>
@@ -191,7 +231,7 @@ function ChatBotFlow() {
                             <Box component='div'> {renderIcon(type, typeEndFlow)}</Box>
                             <Box component='div'>{type !== 'start' && getQueue(type, typeEndFlow)}</Box>
                         </Box>
-                    </Box>
+                    </Box >
                 )
             },
             position: obj.position,
@@ -229,49 +269,48 @@ function ChatBotFlow() {
     const [nodes, setNodes] = useState(renderNodes(initialNodes));
     const [edges, setEdges] = useState(initialEdges);
     const [anchorEl, setAnchorEl] = useState(null);
-    const handleClickOpenMenu = e => setAnchorEl(e.currentTarget);
-    const handleClickCloseMenu = () => setAnchorEl(null);
-
     const [elementOnEdit, setElementOnEdit] = useState('');
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
-
     const [chatBotFlow, setChatBotFlow] = useState({});
-
+    const [nodeIdSelected, setNodeIdSelected] = useState('');
+    const handleClickOpenMenu = e => setAnchorEl(e.currentTarget);
+    const handleClickCloseMenu = () => setAnchorEl(null);
     const onNodesChange = useCallback((changes) => setNodes((nds) => applyNodeChanges(changes, nds)), []);
     const onEdgesChange = useCallback((changes) => setEdges((eds) => applyEdgeChanges(changes, eds)), []);
     const onConnect = useCallback((params) => setEdges((eds) => addEdge(renderNewConnectStyle(params), eds)), []);
 
     const openMenu = Boolean(anchorEl);
+    const store = useStoreApi();
 
+    const { setCenter } = useReactFlow();
 
-    const { setViewport } = useReactFlow();
-
-    const handleTransform = (x, y) => {
-
-
-        console.info(x, y)
-        let xObjeto = ((-x) + 500)
-        let yObjeto = ((-y) + 300)
-
-        setViewport({ x: xObjeto, y: yObjeto, zoom: 1.3 }, { duration: 400 })
+    const focusNode = () => {
+        const { nodeInternals } = store.getState();
+        const nodes = Array.from(nodeInternals).map(([, node]) => node);
+        let selectedNode = nodes.filter(node => node.id === nodeIdSelected);
+        if (nodeIdSelected) {
+            const node = selectedNode[0];
+            console.info(node)
+            const x = node.position.x + node.width / 2;
+            const y = node.position.y + node.height / 2;
+            const zoom = 2;
+            setCenter(x, y, { zoom: zoom, duration: 500 });
+        }
     };
 
     // ================================================ //
 
-    const [positionY, setPositionY] = useState(0);
-    const [positionX, setPositionX] = useState(0);
 
     // ============ BOTÃO DE EXCLUIR ALVO ============= //
 
     function EdgeButton({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, style = {}, markerEnd }) {
         const [edgePath, labelX, labelY] = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
-
         return (
             <>
                 <path id={id} style={style} className="react-flow__edge-path" d={edgePath} markerEnd={markerEnd} />
                 <foreignObject width={foreignObjectSize} height={foreignObjectSize} x={labelX - foreignObjectSize / 2} y={labelY - foreignObjectSize / 2} className="edgebutton-foreignobject" requiredExtensions="http://www.w3.org/1999/xhtml">
                     <Box component='div'>
-                        <button className="edgebutton" onClick={(event) => DeleteTargetEdgeLile(event, id)}> × </button>
+                        <button className="edgebutton" onClick={(event) => DeleteTargetEdgeLile(event, id)}><CloseIcon style={{ width: '14px', margin: '-4px 0px 0px -4px' }} /></button>
                     </Box>
                 </foreignObject>
             </>
@@ -282,19 +321,15 @@ function ChatBotFlow() {
 
     const EditNodeElement = (id) => {
 
-        var button = document.getElementById('ClickZoon');
-
-        let oldProps = getNodeProps(id);
-
         setElementOnEdit(id)
         setConfirmModalOpen(true)
-        console.log(oldProps.positionObject);
-        let x = (oldProps.positionObject.x);
-        let y = (oldProps.positionObject.y);
-        setPositionX(x)
-        setPositionY(y)
+        setNodeIdSelected(id);
 
-        setTimeout(() => button.click(), 300);
+        let button = document.getElementById('ClickZoon')
+        setTimeout(() => {
+            button.click();
+        }, 200);
+
     }
 
     // ================ FILTRO DE DADOS =============== //
@@ -303,17 +338,29 @@ function ChatBotFlow() {
         let title = '';
         let message = '';
         let endFlowOption = '';
+        let afterMessage = '';
 
         const position_object = nodes.map(i => i.id).indexOf(id);
         if (position_object === -1) return;
         nodes[position_object].data.label.props.children.forEach((obj) => {
 
             if (obj?.props?.children) {
-                if ((obj.props.children).length === 2) {
+
+                let propLength = (obj.props.children).length;
+
+                console.info({ propLength })
+
+                if (propLength === 2 || propLength === 3) {
+
                     let objetoArray = obj.props.children;
+
                     objetoArray.forEach(obj => {
-                        if (obj.props.className === 'bodyObject') { message = obj.props.children }
-                        if (obj.props.className === 'endOption') { endFlowOption = obj.props.children }
+
+                        console.info(obj?.props)
+
+                        if (obj?.props?.className === 'bodyObject') { message = obj.props.children }
+                        if (obj?.props?.className === 'endOption') { endFlowOption = obj.props.children }
+                        if (obj?.props?.className === 'afterMessage') { afterMessage = obj.props.children }
                     });
                 }
             }
@@ -333,7 +380,7 @@ function ChatBotFlow() {
             }
         }
 
-        return { id, title, message, endFlowOption, position: nodes[position_object].position, style: nodes[position_object].style, type: getPosition(id) }
+        return { id, title, message, endFlowOption, afterMessage, position: nodes[position_object].position, style: nodes[position_object].style, type: getPosition(id) }
     }
 
     const FilterEdgeData = (edge) => {
@@ -352,10 +399,7 @@ function ChatBotFlow() {
 
     // ============== Funções de deletar ============== //
 
-    const DeleteTargetEdgeLile = (evt, id) => {
-        evt.stopPropagation();
-        deleteEdgeLine(id)
-    };
+    const DeleteTargetEdgeLile = (evt, id) => { evt.stopPropagation(); deleteEdgeLine(id); };
 
     const deleteNodeCard = (id) => setNodes(nds => nds.filter(node => node.id !== id));
 
@@ -371,17 +415,26 @@ function ChatBotFlow() {
         let lastTitle = '';
         let lastMessage = '';
         let endFlowOption = '';
+        let afterMessage = '';
 
         const position = nodes.map(i => i.id).indexOf(id);
         if (position === -1) return;
 
         nodes[position].data.label.props.children.forEach((obj) => {
+
             if (obj?.props?.children) {
-                if ((obj.props.children).length === 2) {
+
+                let propLength = (obj.props.children).length;
+
+                console.info({ propLength })
+
+                if (propLength === 2 || propLength === 3) {
                     let objetoArray = obj.props.children;
                     objetoArray.forEach(obj => {
-                        if (obj.props.className === 'bodyObject') { lastMessage = obj.props.children }
-                        if (obj.props.className === 'endOption') { endFlowOption = obj.props.children }
+                        console.info(obj?.props)
+                        if (obj?.props?.className === 'bodyObject') { lastMessage = obj.props.children }
+                        if (obj?.props?.className === 'endOption') { endFlowOption = obj.props.children }
+                        if (obj?.props?.className === 'afterMessage') { afterMessage = obj.props.children }
                     });
                 }
             }
@@ -401,16 +454,14 @@ function ChatBotFlow() {
                 return 'start'
             }
         }
-
-        return { lastTitle, lastMessage, endFlowOption, background: nodes[position].style.background, position: getPosition(id), positionObject: nodes[position].position }
-
+        return { lastTitle, lastMessage, endFlowOption, afterMessage, background: nodes[position].style.background, position: getPosition(id), positionObject: nodes[position].position }
     }
 
     // ================================================ //
 
     // ================= Editar Node ================== //
 
-    const EditNodeObjectProps = (id, title, message, color, endOption, type) => {
+    const EditNodeObjectProps = (id, title, message, afterMessage, color, endOption, type) => {
 
         let oldProps = getNodeProps(id);
 
@@ -452,24 +503,36 @@ function ChatBotFlow() {
                                 justifyContent: 'center'
                             }}>
                             </Box>
-                            <Box component='div' style={{
-                                background: 'white',
-                                color: 'black',
-                                marginTop: '-1px',
-                                padding: '10px',
-                                display: 'flex', alignItems: 'center',
-                                justifyContent: 'center'
-                            }}>
-                                <p
-                                    className="bodyObject"
-                                    style={{
-                                        margin: '5px',
-                                        wordBreak: 'break-word'
-                                    }}>{message ? message : 'Mensagem'}</p>
-                                <p
-                                    className="endOption"
-                                    style={{ display: 'none' }}>{endOptionProps}
-                                </p>
+                            <Box component='div' style={{ background: 'white', color: 'black', marginTop: '-1px', padding: '10px', alignItems: 'center', justifyContent: 'center' }}>
+                                <p className="bodyObject" style={{ margin: '5px', wordBreak: 'break-word' }}>{message ? message : 'Mensagem'}</p>
+                                <p className="endOption" style={{ display: 'none' }}>{endOptionProps}</p>
+                                <div class="teste">
+                                    {afterMessage && <>
+                                        <Divider />
+                                        <Accordion>
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon />}
+                                                aria-controls="panel1a-content"
+                                                id="panel1a-header"
+                                            >
+                                                <p>Ver resposta</p>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <Typography>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+                                                    malesuada lacus ex, sit amet blandit leo lobortis eget.
+                                                </Typography>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                        <p style={{
+                                            padding: '5px',
+                                            width: '165px',
+                                            margin: '0px 0px -13px -13px',
+                                        }} className="afterMessage">
+                                            {afterMessage}
+                                        </p>
+                                    </>}
+                                </div>
                             </Box>
                             <Box component='div'
                                 style={{
@@ -481,7 +544,7 @@ function ChatBotFlow() {
                                 <Box component='div'>  {renderIcon(type, endOptionProps)}</Box>
                                 <Box component='div'>  {type !== 'start' && getQueue(type, endOptionProps)}</Box>
                             </Box>
-                        </Box>),
+                        </Box >),
                     };
                     node.style = {
                         ...node.style,
@@ -807,7 +870,6 @@ function ChatBotFlow() {
 
     }
 
-
     return (
         <Box component='div' id='Teste' style={{
             display: 'flex',
@@ -862,7 +924,7 @@ function ChatBotFlow() {
                         <Panel position="top-right">
                             <Button onClick={e => viewData(e)} style={{ margin: 5 }} variant="outlined">Ver Dados</Button>
                             <Button onClick={e => saveData(e)} style={{ margin: 5 }} variant="outlined">Salvar em LocalStorage</Button>
-                            <Button id='ClickZoon' onClick={e => handleTransform(positionX, positionY)} style={{ visibility: 0 }} variant="outlined"></Button>
+                            <Button id='ClickZoon' onClick={e => { focusNode(); }} style={{ display: 'none' }} ></Button>
                         </Panel>
                         <Panel position="bottom-right">
                             <Button style={{ marginBottom: '240%' }} onClick={e => { openChatbotModal(e); }} variant="text">
@@ -880,15 +942,13 @@ function ChatBotFlow() {
                     </ReactFlow>
                 </>
             </Box>
-
             <LateralMenu
                 propsObject={getNodeProps(elementOnEdit)}
                 open={confirmModalOpen}
                 onClose={setConfirmModalOpen}
                 queues={queues}
-                onConfirm={(title, message, color, endOption, position) => EditNodeObjectProps(elementOnEdit, title, message, color, endOption, position)}
+                onConfirm={(title, message, afterMessage, color, endOption, position) => EditNodeObjectProps(elementOnEdit, title, message, afterMessage, color, endOption, position)}
             />
-
         </Box >
     );
 };

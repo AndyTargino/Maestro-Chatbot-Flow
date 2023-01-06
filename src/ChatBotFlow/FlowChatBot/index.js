@@ -1,6 +1,11 @@
 function finishFlow(queueId, message) {
+
+    console.info(queueId, message)
+
     if (queueId === 0) {
         console.info('finalizando fluxo de bot')
+    } else if (queueId === 'capture') {
+        console.info('Aqui captura a ultima mensagem enviada pelo usuário: ' + message)
     } else {
         console.info(`Aqui este atendimento será tranferido para a fila ${queueId}`)
     }
@@ -24,6 +29,7 @@ const ChatBot = (chatbot, step) => {
     }
 
     console.info(arrayStep);
+
     //   FILTRO DE OBJETO   //
 
     const nodes = chatbot.nodes;
@@ -86,7 +92,7 @@ const ChatBot = (chatbot, step) => {
 
     // SALlet OBJECT ANTERIOR E MONTAR MENSAGEM DE RETORNO
 
-
+    let oldObject;
     let oldOption = []
 
     function stepByStep(op) {
@@ -115,25 +121,39 @@ const ChatBot = (chatbot, step) => {
                 let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
                 return context;
 
-
             } else {
 
                 let selectedOption = oldOption[0].steps[step];
 
-                if (selectedOption === undefined) return 'Escolha uma opção válida';
+                if (selectedOption === undefined) {
 
-                if ((selectedOption.type === 'end')) {
+                    let verifyLestMessage = Number(arrayStep[arrayStep.length - 1]);
 
-                    // Finalizar o fluxo do chat
+                    if (isNaN(verifyLestMessage && oldObject?.finish === 'capture')) {
+                        let returnThisObject = arrayStep.splice(-1, 1);
+                        return `Capturou a mensagem: ${returnThisObject[0]}`
+                    }
+
+                    return 'Escolha uma opção válida';
+                };
+
+                if ((selectedOption.type === 'end' && selectedOption.finish !== 'capture')) { // Finalizar o fluxo do chat
                     let finish = finishFlow(selectedOption.finish, selectedOption.message);
                     return finish
                 }
 
+                if (selectedOption.type === 'end' && selectedOption.finish === 'capture') { // Salvar resposta enviada pelo usuário
+                    let verifyLestMessage = Number(arrayStep[arrayStep.length - 1]);
+                    console.info(selectedOption);
+                    console.info(verifyLestMessage)
+                    console.info(isNaN(verifyLestMessage))
+                    oldObject = selectedOption;
+                    return selectedOption.message;
+                }
 
                 if ((selectedOption.steps.length === 1)) {
                     return (selectedOption.steps[0].message)
                 }
-
 
                 oldOption.pop()
                 oldOption.push(selectedOption);
@@ -151,7 +171,7 @@ const ChatBot = (chatbot, step) => {
     let lastMessage = '';
     arrayStep.forEach(el => lastMessage = stepByStep(el));
 
-    console.warn(lastMessage);
+    console.warn(lastMessage); // Mensagem que o sistema manda para o usuario
 
     return lastMessage;
 
