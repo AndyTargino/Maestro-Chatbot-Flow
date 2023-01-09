@@ -16,6 +16,8 @@ function finishFlow(queueId, message) {
 }
 
 const ChatBot = (chatbot, step) => {
+
+    let optionInArray = [];
     let arrayStep;
     // Desenvolver regra de voltar uma resposta apenas
     if (step) {
@@ -70,6 +72,8 @@ const ChatBot = (chatbot, step) => {
     // --------------------- //
 
     function mountResponse(option, title, steps) {
+
+        optionInArray = steps;
 
         let context = '';
         let index = 0;
@@ -169,8 +173,8 @@ const ChatBot = (chatbot, step) => {
     arrayStep.forEach(el => lastMessage = stepByStep(el));
 
     console.warn(lastMessage); // Mensagem que o sistema manda para o usuario
-
-    return lastMessage;
+    console.warn({ message: lastMessage, array: optionInArray, step: arrayStep })
+    return { message: lastMessage, array: optionInArray, step: arrayStep };
 
     // ========================================== //
 

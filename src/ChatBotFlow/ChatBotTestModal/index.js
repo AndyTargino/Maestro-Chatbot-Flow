@@ -114,7 +114,12 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
     useEffect(() => {
 
         if (open) {
-            let message = FlowChatBot(chatBotFlow, stepUser)
+
+            let { message, array, step } = FlowChatBot(chatBotFlow, stepUser)
+
+            console.info(array);
+            console.info(message);
+
             if (message === '') { message = 'Escolha uma opção valida'; }
             setTimeout(() => { defineNewMessage(false, message); }, 500);
         } else {
@@ -151,15 +156,15 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
     }
 
     return (
-        <Box component='div'  id="chatbot">
+        <Box component='div' id="chatbot">
             <Dialog
                 classes={{ paper: classes.paper }}
                 open={open}
                 onClose={() => closeModalChat()}
                 aria-labelledby="confirm-dialog"
             >
-                <Box component='div'  className={classes.chatCard}>
-                    <Box component='div'  className={classes.chat}><p>Teste de fluxo do BOT</p></Box>
+                <Box component='div' className={classes.chatCard}>
+                    <Box component='div' className={classes.chat}><p>Teste de fluxo do BOT</p></Box>
                     <Box component='div'
                         className={classes.bodyBot}
                         id="body_Bot">
@@ -167,14 +172,14 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
                             <>
                                 {msg.message !== '' && <> {msg.fromMe === true ?
                                     <>
-                                        <Box component='div'  className={classes.rightChat} >
-                                            <Box component='div'  className={classes.rightChatContent} >
+                                        <Box component='div' className={classes.rightChat} >
+                                            <Box component='div' className={classes.rightChatContent} >
                                                 <p className={classes.content}>{msg.message}</p>
                                             </Box>
                                         </Box>
                                     </> : <>
-                                        <Box component='div'  className={classes.leftChat} >
-                                            <Box component='div'  className={classes.leftChatContent} >
+                                        <Box component='div' className={classes.leftChat} >
+                                            <Box component='div' className={classes.leftChatContent} >
                                                 <p className={classes.content}>{msg.message}</p>
                                             </Box>
                                         </Box>
@@ -186,7 +191,7 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
                         ))}
                         </>
                     </Box>
-                    <Box component='div'  className={classes.inputContent} >
+                    <Box component='div' className={classes.inputContent} >
                         <input
                             autoComplete="off"
                             id="inputChatBot"
