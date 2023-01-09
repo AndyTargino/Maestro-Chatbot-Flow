@@ -11,14 +11,11 @@ function finishFlow(queueId, message) {
     }
 
     let input = document.querySelector("#inputChatBot");
-
     setTimeout(() => { input.disabled = true; input.value = 'Finalizou o fluxo do BOT'; }, 500);
-
     return message
 }
 
 const ChatBot = (chatbot, step) => {
-
     let arrayStep;
     // Desenvolver regra de voltar uma resposta apenas
     if (step) {
@@ -90,7 +87,7 @@ const ChatBot = (chatbot, step) => {
     };
 
 
-    // SALlet OBJECT ANTERIOR E MONTAR MENSAGEM DE RETORNO
+    // SELECIONAR OBJETO ANTERIOR E MONTAR MENSAGEM DE RETORNO
 
     let oldObject;
     let oldOption = []

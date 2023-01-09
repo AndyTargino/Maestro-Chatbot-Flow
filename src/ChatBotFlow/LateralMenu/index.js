@@ -120,7 +120,7 @@ const LateralMenu = ({
                                         <Box component='div' style={{ display: 'flex' }}>  Transferir para {option.name} <MoveUpIcon style={{ marginLeft: 5 }} /></Box>
                                     </MenuItem>
                                 ))}
-                                <MenuItem key={'capture'} value={'capture'}>
+                                <MenuItem key={'capture'} disabled value={'capture'}>
                                     <Box component='div' style={{ display: 'flex' }}> Salvar resposta <MarkEmailReadIcon style={{ marginLeft: 5 }} /></Box>
                                 </MenuItem>
                                 <MenuItem key={0} value={0}>

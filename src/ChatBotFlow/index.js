@@ -184,42 +184,16 @@ function ChatBotFlow() {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                            <Box component='p'
+                            <p
                                 className="bodyObject"
                                 style={{
                                     margin: '5px',
                                     wordBreak: 'break-word'
-                                }}>{obj.message}</Box>
-                            <div class="teste">
-                                {afterMessage && <>
-                                    <Divider />
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<ExpandMoreIcon />}
-                                            aria-controls="panel1a-content"
-                                            id="panel1a-header"
-                                        >
-                                            <Typography>Accordion 1</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <Typography>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                                malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                            </Typography>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                    <p style={{
-                                        padding: '5px',
-                                        width: '165px',
-                                        margin: '0px 0px -13px -13px',
-                                    }} className="afterMessage">
-                                        {afterMessage}
-                                    </p>
-                                </>}
-                            </div>
-                            <Box component='p'
+                                }}>{obj.message}</p>
+                            <p
                                 className="endOption"
-                                style={{ display: 'none' }}>{typeEndFlow}</Box>
+                                style={{ display: 'none' }}>{typeEndFlow}</p>
+                            {afterMessage && <p style={{ padding: '5px', width: '165px', margin: '0px 0px -13px -13px' }} className="afterMessage">{afterMessage}</p>}
                         </Box>
                         <Box component='div'
                             style={{
@@ -290,7 +264,6 @@ function ChatBotFlow() {
         let selectedNode = nodes.filter(node => node.id === nodeIdSelected);
         if (nodeIdSelected) {
             const node = selectedNode[0];
-            console.info(node)
             const x = node.position.x + node.width / 2;
             const y = node.position.y + node.height / 2;
             const zoom = 2;
@@ -343,21 +316,11 @@ function ChatBotFlow() {
         const position_object = nodes.map(i => i.id).indexOf(id);
         if (position_object === -1) return;
         nodes[position_object].data.label.props.children.forEach((obj) => {
-
             if (obj?.props?.children) {
-
                 let propLength = (obj.props.children).length;
-
-                console.info({ propLength })
-
-                if (propLength === 2 || propLength === 3) {
-
+                if (propLength >= 2 && propLength <= 4) {
                     let objetoArray = obj.props.children;
-
                     objetoArray.forEach(obj => {
-
-                        console.info(obj?.props)
-
                         if (obj?.props?.className === 'bodyObject') { message = obj.props.children }
                         if (obj?.props?.className === 'endOption') { endFlowOption = obj.props.children }
                         if (obj?.props?.className === 'afterMessage') { afterMessage = obj.props.children }
@@ -421,26 +384,18 @@ function ChatBotFlow() {
         if (position === -1) return;
 
         nodes[position].data.label.props.children.forEach((obj) => {
-
             if (obj?.props?.children) {
-
                 let propLength = (obj.props.children).length;
-
-                console.info({ propLength })
-
-                if (propLength === 2 || propLength === 3) {
+                if (propLength >= 2 && propLength <= 4) {
                     let objetoArray = obj.props.children;
                     objetoArray.forEach(obj => {
-                        console.info(obj?.props)
                         if (obj?.props?.className === 'bodyObject') { lastMessage = obj.props.children }
                         if (obj?.props?.className === 'endOption') { endFlowOption = obj.props.children }
                         if (obj?.props?.className === 'afterMessage') { afterMessage = obj.props.children }
                     });
                 }
             }
-
             if (obj.props?.className === 'headerObject') { lastTitle = obj.props.children };
-
         });
 
         const getPosition = (id_name) => {
@@ -506,33 +461,7 @@ function ChatBotFlow() {
                             <Box component='div' style={{ background: 'white', color: 'black', marginTop: '-1px', padding: '10px', alignItems: 'center', justifyContent: 'center' }}>
                                 <p className="bodyObject" style={{ margin: '5px', wordBreak: 'break-word' }}>{message ? message : 'Mensagem'}</p>
                                 <p className="endOption" style={{ display: 'none' }}>{endOptionProps}</p>
-                                <div class="teste">
-                                    {afterMessage && <>
-                                        <Divider />
-                                        <Accordion>
-                                            <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon />}
-                                                aria-controls="panel1a-content"
-                                                id="panel1a-header"
-                                            >
-                                                <p>Ver resposta</p>
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <Typography>
-                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                                                    malesuada lacus ex, sit amet blandit leo lobortis eget.
-                                                </Typography>
-                                            </AccordionDetails>
-                                        </Accordion>
-                                        <p style={{
-                                            padding: '5px',
-                                            width: '165px',
-                                            margin: '0px 0px -13px -13px',
-                                        }} className="afterMessage">
-                                            {afterMessage}
-                                        </p>
-                                    </>}
-                                </div>
+                                {afterMessage && <p style={{ padding: '5px', width: '165px', margin: '0px 0px -13px -13px' }} className="afterMessage">{afterMessage}</p>}
                             </Box>
                             <Box component='div'
                                 style={{
