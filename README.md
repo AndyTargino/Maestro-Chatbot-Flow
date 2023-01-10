@@ -1,9 +1,11 @@
 <h1 align="center">
-🇧🇷<br>FLuxo de Chatbot desenvolvido para integração com whatsapp
+🇧🇷<br>Fluxo de Chatbot desenvolvido para integração com whatsapp
 </h1>
 
 ---
 
+<p>Crie seu fluxo de chatbot para implementar no seu sistema de atendimento automatizado.</p>
+---
 ## ☕ Seja um dos contribuidores
 
 Quer fazer parte desse projeto? Clique [AQUI](CONTRIBUTING.md) e leia como contribuir.<br>
