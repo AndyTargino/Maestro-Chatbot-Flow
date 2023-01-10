@@ -66,7 +66,6 @@ const EditFlowModal = ({
     const saveData = () => { onClose(false); onConfirm(titleMessage, message, color.background, queueSelected, type); setQueueSelected(0); }
 
     const selectedQueue = (queue) => {
-        console.warn(queue)
         setQueueSelected(queue);
     }
     return (

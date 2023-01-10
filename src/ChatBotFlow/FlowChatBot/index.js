@@ -11,14 +11,18 @@ function finishFlow(queueId, message) {
     }
 
     let input = document.querySelector("#inputChatBot");
-    setTimeout(() => { input.disabled = true; input.value = 'Finalizou o fluxo do BOT'; }, 500);
+    if (document.body.contains(input)) {
+        setTimeout(() => { input.disabled = true; input.value = 'Finalizou o fluxo do BOT'; }, 500);
+    }
+
     return message
 }
 
 const ChatBot = (chatbot, step) => {
-
+    console.info(step)
     let optionInArray = [];
     let arrayStep;
+
     // Desenvolver regra de voltar uma resposta apenas
     if (step) {
         if (step[step.length - 1] === '#') {
@@ -26,8 +30,6 @@ const ChatBot = (chatbot, step) => {
         }
         arrayStep = step;
     }
-
-    console.info(arrayStep);
 
     //   FILTRO DE OBJETO   //
 
@@ -107,20 +109,22 @@ const ChatBot = (chatbot, step) => {
         if (oldOption.length === 0) {
 
             savestep = getAllNodes.filter(node => node.id === step);
-            oldOption.pop()
+            oldOption.splice(-1, 1)
             oldOption.push(savestep[0]);
             let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
-            return context;
+
+            return { 'message': context, 'type': 'flow' };
 
         } else {
 
             if (step === `#`) {
 
                 savestep = getAllNodes.filter(node => node.id === 'start');
-                oldOption.pop()
+                oldOption.splice(-1, 1)
                 oldOption.push(savestep[0]);
                 let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
-                return context;
+
+                return { 'message': context, 'type': 'flow' };
 
             } else {
 
@@ -128,42 +132,57 @@ const ChatBot = (chatbot, step) => {
 
                 if (selectedOption === undefined) {
 
-                    let verifyLestMessage = Number(arrayStep[arrayStep.length - 1]);
+                    // CAPTURA DE MENSAGEM AINDA NÃO IMPLEMENTADA NO SISTEMA
 
-                    if (isNaN(verifyLestMessage && oldObject?.finish === 'capture')) {
+                    /*
+                    let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
+
+                    if (isNaN(verifyLastMessage && oldObject.finish === 'capture')) {
                         let returnThisObject = arrayStep.splice(-1, 1);
-                        alert('entrou na captura')
-                        console.info(returnThisObject[0]);
-
                         return `Capturou a mensagem: ${returnThisObject[0]}`
                     }
+                    */
 
-                    return 'Escolha uma opção válida';
+                    return { 'message': 'Escolha uma opção válida', 'type': 'flow' };
+
                 };
 
+                if ((selectedOption.type === 'end')) { // Finalizar o fluxo do chat
+                    let finish = finishFlow(selectedOption.finish, selectedOption.message);
+
+                    return { 'message': finish, 'type': 'end' };
+                }
+
+                // CAPTURA DE MENSAGEM AINDA NÃO IMPLEMENTADA NO SISTEMA
+
+                /*
                 if ((selectedOption.type === 'end' && selectedOption.finish !== 'capture')) { // Finalizar o fluxo do chat
                     let finish = finishFlow(selectedOption.finish, selectedOption.message);
                     return finish
                 }
 
                 if (selectedOption.type === 'end' && selectedOption.finish === 'capture') { // Salvar resposta enviada pelo usuário
-                    let verifyLestMessage = Number(arrayStep[arrayStep.length - 1]);
+                    let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
                     console.info(selectedOption);
-                    console.info(verifyLestMessage)
-                    console.info(isNaN(verifyLestMessage))
+                    console.info(verifyLastMessage)
+                    console.info(isNaN(verifyLastMessage))
                     oldObject = selectedOption;
                     return selectedOption.message;
                 }
+                */
 
                 if ((selectedOption.steps.length === 1)) {
                     return (selectedOption.steps[0].message)
                 }
 
-                oldOption.pop()
+                oldOption.splice(-1, 1)
                 oldOption.push(selectedOption);
 
+                if (!(selectedOption.steps.length > 0)) return { 'message': 'not_step_defined', 'type': 'error' };
+
                 let context = mountResponse(selectedOption.type, selectedOption.message, selectedOption.steps);
-                return context;
+
+                return { 'message': context, 'type': 'flow' };
 
             }
         }
@@ -172,12 +191,9 @@ const ChatBot = (chatbot, step) => {
 
     // A execução do passo a passo é retornada aqui.
 
-    let lastMessage = '';
-    arrayStep.forEach(el => lastMessage = stepByStep(el));
-
-    console.warn(lastMessage); // Mensagem que o sistema manda para o usuario
-    console.warn({ message: lastMessage, array: optionInArray, step: arrayStep })
-    return { message: lastMessage, array: optionInArray, step: arrayStep };
+    let response = {};
+    arrayStep.forEach(el => response = stepByStep(el));
+    return { message: response.message, array: optionInArray, step: arrayStep, type: response.type };
 
     // ========================================== //
 

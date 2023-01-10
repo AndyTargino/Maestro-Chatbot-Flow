@@ -115,10 +115,7 @@ const ChatBotTestModal = ({ open, onClose, chatBotFlow }) => {
 
         if (open) {
 
-            let { message, array, step } = FlowChatBot(chatBotFlow, stepUser)
-
-            console.info(array);
-            console.info(message);
+            let { message, array, step ,type} = FlowChatBot(chatBotFlow, stepUser)
 
             if (message === '') { message = 'Escolha uma opção valida'; }
             setTimeout(() => { defineNewMessage(false, message); }, 500);

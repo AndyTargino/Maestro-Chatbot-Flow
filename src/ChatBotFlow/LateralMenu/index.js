@@ -64,7 +64,7 @@ const LateralMenu = ({
 
     useEffect(() => { if (propsObject && open) { setQueueSelected(propsObject.endFlowOption); setType(propsObject.position); setMessage(propsObject.lastMessage); setTitle(propsObject.lastTitle); setColor({ background: propsObject.background }) } }, [propsObject, open]);
 
-    const saveData = () => { onClose(true); onConfirm(titleMessage, message, afterMessage, color.background, queueSelected, type); setQueueSelected(0); }
+    const saveData = () => { setTimeout(() => onClose(false), 500); onConfirm(titleMessage, message, afterMessage, color.background, queueSelected, type); setQueueSelected(0); }
 
     const selectedQueue = (queue) => setQueueSelected(queue);
 
@@ -81,7 +81,6 @@ const LateralMenu = ({
                 anchor="right"
                 open={open}
             >
-
                 <Box component='div'>
                     <IconButton onClick={e => onClose(false)}>
                         <ChevronRightIcon />
@@ -167,7 +166,6 @@ const LateralMenu = ({
                                 </RadioGroup>
                             </Box>
                         }
-
                         <SliderPicker
                             color={color.background}
                             onChangeComplete={handleChangeComplete}
@@ -178,9 +176,7 @@ const LateralMenu = ({
                         <Button variant="contained" color="error" onClick={() => onClose(false)}>Cancelar</Button>
                         <Button variant="contained" color="primary" onClick={() => { saveData(); }}>Confirmar</Button>
                     </Box>
-
                 </Box>
-
             </Drawer>
         </>
     );

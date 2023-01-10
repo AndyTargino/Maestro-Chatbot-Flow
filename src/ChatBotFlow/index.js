@@ -20,6 +20,8 @@ import ReactFlow, {
     useReactFlow
 } from "reactflow";
 
+import { toast } from 'react-toastify';
+
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
@@ -373,6 +375,29 @@ function ChatBotFlow() {
 
         let checking = ValidateChatBotFlow(fluxo);
 
+        if (checking.type === 'success') {
+            toast.success(checking.message, {
+                position: "top-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        } else {
+            toast.error(checking.message, {
+                position: "top-left",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+        }
     }
     // ================================================ //
 
@@ -791,12 +816,10 @@ function ChatBotFlow() {
         let edgesObjects = [];
         edges.forEach(edge => edgesObjects.push(FilterEdgeData(edge)));
         let edgesFormated = JSON.stringify(edgesObjects);
-        console.info({ edgesFormated });
 
         let nodesObjects = [];
         nodes.forEach(node => nodesObjects.push(FilterNodeData(node.id)));
         let nodesFormated = JSON.stringify(nodesObjects);
-        console.info({ nodesFormated });
     }
 
     const saveData = (e) => {
