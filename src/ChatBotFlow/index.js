@@ -58,6 +58,8 @@ import initialNodesFile from '../assets/saveInitial/initialNodes.json'
 import initialEdgesFile from '../assets/saveInitial/initialEdges.json'
 import LateralMenu from './LateralMenu';
 
+import ValidateChatBotFlow from './ValidateChatBotFlow'
+
 const foreignObjectSize = 40;
 let nodeId = 1;
 
@@ -358,6 +360,20 @@ function ChatBotFlow() {
         }
     }
 
+
+    const startCheckFlow = () => {
+
+        let edgesObjects = [];
+        let nodesObjects = [];
+
+        edges.forEach(edge => edgesObjects.push(FilterEdgeData(edge)));
+        nodes.forEach(node => nodesObjects.push(FilterNodeData(node.id)));
+
+        let fluxo = ({ 'nodes': nodesObjects, 'edges': edgesObjects });
+
+        let checking = ValidateChatBotFlow(fluxo);
+
+    }
     // ================================================ //
 
     // ============== Funções de deletar ============== //
@@ -851,6 +867,7 @@ function ChatBotFlow() {
                             </Box>
                         </Panel>
                         <Panel position="top-right">
+                            <Button onClick={e => startCheckFlow(e)} style={{ margin: 5 }} variant="outlined">Validar fluxo</Button>
                             <Button onClick={e => viewData(e)} style={{ margin: 5 }} variant="outlined">Ver Dados</Button>
                             <Button onClick={e => saveData(e)} style={{ margin: 5 }} variant="outlined">Salvar em LocalStorage</Button>
                             <Button id='ClickZoon' onClick={e => { focusNode(); }} style={{ display: 'none' }} ></Button>
