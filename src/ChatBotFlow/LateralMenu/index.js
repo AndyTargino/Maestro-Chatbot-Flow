@@ -120,9 +120,16 @@ const LateralMenu = ({
                                         <Box component='div' style={{ display: 'flex' }}>  Transferir para {option.name} <MoveUpIcon style={{ marginLeft: 5 }} /></Box>
                                     </MenuItem>
                                 ))}
-                                <MenuItem key={'capture'} disabled value={'capture'}>
+                                {/* 
+                                
+                                Salvar resposta será implementado futuramente, pois a regra de chat para salvar os dados ainda não foi criada na aplicação 
+                                
+                                <MenuItem key={'capture'} value={'capture'}>
                                     <Box component='div' style={{ display: 'flex' }}> Salvar resposta <MarkEmailReadIcon style={{ marginLeft: 5 }} /></Box>
                                 </MenuItem>
+
+                                */}
+
                                 <MenuItem key={0} value={0}>
                                     <Box component='div' style={{ display: 'flex' }}> Finalizar atendimento <DoneAllIcon style={{ marginLeft: 5 }} /></Box>
                                 </MenuItem>

@@ -132,6 +132,9 @@ const ChatBot = (chatbot, step) => {
 
                     if (isNaN(verifyLestMessage && oldObject?.finish === 'capture')) {
                         let returnThisObject = arrayStep.splice(-1, 1);
+                        alert('entrou na captura')
+                        console.info(returnThisObject[0]);
+
                         return `Capturou a mensagem: ${returnThisObject[0]}`
                     }
 
