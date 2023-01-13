@@ -18,6 +18,7 @@ import {
     RadioGroup,
     FormControlLabel,
     FormControl,
+    Checkbox,
     FormLabel,
 } from '@mui/material';
 
@@ -58,11 +59,21 @@ const LateralMenu = ({
     const [color, setColor] = useState({ background: '#414141' });
     const handleChangeComplete = (color) => setColor({ background: color.hex });
 
+
+    const handleChange = (e) => {
+        if (queueSelected === 'capture') {
+            setQueueSelected(0)
+        } else {
+            setQueueSelected('capture')
+        }
+    };
+
+
     const [drawerWidth, setDrawerWidth] = useState(300);
 
     useEffect(() => { if (!open) { setDrawerWidth(0); } else { setDrawerWidth(300); } }, [open]);
 
-    useEffect(() => { if (propsObject && open) { setQueueSelected(propsObject.endFlowOption); setType(propsObject.position); setMessage(propsObject.lastMessage); setTitle(propsObject.lastTitle); setColor({ background: propsObject.background }) } }, [propsObject, open]);
+    useEffect(() => { if (propsObject && open) { setQueueSelected(propsObject.endFlowOption); setType(propsObject.position); setAfterMessage(propsObject?.afterMessage); setMessage(propsObject.lastMessage); setTitle(propsObject.lastTitle); setColor({ background: propsObject.background }) } }, [propsObject, open]);
 
     const saveData = () => { setTimeout(() => onClose(false), 500); onConfirm(titleMessage, message, afterMessage, color.background, queueSelected, type); setQueueSelected(0); }
 
@@ -104,6 +115,33 @@ const LateralMenu = ({
                             onChange={e => setMessage(e.target.value)}
                             label="Mensagem"
                             variant="outlined" />
+                        {propsObject?.position === 'conditional' && <>
+                            <FormControlLabel
+                                value="Salvar resposta"
+                                control={<Checkbox
+                                    checked={queueSelected === 'capture'}
+                                    onChange={handleChange}
+                                    inputProps={{ 'aria-label': 'controlled' }}
+                                />}
+                                label="Salvar resposta"
+                                labelPlacement="Salvar resposta"
+                            />
+                            <>
+                                {
+                                    queueSelected === 'capture' && <>
+                                        <TextField
+                                            className={classes.input}
+                                            multiline
+                                            fullWidth
+                                            value={afterMessage}
+                                            onChange={e => setAfterMessage(e.target.value)}
+                                            label="Resposta após captura"
+                                            variant="outlined" />
+                                    </>
+                                }
+                            </>
+                        </>
+                        }
                         {propsObject?.position === 'end' && <>
                             <TextField
                                 className={classes.input}
@@ -120,17 +158,13 @@ const LateralMenu = ({
                                     </MenuItem>
                                 ))}
                                 {/* 
-                                
                                 Salvar resposta será implementado futuramente, pois a regra de chat para salvar os dados ainda não foi criada na aplicação 
-                                
-                                <MenuItem key={'capture'} value={'capture'}>
-                                    <Box component='div' style={{ display: 'flex' }}> Salvar resposta <MarkEmailReadIcon style={{ marginLeft: 5 }} /></Box>
-                                </MenuItem>
-
                                 */}
-
                                 <MenuItem key={0} value={0}>
                                     <Box component='div' style={{ display: 'flex' }}> Finalizar atendimento <DoneAllIcon style={{ marginLeft: 5 }} /></Box>
+                                </MenuItem>
+                                <MenuItem key={'capture'} value={'capture'}>
+                                    <Box component='div' style={{ display: 'flex' }}> Salvar resposta <MarkEmailReadIcon style={{ marginLeft: 5 }} /></Box>
                                 </MenuItem>
                             </TextField>
                             <>

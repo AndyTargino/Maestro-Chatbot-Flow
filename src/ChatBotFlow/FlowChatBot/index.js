@@ -38,7 +38,7 @@ const ChatBot = (chatbot, step) => {
 
     const formatNodes = (_nodes) => {
         let nodesFormated = [];
-        _nodes.forEach(node => nodesFormated.push({ 'id': node.id, 'title': node.title, 'message': node.message, 'type': node.type, 'finish': node.endFlowOption }));
+        _nodes.forEach(node => nodesFormated.push({ 'id': node.id, 'title': node.title, 'message': node.message, 'afterMessage' :node.endFlowOption,'type': node.type, 'finish': node.endFlowOption }));
         return nodesFormated;
     }
 
@@ -96,7 +96,8 @@ const ChatBot = (chatbot, step) => {
     // SELECIONAR OBJETO ANTERIOR E MONTAR MENSAGEM DE RETORNO
 
     let oldObject;
-    let oldOption = []
+    let oldOption = [];
+    let finished_flow = false;
 
     function stepByStep(op) {
 
@@ -134,45 +135,43 @@ const ChatBot = (chatbot, step) => {
 
                     // CAPTURA DE MENSAGEM AINDA NÃO IMPLEMENTADA NO SISTEMA
 
-                    /*
                     let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
 
                     if (isNaN(verifyLastMessage && oldObject.finish === 'capture')) {
                         let returnThisObject = arrayStep.splice(-1, 1);
                         return `Capturou a mensagem: ${returnThisObject[0]}`
                     }
-                    */
 
                     return { 'message': 'Escolha uma opção válida', 'type': 'flow' };
 
                 };
 
-                if ((selectedOption.type === 'end')) { // Finalizar o fluxo do chat
-                    let finish = finishFlow(selectedOption.finish, selectedOption.message);
+                if (selectedOption.type === 'end' && selectedOption.finish === 'capture') { // Salvar resposta enviada pelo usuário
 
+                    if (!finished_flow) {
+                        console.info(oldObject)
+                        console.info(oldOption)
+                        finished_flow = true
+                        let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
+                        console.info(selectedOption);
+                        console.info(verifyLastMessage)
+                        console.info(isNaN(verifyLastMessage))
+                        oldObject = selectedOption;
+                        return { 'message': selectedOption.message, 'type': 'end' };
+                    } else {
+                        let finish = finishFlow(selectedOption.finish, selectedOption.message);
+                        return { 'message': finish, 'type': 'end' };
+                    }
+
+                }
+
+                if ((selectedOption.type === 'end' && selectedOption.finish !== 'capture')) { // Finalizar o fluxo do chat
+                    let finish = finishFlow(selectedOption.finish, selectedOption.message);
                     return { 'message': finish, 'type': 'end' };
                 }
 
-                // CAPTURA DE MENSAGEM AINDA NÃO IMPLEMENTADA NO SISTEMA
-
-                /*
-                if ((selectedOption.type === 'end' && selectedOption.finish !== 'capture')) { // Finalizar o fluxo do chat
-                    let finish = finishFlow(selectedOption.finish, selectedOption.message);
-                    return finish
-                }
-
-                if (selectedOption.type === 'end' && selectedOption.finish === 'capture') { // Salvar resposta enviada pelo usuário
-                    let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
-                    console.info(selectedOption);
-                    console.info(verifyLastMessage)
-                    console.info(isNaN(verifyLastMessage))
-                    oldObject = selectedOption;
-                    return selectedOption.message;
-                }
-                */
-
                 if ((selectedOption.steps.length === 1)) {
-                    return (selectedOption.steps[0].message)
+                    return { 'message': selectedOption.steps[0].message, 'type': 'end' };
                 }
 
                 oldOption.splice(-1, 1)

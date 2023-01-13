@@ -376,16 +376,7 @@ function ChatBotFlow() {
         let checking = ValidateChatBotFlow(fluxo);
 
         if (checking.type === 'success') {
-            toast.success(checking.message, {
-                position: "top-left",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
+            return true;
         } else {
             toast.error(checking.message, {
                 position: "top-left",
@@ -397,6 +388,8 @@ function ChatBotFlow() {
                 progress: undefined,
                 theme: "colored",
             });
+
+            return false;
         }
     }
     // ================================================ //
@@ -429,6 +422,7 @@ function ChatBotFlow() {
                 let propLength = (obj.props.children).length;
                 if (propLength >= 2 && propLength <= 4) {
                     let objetoArray = obj.props.children;
+                    console.info(objetoArray)
                     objetoArray.forEach(obj => {
                         if (obj?.props?.className === 'bodyObject') { lastMessage = obj.props.children }
                         if (obj?.props?.className === 'endOption') { endFlowOption = obj.props.children }
@@ -438,7 +432,7 @@ function ChatBotFlow() {
             }
             if (obj.props?.className === 'headerObject') { lastTitle = obj.props.children };
         });
-
+        console.info(afterMessage)
         const getPosition = (id_name) => {
             if (id_name.includes('end')) {
                 return 'end'
@@ -803,10 +797,13 @@ function ChatBotFlow() {
 
         edges.forEach(edge => edgesObjects.push(FilterEdgeData(edge)));
         nodes.forEach(node => nodesObjects.push(FilterNodeData(node.id)));
+        let flow = { 'nodes': nodesObjects, 'edges': edgesObjects };
 
-        setChatBotFlow({ 'nodes': nodesObjects, 'edges': edgesObjects });
-        setModalChatbotOpen(true);
-
+        const checkFlow = startCheckFlow();
+        if (checkFlow) {
+            setChatBotFlow(flow);
+            setModalChatbotOpen(true);
+        }
     }
 
     // ================================================ //
@@ -884,13 +881,12 @@ function ChatBotFlow() {
                                     }}
                                 >
                                     <MenuItem disabled onClick={(e) => { handleClickCloseMenu(e); createNewNode('start') }}>Inicio</MenuItem>
-                                    <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('cond') }}>Pergunta</MenuItem>
+                                    <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('cond') }}>Pergunta / Condicional</MenuItem>
                                     <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('end') }}>Finalizar / Transferir</MenuItem>
                                 </Menu>
                             </Box>
                         </Panel>
                         <Panel position="top-right">
-                            <Button onClick={e => startCheckFlow(e)} style={{ margin: 5 }} variant="outlined">Validar fluxo</Button>
                             <Button onClick={e => viewData(e)} style={{ margin: 5 }} variant="outlined">Ver Dados</Button>
                             <Button onClick={e => saveData(e)} style={{ margin: 5 }} variant="outlined">Salvar em LocalStorage</Button>
                             <Button id='ClickZoon' onClick={e => { focusNode(); }} style={{ display: 'none' }} ></Button>
