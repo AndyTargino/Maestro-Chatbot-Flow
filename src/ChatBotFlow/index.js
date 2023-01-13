@@ -422,7 +422,6 @@ function ChatBotFlow() {
                 let propLength = (obj.props.children).length;
                 if (propLength >= 2 && propLength <= 4) {
                     let objetoArray = obj.props.children;
-                    console.info(objetoArray)
                     objetoArray.forEach(obj => {
                         if (obj?.props?.className === 'bodyObject') { lastMessage = obj.props.children }
                         if (obj?.props?.className === 'endOption') { endFlowOption = obj.props.children }
@@ -432,7 +431,7 @@ function ChatBotFlow() {
             }
             if (obj.props?.className === 'headerObject') { lastTitle = obj.props.children };
         });
-        console.info(afterMessage)
+
         const getPosition = (id_name) => {
             if (id_name.includes('end')) {
                 return 'end'
@@ -813,10 +812,13 @@ function ChatBotFlow() {
         let edgesObjects = [];
         edges.forEach(edge => edgesObjects.push(FilterEdgeData(edge)));
         let edgesFormated = JSON.stringify(edgesObjects);
+        console.info({ edgesFormated });
 
         let nodesObjects = [];
         nodes.forEach(node => nodesObjects.push(FilterNodeData(node.id)));
         let nodesFormated = JSON.stringify(nodesObjects);
+
+        console.info({ nodesFormated });
     }
 
     const saveData = (e) => {

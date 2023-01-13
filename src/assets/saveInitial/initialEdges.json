@@ -55,24 +55,6 @@
     },
     {
         "animated": true,
-        "id": "reactflow__edge-conditional_6-end_9",
-        "source": "conditional_6",
-        "sourceHandle": null,
-        "target": "end_9",
-        "targetHandle": null,
-        "type": "buttonedge"
-    },
-    {
-        "animated": true,
-        "id": "reactflow__edge-conditional_6-end_7",
-        "source": "conditional_6",
-        "sourceHandle": null,
-        "target": "end_7",
-        "targetHandle": null,
-        "type": "buttonedge"
-    },
-    {
-        "animated": true,
         "id": "reactflow__edge-conditional_6-end_8",
         "source": "conditional_6",
         "sourceHandle": null,
@@ -118,15 +100,6 @@
     },
     {
         "animated": true,
-        "id": "reactflow__edge-conditional_6-conditional_2",
-        "source": "conditional_6",
-        "sourceHandle": null,
-        "target": "conditional_2",
-        "targetHandle": null,
-        "type": "buttonedge"
-    },
-    {
-        "animated": true,
         "id": "reactflow__edge-conditional_2-end_flow_3",
         "source": "conditional_2",
         "sourceHandle": null,
@@ -140,6 +113,33 @@
         "source": "conditional_2",
         "sourceHandle": null,
         "target": "end_flow_4",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_6-end_9",
+        "source": "conditional_6",
+        "sourceHandle": null,
+        "target": "end_9",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_6-end_7",
+        "source": "conditional_6",
+        "sourceHandle": null,
+        "target": "end_7",
+        "targetHandle": null,
+        "type": "buttonedge"
+    },
+    {
+        "animated": true,
+        "id": "reactflow__edge-conditional_6-conditional_2",
+        "source": "conditional_6",
+        "sourceHandle": null,
+        "target": "conditional_2",
         "targetHandle": null,
         "type": "buttonedge"
     }

@@ -4,9 +4,10 @@
         "title": "Titulo 4",
         "message": "Mensagem",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 1630.8838496630262,
-            "y": 801.8173457899043
+            "x": 1979.8345546563617,
+            "y": 390.9227286675743
         },
         "style": {
             "background": "#bf4040",
@@ -23,9 +24,10 @@
         "title": "Titulo 3",
         "message": "Mensagem",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 1333.4252262740522,
-            "y": 867.8757558118214
+            "x": 2185.154018047726,
+            "y": 396.06962509598026
         },
         "style": {
             "background": "#bf4040",
@@ -42,9 +44,10 @@
         "title": "Titulo 2",
         "message": "Mensagem",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 1322.5,
-            "y": 644
+            "x": 1753.1653891095868,
+            "y": 390.53579496765394
         },
         "style": {
             "background": "#191a4d",
@@ -61,9 +64,10 @@
         "title": "Pacote de produtos em promoção",
         "message": "Link para compra de pacote no site.",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 1469.3758675395663,
-            "y": 434.7505804580599
+            "x": 1199.3758675395666,
+            "y": 66.75058045806009
         },
         "style": {
             "background": "#bf4054",
@@ -78,11 +82,12 @@
     {
         "id": "end_7",
         "title": "Software de drivers",
-        "message": "Chave de desconto",
-        "endFlowOption": 0,
+        "message": "Qual software você quer ter acesso a chave de desconto?",
+        "endFlowOption": "capture",
+        "afterMessage": "Chave de desconto",
         "position": {
-            "x": 995.1588508043224,
-            "y": 594.0228497384687
+            "x": 1398.8266781782697,
+            "y": 86.08277028071402
         },
         "style": {
             "background": "#bd40bf",
@@ -97,14 +102,15 @@
     {
         "id": "conditional_6",
         "title": "Promoções em produtos",
-        "message": "Temos promoções disponíveis para 3 produtos:",
-        "endFlowOption": 0,
+        "message": "Antes de continuar, me diga como prefere ser chamado.",
+        "endFlowOption": "capture",
+        "afterMessage": "Ok, temos promoções disponíveis para 3 produtos:",
         "position": {
-            "x": 978.4980906225047,
-            "y": 304.42087154277533
+            "x": 961.4980906225048,
+            "y": 66.6438642739914
         },
         "style": {
-            "background": "#4d1944",
+            "background": "#194d43",
             "color": "#ffffff",
             "width": 180,
             "fontStyle": "oblique",
@@ -118,9 +124,10 @@
         "title": "Problemas com aplicativo",
         "message": "Descreva uma breve descrição do problema enquanto te direcionamos para um de nossos atendentes.",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 955.1600763417966,
-            "y": 825.9782270000976
+            "x": 736.0000000000002,
+            "y": 546.2489989873544
         },
         "style": {
             "background": "#79b8d2",
@@ -137,9 +144,10 @@
         "title": "Treinamento",
         "message": "Um especialista irá atende-lo em breve, aguarde um instante.",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 722.335132819154,
-            "y": 917.3994079613797
+            "x": 952.2615716461164,
+            "y": 400.38239461194945
         },
         "style": {
             "background": "#4092bf",
@@ -156,9 +164,10 @@
         "title": "Software",
         "message": "Enviar apostila com dados para cliente sobre o software para cliente.",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 513.1494508062156,
-            "y": 818.371364025877
+            "x": 519.2466464126652,
+            "y": 399.097631845519
         },
         "style": {
             "background": "#79a9d2",
@@ -174,10 +183,11 @@
         "id": "end_2",
         "title": "Problemas com pagamento.",
         "message": "Aguarde que em breve você será atendido.",
-        "endFlowOption": 2,
+        "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 241.61505656695005,
-            "y": 512.8689065420092
+            "x": 249.87424485081596,
+            "y": 67.90513774873222
         },
         "style": {
             "background": "#40bf4b",
@@ -194,9 +204,10 @@
         "title": "Inicio",
         "message": "Seja bem vindo!\nEscolha uma das opções para prosseguir:",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 728.5659344885909,
-            "y": 67.996788457279
+            "x": 734.5659344885909,
+            "y": -242.003211542721
         },
         "style": {
             "background": "#42bf40",
@@ -213,9 +224,10 @@
         "title": "Financeiro",
         "message": "Qual assunto em financeiro você deseja prosseguir?",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 419.34958677255895,
-            "y": 286.95111115371697
+            "x": 478.1963032951037,
+            "y": 68.08262163126983
         },
         "style": {
             "background": "#2d867c",
@@ -232,9 +244,10 @@
         "title": "Suporte",
         "message": "Com qual assunto você precisa de ajuda?",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 728.7256487893693,
-            "y": 586.6084674464471
+            "x": 735.7150619174109,
+            "y": 339.1568042853016
         },
         "style": {
             "background": "#4042bf",
@@ -251,9 +264,10 @@
         "title": "Gerar segunda via de boleto",
         "message": "Aguarde que você será atendido em breve. Enquanto aguarda, descreva uma pequena descrição de qual boleto deseja gerar segunda via.",
         "endFlowOption": 0,
+        "afterMessage": "",
         "position": {
-            "x": 457.2734628025855,
-            "y": 511.90964242268404
+            "x": 23.666077899624185,
+            "y": 43.20070731329244
         },
         "style": {
             "background": "#40bf46",

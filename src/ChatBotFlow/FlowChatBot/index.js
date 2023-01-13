@@ -38,7 +38,7 @@ const ChatBot = (chatbot, step) => {
 
     const formatNodes = (_nodes) => {
         let nodesFormated = [];
-        _nodes.forEach(node => nodesFormated.push({ 'id': node.id, 'title': node.title, 'message': node.message, 'afterMessage' :node.endFlowOption,'type': node.type, 'finish': node.endFlowOption }));
+        _nodes.forEach(node => nodesFormated.push({ 'id': node.id, 'title': node.title, 'message': node.message, 'afterMessage': node?.afterMessage, 'type': node.type, 'finish': node.endFlowOption }));
         return nodesFormated;
     }
 
@@ -52,17 +52,14 @@ const ChatBot = (chatbot, step) => {
     const getAllEdges = formatEdges(edges);
 
     const findChildremElement = (id) => {
-
         let array = [];
         let edgeFilter = getAllEdges.filter(edge => edge.source === id);
-
         edgeFilter.forEach(edge => {
             let filter = getAllNodes.filter(node => node.id === edge.target);
             if (filter.length < 1) return;
             array.push(filter[0])
         });
         return array;
-
     }
 
 
@@ -74,21 +71,15 @@ const ChatBot = (chatbot, step) => {
     // --------------------- //
 
     function mountResponse(option, title, steps) {
-
         optionInArray = steps;
-
         let context = '';
         let index = 0;
-
         steps.forEach(step => {
             index = index + 1;
             context += `*${index}* - ${step.title}\n`;
         });
-
         if (option !== 'start') { context += `*${'#'}* - ${'Voltar'}\n`; }
-
         const body = `\u200e${title}\n${context}`;
-
         return body;
     };
 
@@ -98,8 +89,15 @@ const ChatBot = (chatbot, step) => {
     let oldObject;
     let oldOption = [];
     let finished_flow = false;
+    let captured_flow = false;
 
-    function stepByStep(op) {
+
+    const setNewObjectStep = (newOptionStep) => {
+        oldOption.splice(-1, 1)
+        oldOption.push(newOptionStep);
+    }
+
+    const stepByStep = (op) => {
 
         let step = ''
 
@@ -108,78 +106,118 @@ const ChatBot = (chatbot, step) => {
         let savestep = [];
 
         if (oldOption.length === 0) {
-
             savestep = getAllNodes.filter(node => node.id === step);
-            oldOption.splice(-1, 1)
-            oldOption.push(savestep[0]);
+
+            setNewObjectStep(savestep[0])
+
             let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
-
             return { 'message': context, 'type': 'flow' };
-
         } else {
 
             if (step === `#`) {
 
-                savestep = getAllNodes.filter(node => node.id === 'start');
-                oldOption.splice(-1, 1)
-                oldOption.push(savestep[0]);
-                let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
 
+                console.info('Voltando fluxo')
+                savestep = getAllNodes.filter(node => node.id === 'start');
+
+                setNewObjectStep(savestep[0]);
+
+                let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
                 return { 'message': context, 'type': 'flow' };
+
 
             } else {
 
-                let selectedOption = oldOption[0].steps[step];
+                let lastOptionChosen = oldOption[0]?.steps && !isNaN(step) ? oldOption[0].steps[step] : oldOption[0];
 
-                if (selectedOption === undefined) {
+                /*
+                                if (lastOptionChosen === undefined && !captured_flow) {
+                                    console.info('Proximo passo com seleção undefined')
+                                    // CAPTURA DE MENSAGEM AINDA NÃO IMPLEMENTADA NO SISTEMA
+                                    let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
+                                    console.info({ verifyLastMessage })
+                                    console.info({ oldObject })
+                
+                                    if (isNaN(verifyLastMessage) && oldObject.finish === 'capture') {
+                                        let returnThisObject = arrayStep.splice(-1, 1);
+                                        return `Capturou a mensagem: ${returnThisObject[0]}`
+                                    }
+                                    return { 'message': 'Escolha uma opção válida', 'type': 'flow' };
+                                };
+                
+                */
 
-                    // CAPTURA DE MENSAGEM AINDA NÃO IMPLEMENTADA NO SISTEMA
+                // ==================== CAPTURA DE MENSAGEM DURANTE O FLUXO NA CONDICIONAL ==================== //
 
-                    let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
+                console.info('passando pena captura de condicional');
+                console.info({ lastOptionChosen });
+                console.info({ captured_flow });
 
-                    if (isNaN(verifyLastMessage && oldObject.finish === 'capture')) {
-                        let returnThisObject = arrayStep.splice(-1, 1);
-                        return `Capturou a mensagem: ${returnThisObject[0]}`
-                    }
-
-                    return { 'message': 'Escolha uma opção válida', 'type': 'flow' };
-
-                };
-
-                if (selectedOption.type === 'end' && selectedOption.finish === 'capture') { // Salvar resposta enviada pelo usuário
-
-                    if (!finished_flow) {
-                        console.info(oldObject)
-                        console.info(oldOption)
-                        finished_flow = true
-                        let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
-                        console.info(selectedOption);
-                        console.info(verifyLastMessage)
-                        console.info(isNaN(verifyLastMessage))
-                        oldObject = selectedOption;
-                        return { 'message': selectedOption.message, 'type': 'end' };
-                    } else {
-                        let finish = finishFlow(selectedOption.finish, selectedOption.message);
-                        return { 'message': finish, 'type': 'end' };
-                    }
-
+                if (captured_flow && lastOptionChosen?.type === "conditional") {
+                    console.info('teste1')
+                    captured_flow = false;
+                    let context = mountResponse(oldOption[0].type, oldOption[0].afterMessage, oldOption[0].steps);
+                    return { 'message': context, 'type': 'flow' };
                 }
 
-                if ((selectedOption.type === 'end' && selectedOption.finish !== 'capture')) { // Finalizar o fluxo do chat
-                    let finish = finishFlow(selectedOption.finish, selectedOption.message);
+                if (lastOptionChosen?.finish === 'capture' && lastOptionChosen?.type === "conditional") {
+                    console.info(oldOption);
+                    console.info('teste2')
+                    captured_flow = true;
+
+                    setNewObjectStep(lastOptionChosen);
+
+                    console.info('entrei na captura')
+                    return { 'message': lastOptionChosen.message, 'type': 'flow' };
+                }
+
+                // ============================================================================================ //
+
+
+
+                // ==================== CAPTURA DE MENSAGEM DURANTE O FLUXO NA FINALIZAÇÃO ==================== //
+
+                console.info('passando pena captura de finalização')
+                if (!captured_flow && lastOptionChosen.type === 'end' && lastOptionChosen.finish === 'capture') { // Salvar resposta enviada pelo usuário
+                    console.info('Entrou na finalização com captura de mensagem')
+                    console.info(lastOptionChosen)
+                    if (finished_flow) {
+
+                        setNewObjectStep(lastOptionChosen);
+
+                        let finish = finishFlow(lastOptionChosen.finish, lastOptionChosen.afterMessage);
+                        return { 'message': finish, 'type': 'end' };
+                    } else {
+                        finished_flow = true
+                        let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
+                        setNewObjectStep(lastOptionChosen);
+
+                        return { 'message': lastOptionChosen.message, 'type': 'end' };
+                    }
+                }
+
+
+
+                if ((lastOptionChosen.type === 'end' && lastOptionChosen.finish !== 'capture')) { // Finalizar o fluxo do chat
+                    console.info('Entrou na finalização sem captura de mensagem')
+                    let finish = finishFlow(lastOptionChosen.finish, lastOptionChosen.message);
                     return { 'message': finish, 'type': 'end' };
                 }
 
-                if ((selectedOption.steps.length === 1)) {
-                    return { 'message': selectedOption.steps[0].message, 'type': 'end' };
+                // ============================================================================================ //
+
+
+                //Verificar o que este trecho está fazendo
+                if ((lastOptionChosen.steps.length === 1)) {
+                    console.info('entrei aqui')
+                    return { 'message': lastOptionChosen.steps[0].message, 'type': 'end' };
                 }
 
-                oldOption.splice(-1, 1)
-                oldOption.push(selectedOption);
+                setNewObjectStep(lastOptionChosen);
 
-                if (!(selectedOption.steps.length > 0)) return { 'message': 'not_step_defined', 'type': 'error' };
+                if (!(lastOptionChosen.steps.length > 0)) return { 'message': 'not_step_defined', 'type': 'error' };
 
-                let context = mountResponse(selectedOption.type, selectedOption.message, selectedOption.steps);
+                let context = mountResponse(lastOptionChosen.type, lastOptionChosen.message, lastOptionChosen.steps);
 
                 return { 'message': context, 'type': 'flow' };
 
