@@ -3,10 +3,13 @@ function finishFlow(queueId, message) {
     console.info(queueId, message)
 
     if (queueId === 0) {
+        // Finaliza o chat
         console.info('finalizando fluxo de bot')
     } else if (queueId === 'capture') {
+        // FInaliza o chat
         console.info('Aqui captura a ultima mensagem enviada pelo usuário: ' + message)
     } else {
+        // Manda para a fila
         console.info(`Aqui este atendimento será tranferido para a fila ${queueId}`)
     }
 
@@ -19,7 +22,6 @@ function finishFlow(queueId, message) {
 }
 
 const ChatBot = (chatbot, step) => {
-    console.info(step)
     let optionInArray = [];
     let arrayStep;
 
@@ -103,26 +105,23 @@ const ChatBot = (chatbot, step) => {
 
         if (op === 'start') { step = 'start' } else if (op === '#') { step = '#' } else { step = Number(op) - 1 }
 
-        let savestep = [];
+        let saveStep = [];
 
         if (oldOption.length === 0) {
-            savestep = getAllNodes.filter(node => node.id === step);
+            saveStep = getAllNodes.filter(node => node.id === step);
 
-            setNewObjectStep(savestep[0])
+            setNewObjectStep(saveStep[0])
 
-            let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
+            let context = mountResponse(saveStep[0].type, saveStep[0].message, saveStep[0].steps);
             return { 'message': context, 'type': 'flow' };
         } else {
 
             if (step === `#`) {
+                saveStep = getAllNodes.filter(node => node.id === 'start');
 
+                setNewObjectStep(saveStep[0]);
 
-                console.info('Voltando fluxo')
-                savestep = getAllNodes.filter(node => node.id === 'start');
-
-                setNewObjectStep(savestep[0]);
-
-                let context = mountResponse(savestep[0].type, savestep[0].message, savestep[0].steps);
+                let context = mountResponse(saveStep[0].type, saveStep[0].message, saveStep[0].steps);
                 return { 'message': context, 'type': 'flow' };
 
 
@@ -130,44 +129,21 @@ const ChatBot = (chatbot, step) => {
 
                 let lastOptionChosen = oldOption[0]?.steps && !isNaN(step) ? oldOption[0].steps[step] : oldOption[0];
 
-                /*
-                                if (lastOptionChosen === undefined && !captured_flow) {
-                                    console.info('Proximo passo com seleção undefined')
-                                    // CAPTURA DE MENSAGEM AINDA NÃO IMPLEMENTADA NO SISTEMA
-                                    let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
-                                    console.info({ verifyLastMessage })
-                                    console.info({ oldObject })
-                
-                                    if (isNaN(verifyLastMessage) && oldObject.finish === 'capture') {
-                                        let returnThisObject = arrayStep.splice(-1, 1);
-                                        return `Capturou a mensagem: ${returnThisObject[0]}`
-                                    }
-                                    return { 'message': 'Escolha uma opção válida', 'type': 'flow' };
-                                };
-                
-                */
-
                 // ==================== CAPTURA DE MENSAGEM DURANTE O FLUXO NA CONDICIONAL ==================== //
 
-                console.info('passando pena captura de condicional');
-                console.info({ lastOptionChosen });
-                console.info({ captured_flow });
 
-                if (captured_flow && lastOptionChosen?.type === "conditional") {
-                    console.info('teste1')
+                if (captured_flow && lastOptionChosen?.type === "conditional") {  // Salvar resposta durante o fluxo do sistema
                     captured_flow = false;
+                    let getMessageCaptured = arrayStep[arrayStep.length - 1];
+                    console.info({ getMessageCaptured })
                     let context = mountResponse(oldOption[0].type, oldOption[0].afterMessage, oldOption[0].steps);
                     return { 'message': context, 'type': 'flow' };
                 }
 
-                if (lastOptionChosen?.finish === 'capture' && lastOptionChosen?.type === "conditional") {
-                    console.info(oldOption);
-                    console.info('teste2')
+
+                if (lastOptionChosen?.finish === 'capture' && lastOptionChosen?.type === "conditional") { // Enviar mensagem para captura de resposta
                     captured_flow = true;
-
                     setNewObjectStep(lastOptionChosen);
-
-                    console.info('entrei na captura')
                     return { 'message': lastOptionChosen.message, 'type': 'flow' };
                 }
 
@@ -177,21 +153,17 @@ const ChatBot = (chatbot, step) => {
 
                 // ==================== CAPTURA DE MENSAGEM DURANTE O FLUXO NA FINALIZAÇÃO ==================== //
 
-                console.info('passando pena captura de finalização')
+
                 if (!captured_flow && lastOptionChosen.type === 'end' && lastOptionChosen.finish === 'capture') { // Salvar resposta enviada pelo usuário
-                    console.info('Entrou na finalização com captura de mensagem')
-                    console.info(lastOptionChosen)
+
                     if (finished_flow) {
-
                         setNewObjectStep(lastOptionChosen);
-
                         let finish = finishFlow(lastOptionChosen.finish, lastOptionChosen.afterMessage);
                         return { 'message': finish, 'type': 'end' };
                     } else {
                         finished_flow = true
                         let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
                         setNewObjectStep(lastOptionChosen);
-
                         return { 'message': lastOptionChosen.message, 'type': 'end' };
                     }
                 }
@@ -199,7 +171,6 @@ const ChatBot = (chatbot, step) => {
 
 
                 if ((lastOptionChosen.type === 'end' && lastOptionChosen.finish !== 'capture')) { // Finalizar o fluxo do chat
-                    console.info('Entrou na finalização sem captura de mensagem')
                     let finish = finishFlow(lastOptionChosen.finish, lastOptionChosen.message);
                     return { 'message': finish, 'type': 'end' };
                 }
@@ -208,8 +179,8 @@ const ChatBot = (chatbot, step) => {
 
 
                 //Verificar o que este trecho está fazendo
+
                 if ((lastOptionChosen.steps.length === 1)) {
-                    console.info('entrei aqui')
                     return { 'message': lastOptionChosen.steps[0].message, 'type': 'end' };
                 }
 
