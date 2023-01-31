@@ -138,9 +138,13 @@ function ChatBotFlow() {
         let type = obj.type;
         let typeEndFlow = obj.endFlowOption;
         let afterMessage = obj.afterMessage;
-        let objeto = {};
+        let objeto = {
+            sourcePosition: "right",
+            targetPosition: "left",
+        };
 
         objeto = {
+            ...objeto,
             id: `${obj.id}`,
             data: {
                 label: (
@@ -156,7 +160,7 @@ function ChatBotFlow() {
                                 <BorderColorIcon />
                             </IconButton>
                         </Tooltip>
-                        <Tooltip title="Deletar" placement="top">
+                        {type !== 'start' && <Tooltip title="Deletar" placement="top">
                             <IconButton className="configButton" style={{
                                 position: 'absolute',
                                 margin: '-25% -5px 0px 0px',
@@ -166,7 +170,7 @@ function ChatBotFlow() {
                             >
                                 <DeleteIcon />
                             </IconButton>
-                        </Tooltip>
+                        </Tooltip>}
                         <Box component='p'
                             className="headerObject"
                             style={{
@@ -280,13 +284,13 @@ function ChatBotFlow() {
 
     // ============ BOTÃO DE EXCLUIR ALVO ============= //
 
-    function EdgeButton({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, style = {}, markerEnd }) {
+    function EdgeButton({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, style = { stroke: 'black', strokeWidth: '2px' }, markerEnd }) {
         const [edgePath, labelX, labelY] = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
         return (
             <>
                 <path id={id} style={style} className="react-flow__edge-path" d={edgePath} markerEnd={markerEnd} />
                 <foreignObject width={foreignObjectSize} height={foreignObjectSize} x={labelX - foreignObjectSize / 2} y={labelY - foreignObjectSize / 2} className="edgebutton-foreignobject" requiredExtensions="http://www.w3.org/1999/xhtml">
-                    <Box component='div'>
+                    <Box component='div' >
                         <button className="edgebutton" onClick={(event) => DeleteTargetEdgeLile(event, id)}><CloseIcon style={{ width: '14px', margin: '-4px 0px 0px -4px' }} /></button>
                     </Box>
                 </foreignObject>
@@ -541,10 +545,14 @@ function ChatBotFlow() {
     // ============= Criar novo elemento ============== //
 
     const createNewNode = useCallback((element) => {
-        let object = {};
+        let object = {
+            sourcePosition: "right",
+            targetPosition: "left",
+        };
         const id = `${++nodeId}`;
         if (element === 'start') {
             object = {
+                ...object,
                 id: `start_${id}`,
                 data: {
                     label: (
@@ -625,6 +633,7 @@ function ChatBotFlow() {
         }
         if (element === 'cond') {
             object = {
+                ...object,
                 id: `conditional_${id}`,
                 data: {
                     label:
@@ -703,6 +712,7 @@ function ChatBotFlow() {
         }
         if (element === 'end') {
             object = {
+                ...object,
                 id: `end_flow_${id}`,
                 data: {
                     label:
