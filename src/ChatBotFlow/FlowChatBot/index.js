@@ -88,7 +88,6 @@ const ChatBot = (chatbot, step) => {
 
     // SELECIONAR OBJETO ANTERIOR E MONTAR MENSAGEM DE RETORNO
 
-    let oldObject;
     let oldOption = [];
     let finished_flow = false;
     let captured_flow = false;

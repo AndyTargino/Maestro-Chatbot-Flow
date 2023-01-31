@@ -284,7 +284,7 @@ function ChatBotFlow() {
 
     // ============ BOTÃO DE EXCLUIR ALVO ============= //
 
-    function EdgeButton({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, style = { stroke: 'black', strokeWidth: '2px' }, markerEnd }) {
+    function EdgeButton({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, style = { stroke: '#787878', strokeWidth: '5px' }, markerEnd }) {
         const [edgePath, labelX, labelY] = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
         return (
             <>
@@ -863,7 +863,7 @@ function ChatBotFlow() {
                         onEdgesChange={onEdgesChange}
                         onConnect={onConnect}
                         edgeTypes={{ buttonedge: EdgeButton }}
-                        style={{ backgroundColor: '#d9d9d9' }}
+                        style={{ backgroundColor: 'rgb(255 255 255);' }}
                     >
                         <Panel position="top-left">
                             <Box component='div'>

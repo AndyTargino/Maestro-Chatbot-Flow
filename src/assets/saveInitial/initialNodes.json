@@ -6,8 +6,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 1979.8345546563617,
-            "y": 390.9227286675743
+            "x": 699.7527776864032,
+            "y": -749.1188748809975
         },
         "style": {
             "background": "#bf4040",
@@ -26,8 +26,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 2185.154018047726,
-            "y": 396.06962509598026
+            "x": 700.1827266077736,
+            "y": -577.0145217430386
         },
         "style": {
             "background": "#bf4040",
@@ -46,8 +46,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 1753.1653891095868,
-            "y": 390.53579496765394
+            "x": 205.16538910958684,
+            "y": -659.4642050323461
         },
         "style": {
             "background": "#191a4d",
@@ -66,8 +66,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 1199.3758675395666,
-            "y": 66.75058045806009
+            "x": 205.37586753956657,
+            "y": -833.2494195419399
         },
         "style": {
             "background": "#bf4054",
@@ -86,8 +86,8 @@
         "endFlowOption": "capture",
         "afterMessage": "Chave de desconto",
         "position": {
-            "x": 1398.8266781782697,
-            "y": 86.08277028071402
+            "x": 206.75548719100772,
+            "y": -500.7165892953201
         },
         "style": {
             "background": "#bd40bf",
@@ -106,8 +106,8 @@
         "endFlowOption": "capture",
         "afterMessage": "Ok, temos promoções disponíveis para 3 produtos:",
         "position": {
-            "x": 961.4980906225048,
-            "y": 66.6438642739914
+            "x": -374.50190937749517,
+            "y": -685.3561357260085
         },
         "style": {
             "background": "#194d43",
@@ -126,8 +126,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 736.0000000000002,
-            "y": 546.2489989873544
+            "x": -35.999999999999744,
+            "y": -24.751001012645588
         },
         "style": {
             "background": "#79b8d2",
@@ -146,8 +146,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 952.2615716461164,
-            "y": 400.38239461194945
+            "x": -32.15432710271641,
+            "y": -360.3195235867764
         },
         "style": {
             "background": "#4092bf",
@@ -166,8 +166,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 519.2466464126652,
-            "y": 399.097631845519
+            "x": -31.65905418827252,
+            "y": -194.54381725307456
         },
         "style": {
             "background": "#79a9d2",
@@ -186,8 +186,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 249.87424485081596,
-            "y": 67.90513774873222
+            "x": -38.54717231663205,
+            "y": -1208.1694490306402
         },
         "style": {
             "background": "#40bf4b",
@@ -206,8 +206,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 734.5659344885909,
-            "y": -242.003211542721
+            "x": -927.4340655114091,
+            "y": -674.003211542721
         },
         "style": {
             "background": "#42bf40",
@@ -226,8 +226,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 478.1963032951037,
-            "y": 68.08262163126983
+            "x": -361.7467551271566,
+            "y": -1109.4839873024775
         },
         "style": {
             "background": "#2d867c",
@@ -246,8 +246,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 735.7150619174109,
-            "y": 339.1568042853016
+            "x": -378.76922151607874,
+            "y": -187.7547565723015
         },
         "style": {
             "background": "#4042bf",
@@ -266,8 +266,8 @@
         "endFlowOption": 0,
         "afterMessage": "",
         "position": {
-            "x": 23.666077899624185,
-            "y": 43.20070731329244
+            "x": -37.45858870761222,
+            "y": -1032.6458554285755
         },
         "style": {
             "background": "#40bf46",

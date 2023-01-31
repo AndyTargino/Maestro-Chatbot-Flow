@@ -19,11 +19,11 @@ body,
 }
 
 .react-flow .react-flow__handle {
-  width: 10px;
-  height: 7px;
+  width: 8px;
+  height: 8px;
   border-radius: 5px;
-  background-color: #bdbdbd;
-  border-color: rgb(0, 0, 0);
+  background-color: #787878;
+  border-color: rgb(255 255 255);
 }
 
 .edgebutton {
