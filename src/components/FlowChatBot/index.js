@@ -1,6 +1,47 @@
+const frases = [
+    "Por favor, selecione uma das opções acima para avançar.",
+    "Não entendi, vamos tentar novamente?",
+    "Selecione uma das opções para prosseguir.",
+    "Desculpe, não compreendi sua resposta.",
+    "Peço que escolha uma das alternativas mostradas.",
+    "Ops! Não captei. Pode repetir?",
+    "Escolha uma opção da lista para continuar.",
+    "Me desculpe, não consegui entender. Pode tentar de novo?",
+    "Se você puder, escolha uma das opções listadas.",
+    "Acho que não peguei isso, pode tentar novamente?",
+    "Por favor, repita ou escolha uma das opções acima.",
+    "Tô meio perdido aqui. Pode me ajudar repetindo?",
+    "Selecione uma das opções para avançarmos.",
+    "Hmm, não foi claro pra mim. Pode dizer novamente?",
+    "Espero não estar te incomodando, mas não entendi. Repita, por favor.",
+    "Vamos lá, tenta selecionar uma das opções ou me dizer de novo.",
+    "Não quero te atrapalhar, mas não compreendi. Pode ajudar?",
+    "Parece que estou com dificuldades hoje. Pode repetir?",
+    "Quero te ajudar! Selecione uma opção ou diga novamente.",
+    "Parece que estamos desencontrados. Pode tentar mais uma vez?"
+];
+
+const getFraseAleatoria = (function () {
+    let pool = [...frases];
+
+    return function () {
+        if (pool.length === 0) {
+            pool = [...frases];
+        }
+
+        const indice = Math.floor(Math.random() * pool.length);
+        const fraseSelecionada = pool[indice];
+
+        // Remove a frase selecionada do pool
+        pool.splice(indice, 1);
+
+        return fraseSelecionada;
+    };
+})();
+
+
 function finishFlow(queueId, message) {
 
-    console.info(queueId, message)
 
     if (queueId === 0) {
         // Finaliza o chat
@@ -22,6 +63,8 @@ function finishFlow(queueId, message) {
 }
 
 const ChatBot = (chatbot, step) => {
+
+
     let optionInArray = [];
     let arrayStep;
 
@@ -32,7 +75,7 @@ const ChatBot = (chatbot, step) => {
         }
         arrayStep = step;
     }
-
+    console.info({ chatbot, step, arrayStep })
     //   FILTRO DE OBJETO   //
 
     const nodes = chatbot.nodes;
@@ -73,6 +116,7 @@ const ChatBot = (chatbot, step) => {
     // --------------------- //
 
     function mountResponse(option, title, steps) {
+        console.info('Montando retorno')
         optionInArray = steps;
         let context = '';
         let index = 0;
@@ -80,6 +124,7 @@ const ChatBot = (chatbot, step) => {
             index = index + 1;
             context += `*${index}* - ${step.title}\n`;
         });
+        console.info('Montando retorno')
         if (option !== 'start') { context += `*${'#'}* - ${'Voltar'}\n`; }
         const body = `\u200e${title}\n${context}`;
         return body;
@@ -102,8 +147,13 @@ const ChatBot = (chatbot, step) => {
 
         let step = ''
 
-        if (op === 'start') { step = 'start' } else if (op === '#') { step = '#' } else { step = Number(op) - 1 }
-
+        if (op === 'start') { step = 'start' } else if (op === '#') { step = '#' } else {
+            if (String(op).length > 1) {
+                step = NaN;
+            } else {
+                step = Number(op) - 1
+            }
+        }
         let saveStep = [];
 
         if (oldOption.length === 0) {
@@ -128,6 +178,10 @@ const ChatBot = (chatbot, step) => {
 
                 let lastOptionChosen = oldOption[0]?.steps && !isNaN(step) ? oldOption[0].steps[step] : oldOption[0];
 
+                if (!lastOptionChosen) {
+                    arrayStep.pop();
+                    return { 'message': getFraseAleatoria(), 'type': 'flow' };
+                }
                 // ==================== CAPTURA DE MENSAGEM DURANTE O FLUXO NA CONDICIONAL ==================== //
 
 
@@ -153,7 +207,7 @@ const ChatBot = (chatbot, step) => {
                 // ==================== CAPTURA DE MENSAGEM DURANTE O FLUXO NA FINALIZAÇÃO ==================== //
 
 
-                if (!captured_flow && lastOptionChosen.type === 'end' && lastOptionChosen.finish === 'capture') { // Salvar resposta enviada pelo usuário
+                if (!captured_flow && lastOptionChosen?.type === 'end' && lastOptionChosen.finish === 'capture') { // Salvar resposta enviada pelo usuário
 
                     if (finished_flow) {
                         setNewObjectStep(lastOptionChosen);
@@ -161,7 +215,8 @@ const ChatBot = (chatbot, step) => {
                         return { 'message': finish, 'type': 'end' };
                     } else {
                         finished_flow = true
-                        let verifyLastMessage = Number(arrayStep[arrayStep.length - 1]);
+                        let verifyLastMessage = (arrayStep[arrayStep.length - 1]);
+                        console.info({ verifyLastMessage })
                         setNewObjectStep(lastOptionChosen);
                         return { 'message': lastOptionChosen.message, 'type': 'end' };
                     }
@@ -169,7 +224,7 @@ const ChatBot = (chatbot, step) => {
 
 
 
-                if ((lastOptionChosen.type === 'end' && lastOptionChosen.finish !== 'capture')) { // Finalizar o fluxo do chat
+                if ((lastOptionChosen?.type === 'end' && lastOptionChosen.finish !== 'capture')) { // Finalizar o fluxo do chat
                     let finish = finishFlow(lastOptionChosen.finish, lastOptionChosen.message);
                     return { 'message': finish, 'type': 'end' };
                 }
@@ -179,15 +234,15 @@ const ChatBot = (chatbot, step) => {
 
                 //Verificar o que este trecho está fazendo
 
-                if ((lastOptionChosen.steps.length === 1)) {
+                if ((lastOptionChosen?.steps.length === 1)) {
                     return { 'message': lastOptionChosen.steps[0].message, 'type': 'end' };
                 }
 
                 setNewObjectStep(lastOptionChosen);
 
-                if (!(lastOptionChosen.steps.length > 0)) return { 'message': 'not_step_defined', 'type': 'error' };
+                if (!(lastOptionChosen?.steps.length > 0)) return { 'message': 'not_step_defined', 'type': 'error' };
 
-                let context = mountResponse(lastOptionChosen.type, lastOptionChosen.message, lastOptionChosen.steps);
+                let context = mountResponse(lastOptionChosen?.type, lastOptionChosen.message, lastOptionChosen.steps);
 
                 return { 'message': context, 'type': 'flow' };
 

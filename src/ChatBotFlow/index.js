@@ -32,8 +32,8 @@ import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import SendIcon from '@mui/icons-material/Send';
-import EditFlowModal from './EditFlowModal';
-import ChatBotTestModal from './ChatBotTestModal';
+import EditFlowModal from '../components/EditFlowModal';
+import ChatBotTestModal from '../components/ChatBotTestModal';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -58,9 +58,9 @@ import "reactflow/dist/style.css";
 
 import initialNodesFile from '../assets/saveInitial/initialNodes.json'
 import initialEdgesFile from '../assets/saveInitial/initialEdges.json'
-import LateralMenu from './LateralMenu';
+import LateralMenu from '../components/LateralMenu';
 
-import ValidateChatBotFlow from './ValidateChatBotFlow'
+import ValidateChatBotFlow from '../components/ValidateChatBotFlow'
 
 const foreignObjectSize = 40;
 let nodeId = 1;
@@ -134,96 +134,63 @@ function ChatBotFlow() {
     }
 
     const RenderObject = (obj) => {
+        const { type, endFlowOption: typeEndFlow, afterMessage, id, title, message, position, style } = obj;
 
-        let type = obj.type;
-        let typeEndFlow = obj.endFlowOption;
-        let afterMessage = obj.afterMessage;
-        let objeto = {
+        const buttonStyles = (position) => ({
+            position: 'absolute',
+            margin: position === 'left' ? '-26% 0px 0px' : '-25% -5px 0px 0px',
+            [position]: '0px'
+        });
+
+        const labelContent = (
+            <Box component="div" className="showOptions">
+                <Tooltip title="Editar" placement="top">
+                    <IconButton
+                        className="configButton"
+                        style={buttonStyles('left')}
+                        onClick={() => EditNodeElement(id)}
+                    >
+                        <BorderColorIcon />
+                    </IconButton>
+                </Tooltip>
+
+                {type !== 'start' && (
+                    <Tooltip title="Deletar" placement="top">
+                        <IconButton
+                            className="configButton"
+                            style={buttonStyles('right')}
+                            onClick={() => deleteNodeCard(id)}
+                        >
+                            <DeleteIcon />
+                        </IconButton>
+                    </Tooltip>
+                )}
+
+                <Box component='p' className="headerObject" style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>
+                    {title}
+                </Box>
+                <Box component='div' style={{ background: 'white', color: 'black', marginTop: '-1px', padding: '10px', alignItems: 'center', justifyContent: 'center' }}>
+                    <p className="bodyObject" style={{ margin: '5px', wordBreak: 'break-word' }}>{message}</p>
+                    <p className="endOption" style={{ display: 'none' }}>{typeEndFlow}</p>
+                    {afterMessage && <p style={{ padding: '5px', width: '165px', margin: '0px 0px -13px -13px' }} className="afterMessage">{afterMessage}</p>}
+                </Box>
+                <Box component='div' style={{ margin: '5px 3px 0px 0px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Box component='div'> {renderIcon(type, typeEndFlow)}</Box>
+                    <Box component='div'>{type !== 'start' && getQueue(type, typeEndFlow)}</Box>
+                </Box>
+            </Box>
+        );
+
+        return {
             sourcePosition: "right",
             targetPosition: "left",
-        };
-
-        objeto = {
-            ...objeto,
-            id: `${obj.id}`,
-            data: {
-                label: (
-                    <Box component="div" className="showOptions">
-                        <Tooltip title="Editar" placement="top">
-                            <IconButton className="configButton" style={{
-                                position: 'absolute',
-                                margin: '-26% 0px 0px',
-                                left: '0px'
-                            }}
-                                onClick={() => EditNodeElement(`${obj.id}`)}
-                            >
-                                <BorderColorIcon />
-                            </IconButton>
-                        </Tooltip>
-                        {type !== 'start' && <Tooltip title="Deletar" placement="top">
-                            <IconButton className="configButton" style={{
-                                position: 'absolute',
-                                margin: '-25% -5px 0px 0px',
-                                right: '0px'
-                            }}
-                                onClick={() => deleteNodeCard(`${obj.id}`)}
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>}
-                        <Box component='p'
-                            className="headerObject"
-                            style={{
-                                margin: '5px',
-                                wordBreak: 'break-word',
-                                fontSize: '15px'
-                            }}>{obj.title}</Box>
-
-                        <Box component='div' style={{
-                            display: 'flex', alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                        </Box>
-                        <Box component='div' style={{
-                            background: 'white',
-                            color: 'black',
-                            marginTop: '-1px',
-                            padding: '10px',
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}>
-                            <p
-                                className="bodyObject"
-                                style={{
-                                    margin: '5px',
-                                    wordBreak: 'break-word'
-                                }}>{obj.message}</p>
-                            <p
-                                className="endOption"
-                                style={{ display: 'none' }}>{typeEndFlow}</p>
-                            {afterMessage && <p style={{ padding: '5px', width: '165px', margin: '0px 0px -13px -13px' }} className="afterMessage">{afterMessage}</p>}
-                        </Box>
-                        <Box component='div'
-                            style={{
-                                margin: '5px 3px 0px 0px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}>
-                            <Box component='div'> {renderIcon(type, typeEndFlow)}</Box>
-                            <Box component='div'>{type !== 'start' && getQueue(type, typeEndFlow)}</Box>
-                        </Box>
-                    </Box >
-                )
-            },
-            position: obj.position,
+            id: `${id}`,
+            data: { label: labelContent },
+            position,
             type: type === 'end' ? 'output' : type === 'start' ? 'input' : type,
-            style: obj.style
-        }
-
-        return objeto;
-
-    }
+            style
+        };
+    };
 
     function renderNodes(_nodes) {
         let array = [];
@@ -454,75 +421,96 @@ function ChatBotFlow() {
 
     // ================= Editar Node ================== //
 
-    const EditNodeObjectProps = (id, title, message, afterMessage, color, endOption, type) => {
+    const EditNodeObjectProps = ({
+        id,
+        title = 'Titulo',
+        message = 'Mensagem',
+        afterMessage,
+        color,
+        endOption,
+        type
+    }) => {
+        const oldProps = getNodeProps(id);
 
-        let oldProps = getNodeProps(id);
+        const endOptionProps = endOption || endOption === 0 ? endOption : oldProps.endFlowOption;
 
-        let endOptionProps = endOption || endOption === 0 ? endOption : oldProps.endFlowOption;
+        const generateLabel = () => (
+            <Box component='div' className="showOptions" id={id}>
+                {renderButton('Editar', EditNodeElement, 'top', '-26% 0px 0px', '0px', BorderColorIcon)}
+                {renderButton('Deletar', deleteNodeCard, 'top', '-25% -5px 0px 0px', null, DeleteIcon)}
+                <p className="headerObject" style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>
+                    {title}
+                </p>
+                <Box component='div' style={flexCenteredStyle}></Box>
+                {renderMessageContent(message, afterMessage, endOptionProps)}
+                <Box component='div' style={{ ...flexCenteredStyle, margin: '5px 3px 0px 0px' }}>
+                    <Box component='div'>  {renderIcon(type, endOptionProps)}</Box>
+                    <Box component='div'>  {type !== 'start' && getQueue(type, endOptionProps)}</Box>
+                </Box>
+            </Box>
+        );
+
+        const renderButton = (title, onClick, placement, margin, leftOrRight, IconComponent) => (
+            <Tooltip title={title} placement={placement}>
+                <IconButton className="configButton" style={{
+                    position: 'absolute',
+                    margin,
+                    [leftOrRight]: '0px'
+                }} onClick={() => onClick(id)}>
+                    <IconComponent />
+                </IconButton>
+            </Tooltip>
+        );
+
+        const renderMessageContent = (message, afterMessage, endOptionProps) => (
+            <Box component='div' style={messageContentStyle}>
+                <p className="bodyObject" style={messageStyle}>
+                    {message}
+                </p>
+                <p className="endOption" style={{ display: 'none' }}>
+                    {endOptionProps}
+                </p>
+                {afterMessage &&
+                    <p style={{ padding: '5px', width: '165px', margin: '0px 0px -13px -13px' }} className="afterMessage">
+                        {afterMessage}
+                    </p>}
+            </Box>
+        );
+
+        const flexCenteredStyle = {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        };
+
+        const messageContentStyle = {
+            ...flexCenteredStyle,
+            background: 'white',
+            color: 'black',
+            marginTop: '-1px',
+            padding: '10px'
+        };
+
+        const messageStyle = {
+            margin: '5px',
+            wordBreak: 'break-word'
+        };
 
         setNodes((nds) =>
             nds.map((node) => {
                 if (node.id === id) {
-                    node.data = {
-                        ...node.data,
-                        label: (<Box component='div' className="showOptions" id={id}>
-                            <Tooltip title="Editar" placement="top">
-                                <IconButton className="configButton" style={{
-                                    position: `absolute`,
-                                    margin: '-26% 0px 0px',
-                                    left: '0px'
-                                }}
-                                    onClick={() => EditNodeElement(id)}
-                                >
-                                    <BorderColorIcon />
-                                </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Deletar" placement="top">
-                                <IconButton className="configButton" style={{
-                                    position: `absolute`,
-                                    margin: '-25% -5px 0px 0px',
-                                    right: '0px'
-                                }}
-                                    onClick={() => deleteNodeCard(id)}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Tooltip>
-                            <p
-                                className="headerObject"
-                                style={{ margin: '5px', wordBreak: 'break-word', fontSize: '15px' }}>{title ? title : 'Titulo'}</p>
-                            <Box component='div' style={{
-                                display: 'flex', alignItems: 'center',
-                                justifyContent: 'center'
-                            }}>
-                            </Box>
-                            <Box component='div' style={{ background: 'white', color: 'black', marginTop: '-1px', padding: '10px', alignItems: 'center', justifyContent: 'center' }}>
-                                <p className="bodyObject" style={{ margin: '5px', wordBreak: 'break-word' }}>{message ? message : 'Mensagem'}</p>
-                                <p className="endOption" style={{ display: 'none' }}>{endOptionProps}</p>
-                                {afterMessage && <p style={{ padding: '5px', width: '165px', margin: '0px 0px -13px -13px' }} className="afterMessage">{afterMessage}</p>}
-                            </Box>
-                            <Box component='div'
-                                style={{
-                                    margin: '5px 3px 0px 0px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center'
-                                }}>
-                                <Box component='div'>  {renderIcon(type, endOptionProps)}</Box>
-                                <Box component='div'>  {type !== 'start' && getQueue(type, endOptionProps)}</Box>
-                            </Box>
-                        </Box >),
+                    return {
+                        ...node,
+                        data: { ...node.data, label: generateLabel() },
+                        style: { ...node.style, background: color ? color : oldProps.background },
+                        type: type === 'end' ? 'output' : type
                     };
-                    node.style = {
-                        ...node.style,
-                        background: color ? color : oldProps.background
-                    };
-                    node.type = type === 'end' ? 'output' : type
                 }
                 return node;
             })
         );
     }
+
 
     // ================================================ //
 
@@ -847,77 +835,95 @@ function ChatBotFlow() {
 
     }
 
+
+    const boxStyle = {
+        display: 'flex',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center'
+    };
+
+    const innerBoxStyle = {
+        height: '100%',
+        width: '100%'
+    };
+
+    const flowStyle = {
+        backgroundColor: 'rgb(255, 255, 255)'
+    };
+
+    const buttonMarginStyle = {
+        margin: 5
+    };
+
+    const NewElementMenu = ({ handleClickCloseMenu, createNewNode }) => (
+        <Box component='div'>
+            <Button
+                id="demo-positioned-button"
+                variant="outlined"
+                aria-controls='demo-positioned-menu'
+                aria-haspopup="true"
+                onClick={handleClickOpenMenu}
+            >
+                Novo Elemento
+            </Button>
+            <Menu
+                id="demo-positioned-menu"
+                aria-labelledby="demo-positioned-button"
+                anchorEl={anchorEl}
+                open={openMenu}
+                onClose={handleClickCloseMenu}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+            >
+                <MenuItem disabled onClick={(e) => { handleClickCloseMenu(e); createNewNode('start') }}>Inicio</MenuItem>
+                <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('cond') }}>Pergunta / Condicional</MenuItem>
+                <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('end') }}>Finalizar / Transferir</MenuItem>
+            </Menu>
+        </Box>
+    );
+
+
     return (
-        <Box component='div' id='Teste' style={{
-            display: 'flex',
-            height: '100%',
-            alignItems: 'center',
-            justifyContent: 'center'
-        }}>
-            <Box component='div' style={{ height: "100%", width: "100%" }}>
-                <>
-                    <ReactFlow
-                        nodes={nodes}
-                        onNodesChange={onNodesChange}
-                        edges={edges}
-                        onEdgesChange={onEdgesChange}
-                        onConnect={onConnect}
-                        edgeTypes={{ buttonedge: EdgeButton }}
-                        style={{ backgroundColor: 'rgb(255 255 255);' }}
-                    >
-                        <Panel position="top-left">
-                            <Box component='div'>
-                                <Button
-                                    id="demo-positioned-button"
-                                    variant="outlined"
-                                    aria-controls={openMenu ? 'demo-positioned-menu' : undefined}
-                                    aria-haspopup="true"
-                                    aria-expanded={openMenu ? 'true' : undefined}
-                                    onClick={handleClickOpenMenu}
-                                >
-                                    Novo Elemento
-                                </Button>
-                                <Menu
-                                    id="demo-positioned-menu"
-                                    aria-labelledby="demo-positioned-button"
-                                    anchorEl={anchorEl}
-                                    open={openMenu}
-                                    onClose={handleClickCloseMenu}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'left',
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'left',
-                                    }}
-                                >
-                                    <MenuItem disabled onClick={(e) => { handleClickCloseMenu(e); createNewNode('start') }}>Inicio</MenuItem>
-                                    <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('cond') }}>Pergunta / Condicional</MenuItem>
-                                    <MenuItem onClick={(e) => { handleClickCloseMenu(e); createNewNode('end') }}>Finalizar / Transferir</MenuItem>
-                                </Menu>
-                            </Box>
-                        </Panel>
-                        <Panel position="top-right">
-                            <Button onClick={e => viewData(e)} style={{ margin: 5 }} variant="outlined">Ver Dados</Button>
-                            <Button onClick={e => saveData(e)} style={{ margin: 5 }} variant="outlined">Salvar em LocalStorage</Button>
-                            <Button id='ClickZoon' onClick={e => { focusNode(); }} style={{ display: 'none' }} ></Button>
-                        </Panel>
-                        <Panel position="bottom-right">
-                            <Button style={{ marginBottom: '240%' }} onClick={e => { openChatbotModal(e); }} variant="text">
-                                <ModeCommentIcon />
-                            </Button>
-                            <ChatBotTestModal
-                                open={modalChatbotOpen}
-                                onClose={setModalChatbotOpen}
-                                chatBotFlow={chatBotFlow}
-                            />
-                        </Panel>
-                        <Background variant={'lines'} />
-                        <Controls />
-                        <MiniMap nodeColor={nodeColor} nodeStrokeWidth={3} zoomable pannable />
-                    </ReactFlow>
-                </>
+        <Box component='div' id='Teste' style={boxStyle}>
+            <Box component='div' style={innerBoxStyle}>
+                <ReactFlow
+                    nodes={nodes}
+                    onNodesChange={onNodesChange}
+                    edges={edges}
+                    onEdgesChange={onEdgesChange}
+                    onConnect={onConnect}
+                    edgeTypes={{ buttonedge: EdgeButton }}
+                    style={flowStyle}
+                >
+                    <Panel position="top-left">
+                        <NewElementMenu handleClickCloseMenu={handleClickCloseMenu} createNewNode={createNewNode} />
+                    </Panel>
+                    <Panel position="top-right">
+                        <Button onClick={viewData} style={buttonMarginStyle} variant="outlined">Ver Dados</Button>
+                        <Button onClick={saveData} style={buttonMarginStyle} variant="outlined">Salvar em LocalStorage</Button>
+                        <Button id='ClickZoon' onClick={focusNode} style={{ display: 'none' }}></Button>
+                    </Panel>
+                    <Panel position="bottom-right">
+                        <Button style={{ marginBottom: '240%' }} onClick={openChatbotModal} variant="text">
+                            <ModeCommentIcon />
+                        </Button>
+                        <ChatBotTestModal
+                            open={modalChatbotOpen}
+                            onClose={setModalChatbotOpen}
+                            chatBotFlow={chatBotFlow}
+                        />
+                    </Panel>
+                    <Background variant={'lines'} />
+                    <Controls />
+                    <MiniMap nodeColor={nodeColor} nodeStrokeWidth={3} zoomable pannable />
+                </ReactFlow>
             </Box>
             <LateralMenu
                 propsObject={getNodeProps(elementOnEdit)}
@@ -926,7 +932,7 @@ function ChatBotFlow() {
                 queues={queues}
                 onConfirm={(title, message, afterMessage, color, endOption, position) => EditNodeObjectProps(elementOnEdit, title, message, afterMessage, color, endOption, position)}
             />
-        </Box >
+        </Box>
     );
 };
 
