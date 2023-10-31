@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Maestro-Chatbot-Flow/static/css/main.27183f6d.css",
+    "main.js": "/Maestro-Chatbot-Flow/static/js/main.9be832a1.js",
+    "index.html": "/Maestro-Chatbot-Flow/index.html",
+    "main.27183f6d.css.map": "/Maestro-Chatbot-Flow/static/css/main.27183f6d.css.map",
+    "main.9be832a1.js.map": "/Maestro-Chatbot-Flow/static/js/main.9be832a1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.27183f6d.css",
+    "static/js/main.9be832a1.js"
+  ]
+}
