@@ -1,4 +1,4 @@
-name: Deploy Jekyll to GitHub Pages
+name: Deploy React App to GitHub Pages
 
 on:
   push:
@@ -11,27 +11,27 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+       
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          ruby-version: 2.0 # Escolha a versão Ruby apropriada
+          node-version: 16 # Escolha a versão Node.js apropriada
 
       - name: Install dependencies
-        run: bundle install
+        run: npm install --force
 
-      - name: Build Jekyll site
-        run: bundle exec jekyll build
+      - name: Build React App
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         run: |
           git config --global user.email "andytargino@outlook.com"
           git config --global user.name "AndyTargino"
-          cd _site
-          git init
+          git checkout --orphan gh-pages
+          git rm -rf .
+          mv build/* .
           git add .
-          git commit -m "Deploy to GitHub Pages"
-          git branch -M main
+          git commit -m "Deploy React App to GitHub Pages"
+          git branch -M gh-pages
           git remote add origin https://github.com/AndyTargino/Maestro-Chatbot-Flow.git
-          git push -f origin main:gh-pages
-
+          git push -f origin gh-pages
