@@ -1,0 +1,37 @@
+name: Deploy Jekyll to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.0 # Escolha a versão Ruby apropriada
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+
+      - name: Deploy to GitHub Pages
+        run: |
+          git config --global user.email "andytargino@outlook.com"
+          git config --global user.name "AndyTargino"
+          cd _site
+          git init
+          git add .
+          git commit -m "Deploy to GitHub Pages"
+          git branch -M main
+          git remote add origin https://github.com/AndyTargino/Maestro-Chatbot-Flow.git
+          git push -f origin main:gh-pages
+
